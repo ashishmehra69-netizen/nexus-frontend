@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
-import { Loader2, Download, Check } from 'lucide-react';
+import { Loader2, Download } from 'lucide-react';
 import './App.css';
 
 // IMPORTANT: Replace with your actual Hugging Face Space URL
