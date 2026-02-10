@@ -215,19 +215,24 @@ function App() {
                 </div>
               )}
 
-              {activeTab === 'content' && (
-                <div className="markdown-content">
-                  {result.isLocked ? (
-                    <div className="locked-content">
-                      <h2>🔒 Content Locked</h2>
-                      <p>Click "Unlock Full Access" to view the complete training content.</p>
-                      <button onClick={handleUnlock} className="btn-primary">
-                        {loading ? <Loader2 className="spinner" /> : 'Unlock Full Access'}
-                      </button>
-                    </div>
-                  ) : (
-                      <ReactMarkdown>{result.content}</ReactMarkdown>
-                  )}
+              case 'content':
+                return (
+                  <div className="tab-panel">
+                  {result?.isLocked ? (
+                    <div className="locked">
+                      <h3>LOCKED</h3>
+                      <p>Full training after unlock.</p>
+                      <button onClick={handleUnlock}>Unlock</button>
+                  </div>
+                ) : (
+                  <div className="markdown-content">
+                    <ReactMarkdown>
+                      {result?.content}
+                    </ReactMarkdown>
+                </div>
+              )}
+            </div>
+  );
                 </div>
               )}
 
