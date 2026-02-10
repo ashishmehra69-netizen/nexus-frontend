@@ -43,7 +43,10 @@ function App() {
         deliveryMode
       });
 
-      setResult(response.data);
+      setResult({
+        ...response.data,
+        isLocked: response.data.isLocked ?? response.data.locked ?? true
+      });
       setActiveTab('synopsis');
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to generate content');
@@ -69,10 +72,10 @@ function App() {
     );
 
     setResult(prev => ({
-      ...prev,
-      ...response.data,
-      isLocked: false
-    }));
+  ...prev,
+  ...response.data,
+  isLocked: response.data.isLocked ?? response.data.locked ?? false
+}));
   } catch (err) {
     setError('Failed to unlock content');
   } finally {
