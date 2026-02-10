@@ -53,18 +53,27 @@ function App() {
   };
 
   const handleUnlock = async () => {
-    if (!result?.sessionId) return;
+  if (!result?.sessionId) return;
 
-    setLoading(true);
-    try {
-      const response = await axios.post(`${API_BASE_URL}/api/unlock/${result.sessionId}`);
-      setResult({ ...result, ...response.data, isLocked: false });
-    } catch (err) {
-      setError('Failed to unlock content');
-    } finally {
-      setLoading(false);
-    }
-  };
+  setLoading(true);
+  setError('');
+
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/api/unlock/${result.sessionId}`
+    );
+
+    setResult(prev => ({
+      ...prev,
+      ...response.data,
+      isLocked: false
+    }));
+  } catch (err) {
+    setError('Failed to unlock content');
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="App">
