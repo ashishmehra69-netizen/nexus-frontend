@@ -215,70 +215,69 @@ function App() {
               </button>
             </div>
 
-            <div className="tab-content">
-              {activeTab === 'synopsis' && (
-                <div className="markdown-content">
-                  <ReactMarkdown>{result.synopsis}</ReactMarkdown>
-                </div>
-              )}
+           <div className="tab-content">
 
-                  {activeTab === 'synopsis' && (
-                    <div className="markdown-content">
-                      <ReactMarkdown>{result.synopsis}</ReactMarkdown>
-                    </div>
-              )}
-                {activeTab === 'content' && (
-                  <div className="markdown-content">
-                    {isLocked ? (
-                      <div className="locked-content">
-                        <h2>🔒 Content Locked</h2>
-                        <p>Click below to unlock the full training content.</p>
-                        <button
-                          onClick={handleUnlock}
-                          className="btn-primary"
-                          disabled={loading}
-                    >
-                        {loading ? <Loader2 className="spinner" /> : 'Unlock Full Access'}
-                    </button>
-                </div>
-              ) : (
-                <ReactMarkdown>
-                  {result.content}
-                </ReactMarkdown>
-              )}
-            </div>
-          )}
+  {activeTab === 'synopsis' && (
+    <div className="markdown-content">
+      <ReactMarkdown>{result.synopsis}</ReactMarkdown>
+    </div>
+  )}
 
-              {activeTab === 'facilitator' && (
-                <div className="markdown-content">
-                  {result.isLocked ? (
-                    <div className="locked-content">
-                      <h2>🔒 Facilitator Guide Locked</h2>
-                      <button onClick={handleUnlock} className="btn-primary">
-                        Unlock Full Access
-                      </button>
-                    </div>
-                  ) : (
-                      <ReactMarkdown>{result.facilitator}</ReactMarkdown>
-                  )}
-                </div>
-              )}
+  {activeTab === 'content' && (
+    <div className="markdown-content">
+      {isLocked ? (
+        <div className="locked-content">
+          <h2>🔒 Content Locked</h2>
+          <p>Full training after unlock.</p>
+          <button
+            onClick={handleUnlock}
+            className="btn-primary"
+            disabled={loading}
+          >
+            {loading ? <Loader2 className="spinner" /> : 'Unlock'}
+          </button>
+        </div>
+      ) : (
+        <ReactMarkdown>
+          {result.content}
+        </ReactMarkdown>
+      )}
+    </div>
+  )}
 
-              {activeTab === 'handout' && (
-                <div className="markdown-content">
-                  {result.isLocked ? (
-                    <div className="locked-content">
-                      <h2>🔒 Handout Locked</h2>
-                      <button onClick={handleUnlock} className="btn-primary">
-                        Unlock Full Access
-                      </button>
-                    </div>
-                  ) : (
-                      <ReactMarkdown>{result.handout}</ReactMarkdown>
-                  )}
-                </div>
-              )}
-            </div>
+  {activeTab === 'facilitator' && (
+    <div className="markdown-content">
+      {isLocked ? (
+        <div className="locked-content">
+          <h2>🔒 Facilitator Guide Locked</h2>
+          <button onClick={handleUnlock} className="btn-primary">
+            Unlock
+          </button>
+        </div>
+      ) : (
+        <ReactMarkdown>{result.facilitator}</ReactMarkdown>
+      )}
+    </div>
+  )}
+
+  {activeTab === 'handout' && (
+    <div className="markdown-content">
+      {isLocked ? (
+        <div className="locked-content">
+          <h2>🔒 Handout Locked</h2>
+          <button onClick={handleUnlock} className="btn-primary">
+            Unlock
+          </button>
+        </div>
+      ) : (
+        <ReactMarkdown>
+          {result.handout}
+       </ReactMarkdown>
+      )}
+    </div>
+  )}
+
+</div>
           </div>
         )}
       </div>
