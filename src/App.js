@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
-import { Loader2, Download } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import './App.css';
 
 // IMPORTANT: Replace with your actual Hugging Face Space URL
@@ -64,16 +64,6 @@ function App() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const downloadContent = (content, filename) => {
-    const blob = new Blob([content], { type: 'text/markdown' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    a.click();
-    URL.revokeObjectURL(url);
   };
 
   return (
@@ -226,18 +216,7 @@ function App() {
                       </button>
                     </div>
                   ) : (
-                    <>
-                      <div className="download-bar">
-                        <button 
-                          onClick={() => downloadContent(result.content, `${topic}-training.md`)}
-                          className="btn-secondary"
-                        >
-                          <Download size={16} />
-                          Download Content
-                        </button>
-                      </div>
                       <ReactMarkdown>{result.content}</ReactMarkdown>
-                    </>
                   )}
                 </div>
               )}
@@ -252,18 +231,7 @@ function App() {
                       </button>
                     </div>
                   ) : (
-                    <>
-                      <div className="download-bar">
-                        <button 
-                          onClick={() => downloadContent(result.facilitator, `${topic}-facilitator.md`)}
-                          className="btn-secondary"
-                        >
-                          <Download size={16} />
-                          Download Guide
-                        </button>
-                      </div>
                       <ReactMarkdown>{result.facilitator}</ReactMarkdown>
-                    </>
                   )}
                 </div>
               )}
@@ -278,18 +246,7 @@ function App() {
                       </button>
                     </div>
                   ) : (
-                    <>
-                      <div className="download-bar">
-                        <button 
-                          onClick={() => downloadContent(result.handout, `${topic}-handout.md`)}
-                          className="btn-secondary"
-                        >
-                          <Download size={16} />
-                          Download Handout
-                        </button>
-                      </div>
                       <ReactMarkdown>{result.handout}</ReactMarkdown>
-                    </>
                   )}
                 </div>
               )}
