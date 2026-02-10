@@ -47,6 +47,8 @@ function App() {
         ...response.data,
         isLocked: response.data.isLocked ?? response.data.locked ?? true
       });
+      console.log('Backend Response:', response.data);
+      console.log('isLocked value:', response.data.isLocked ?? response.data.locked ?? true);
       setActiveTab('synopsis');
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to generate content');
@@ -192,28 +194,28 @@ function App() {
               <button 
                 className={`tab ${activeTab === 'synopsis' ? 'active' : ''}`}
                 onClick={() => setActiveTab('synopsis')}
-              >
-                Synopsis
-              </button>
-              <button 
-                className={`tab ${activeTab === 'content' ? 'active' : ''}`}
-                onClick={() => setActiveTab('content')}
-              >
-                {isLocked ? '🔒 Content' : 'Content'}
-              </button>
-              <button 
-                className={`tab ${activeTab === 'facilitator' ? 'active' : ''}`}
-                onClick={() => setActiveTab('facilitator')}
-              >
-                {result.isLocked ? '🔒 Facilitator' : 'Facilitator Guide'}
-              </button>
-              <button 
-                className={`tab ${activeTab === 'handout' ? 'active' : ''}`}
-                onClick={() => setActiveTab('handout')}
-              >
-                {result.isLocked ? '🔒 Handout' : 'Handout'}
-              </button>
-            </div>
+          >
+            Synopsis
+          </button>
+          <button 
+            className={`tab ${activeTab === 'content' ? 'active' : ''}`}
+            onClick={() => setActiveTab('content')}
+          >
+            {isLocked ? '🔒 Content' : 'Content'}
+          </button>
+          <button 
+            className={`tab ${activeTab === 'facilitator' ? 'active' : ''}`}
+            onClick={() => setActiveTab('facilitator')}
+          >
+            {isLocked ? '🔒 Facilitator' : 'Facilitator Guide'}  {/* ✅ FIXED */}
+          </button>
+          <button 
+            className={`tab ${activeTab === 'handout' ? 'active' : ''}`}
+            onClick={() => setActiveTab('handout')}
+          >
+            {isLocked ? '🔒 Handout' : 'Handout'}  {/* ✅ FIXED */}
+          </button>
+        </div>
 
            <div className="tab-content">
 
