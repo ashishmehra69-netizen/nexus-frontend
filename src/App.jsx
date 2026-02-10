@@ -12,7 +12,7 @@ function App() {
     if (!generatedContent?.sessionId) return;
     
     try {
-      const response = await fetch(`https://ashishmehra-nexus-backend.hf.space/api/unlock/${generatedContent.sessionId}`, {
+      const response = await fetch(`https://ashishmehra-nexus-sankara.hf.space/api/unlock/${generatedContent.sessionId}`, {
         method: 'POST'
       });
       
@@ -35,7 +35,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen relative">
+    <div className="min-h-screen relative bg-gray-900">
       <NeuralBackground />
       
       <div className="relative z-10 container mx-auto px-4 py-12">
@@ -63,7 +63,7 @@ function App() {
                   <div className="mb-6 text-center">
                     <button
                       onClick={handleUnlock}
-                      className="px-8 py-3 bg-gradient-to-r from-purple-500 to-green-500 text-white font-bold rounded-lg hover:from-purple-600 hover:to-green-600 transition-all"
+                      className="px-8 py-3 bg-gradient-to-r from-purple-500 to-green-500 text-white font-bold rounded-lg hover:from-purple-600 hover:to-green-600 transition-all shadow-lg"
                     >
                       🔓 Unlock Full Access
                     </button>
@@ -115,19 +115,23 @@ function App() {
                 </div>
 
                 {/* Content Display */}
-                <div className="prose prose-invert max-w-none">
+                <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
                   {activeTab === 'synopsis' && (
-                    <ReactMarkdown>{generatedContent.synopsis}</ReactMarkdown>
+                    <div className="text-gray-300">
+                      <ReactMarkdown>{generatedContent.synopsis}</ReactMarkdown>
+                    </div>
                   )}
                   
                   {activeTab === 'content' && (
                     isLocked ? (
                       <div className="text-center py-20">
                         <p className="text-xl text-gray-400 mb-4">🔒 Content Locked</p>
-                        <p className="text-gray-500">Click "Unlock Full Access" to view</p>
+                        <p className="text-gray-500">Click "Unlock Full Access" to view the full training content</p>
                       </div>
                     ) : (
-                      <ReactMarkdown>{generatedContent.content}</ReactMarkdown>
+                      <div className="text-gray-300">
+                        <ReactMarkdown>{generatedContent.content}</ReactMarkdown>
+                      </div>
                     )
                   )}
                   
@@ -135,10 +139,12 @@ function App() {
                     isLocked ? (
                       <div className="text-center py-20">
                         <p className="text-xl text-gray-400 mb-4">🔒 Content Locked</p>
-                        <p className="text-gray-500">Click "Unlock Full Access" to view</p>
+                        <p className="text-gray-500">Click "Unlock Full Access" to view the facilitator guide</p>
                       </div>
                     ) : (
-                      <ReactMarkdown>{generatedContent.facilitator}</ReactMarkdown>
+                      <div className="text-gray-300">
+                        <ReactMarkdown>{generatedContent.facilitator}</ReactMarkdown>
+                      </div>
                     )
                   )}
                   
@@ -146,17 +152,19 @@ function App() {
                     isLocked ? (
                       <div className="text-center py-20">
                         <p className="text-xl text-gray-400 mb-4">🔒 Content Locked</p>
-                        <p className="text-gray-500">Click "Unlock Full Access" to view</p>
+                        <p className="text-gray-500">Click "Unlock Full Access" to view the participant handout</p>
                       </div>
                     ) : (
-                      <ReactMarkdown>{generatedContent.handout}</ReactMarkdown>
+                      <div className="text-gray-300">
+                        <ReactMarkdown>{generatedContent.handout}</ReactMarkdown>
+                      </div>
                     )
                   )}
                 </div>
               </div>
             ) : (
               <div className="text-center text-gray-400 py-20">
-                <p>Fill in the form and click Generate to create your training</p>
+                <p className="text-lg">✨ Fill in the form and click Generate to create your training</p>
               </div>
             )}
           </div>
