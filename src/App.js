@@ -54,14 +54,18 @@ function App() {
   };
 
   const handleUnlock = async () => {
-  if (!result?.sessionId) return;
+  const sessionId = result?.session_id || result?.sessionId;
+  if (!sessionId) {
+    setError('Session ID missing');
+    return;
+  }
 
   setLoading(true);
   setError('');
 
   try {
     const response = await axios.post(
-      `${API_BASE_URL}/api/unlock/${result.sessionId}`
+      `${API_BASE_URL}/api/unlock/${sessionId}`
     );
 
     setResult(prev => ({
@@ -192,7 +196,7 @@ function App() {
                 className={`tab ${activeTab === 'content' ? 'active' : ''}`}
                 onClick={() => setActiveTab('content')}
               >
-                {result.isLocked ? '🔒 Content' : 'Content'}
+                {isLocked ? '🔒 Content' : 'Content'}
               </button>
               <button 
                 className={`tab ${activeTab === 'facilitator' ? 'active' : ''}`}
@@ -215,26 +219,32 @@ function App() {
                 </div>
               )}
 
-              case 'content':
-                return (
-                  <div className="tab-panel">
-                  {result?.isLocked ? (
-                    <div className="locked">
-                      <h3>LOCKED</h3>
-                      <p>Full training after unlock.</p>
-                      <button onClick={handleUnlock}>Unlock</button>
-                  </div>
-                ) : (
+                  {activeTab === 'synopsis' && (
+                    <div className="markdown-content">
+                      <ReactMarkdown>{result.synopsis}</ReactMarkdown>
+                    </div>
+              )}
+                {activeTab === 'content' && (
                   <div className="markdown-content">
-                    <ReactMarkdown>
-                      {result?.content}
-                    </ReactMarkdown>
+                    {isLocked ? (
+                      <div className="locked-content">
+                        <h2>🔒 Content Locked</h2>
+                        <p>Click below to unlock the full training content.</p>
+                        <button
+                          onClick={handleUnlock}
+                          className="btn-primary"
+                          disabled={loading}
+                    >
+                        {loading ? <Loader2 className="spinner" /> : 'Unlock Full Access'}
+                    </button>
                 </div>
+              ) : (
+                <ReactMarkdown>
+                  {result.content}
+                </ReactMarkdown>
               )}
             </div>
-  );
-                </div>
-              )}
+          )}
 
               {activeTab === 'facilitator' && (
                 <div className="markdown-content">
