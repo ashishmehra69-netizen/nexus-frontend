@@ -18,6 +18,7 @@ function App() {
   
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
+  const isLocked = result?.isLocked === true;
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState('synopsis');
 
