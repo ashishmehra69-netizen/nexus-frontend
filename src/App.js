@@ -9,23 +9,33 @@ function App() {
   const [isLocked, setIsLocked] = useState(true);
 
   const handleUnlock = async () => {
-    if (!generatedContent?.sessionId) return;
-    
-    try {
-      const response = await fetch(`https://ashishmehra-nexus-sankara.hf.space/api/unlock/${generatedContent.sessionId}`, {
-        method: 'POST'
-      });
-      
-      const data = await response.json();
-      
-      if (data.success) {
-        setGeneratedContent({
-          ...generatedContent,
-          content: data.content,
-          facilitator: data.facilitator,
-          handout: data.handout,
-          isLocked: false
-        });
+  const sessionId =
+    generatedContent?.sessionId ||
+    generatedContent?.session_id;
+
+  if (!sessionId) {
+    console.log("No sessionId found", generatedContent);
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `https://ashishmehra-nexus-backend.hf.space/api/unlock/${sessionId}`,
+      { method: 'POST' }
+    );
+
+    const data = await response.json();
+
+    setGeneratedContent(prev => ({
+      ...prev,
+      ...data,
+      isLocked: false
+    }));
+
+  } catch (error) {
+    console.error("Unlock failed", error);
+  }
+};
         setIsLocked(false);
       }
     } catch (error) {
