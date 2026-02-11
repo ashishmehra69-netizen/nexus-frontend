@@ -1,0 +1,13 @@
+name: Delete App.jsx
+on: push
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: rm src/App.jsx
+      - run: git config user.name "GitHub Actions"
+      - run: git config user.email "actions@github.com"
+      - run: git add .
+      - run: git commit -m "Remove App.jsx" || echo "No changes"
+      - run: git push
