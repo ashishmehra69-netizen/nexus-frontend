@@ -6,7 +6,6 @@ import ReactMarkdown from 'react-markdown';
 function App() {
   const [generatedContent, setGeneratedContent] = useState(null);
   const [activeTab, setActiveTab] = useState('synopsis');
-  const [isLocked, setIsLocked] = useState(true);
 
   const handleUnlock = async () => {
   const sessionId =
@@ -27,11 +26,10 @@ function App() {
     const data = await response.json();
 
     setGeneratedContent(prev => ({
-      ...prev,
-      ...data
-    }));
-
-    setIsLocked(false);   // ✅ THIS WAS MISSING
+  ...prev,
+  ...data,
+  isLocked: false
+}));
 
   } catch (error) {
     console.error("Unlock failed", error);
@@ -54,14 +52,13 @@ function App() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <InputForm onGenerate={(data) => {
             setGeneratedContent(data);
-            setIsLocked(data.isLocked);
             setActiveTab('synopsis');
           }} />
           
           <div className="bg-gray-800/50 backdrop-blur-lg p-8 rounded-2xl border border-purple-500/20">
             {generatedContent ? (
               <div>
-                {isLocked && (
+                {generatedContent?.isLocked && (
                   <div className="mb-6 text-center">
                     <button
                       onClick={handleUnlock}
@@ -123,7 +120,7 @@ function App() {
                   )}
                   
                   {activeTab === 'content' && (
-                    isLocked ? (
+                    generatedContent?.isLocked ? (
                       <div className="text-center py-20">
                         <p className="text-xl text-gray-400 mb-4">🔒 Content Locked</p>
                         <p className="text-gray-500">Click Unlock Full Access to view</p>
@@ -136,7 +133,7 @@ function App() {
                   )}
                   
                   {activeTab === 'facilitator' && (
-                    isLocked ? (
+                    generatedContent?.isLocked ? (
                       <div className="text-center py-20">
                         <p className="text-xl text-gray-400 mb-4">🔒 Content Locked</p>
                         <p className="text-gray-500">Click Unlock Full Access to view</p>
@@ -149,7 +146,7 @@ function App() {
                   )}
                   
                   {activeTab === 'handout' && (
-                    isLocked ? (
+                    generatedContent?.isLocked ? (
                       <div className="text-center py-20">
                         <p className="text-xl text-gray-400 mb-4">🔒 Content Locked</p>
                         <p className="text-gray-500">Click Unlock Full Access to view</p>
