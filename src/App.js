@@ -28,21 +28,16 @@ function App() {
 
     setGeneratedContent(prev => ({
       ...prev,
-      ...data,
-      isLocked: false
+      ...data
     }));
+
+    setIsLocked(false);   // ✅ THIS WAS MISSING
 
   } catch (error) {
     console.error("Unlock failed", error);
+    alert("Failed to unlock content");
   }
 };
-        setIsLocked(false);
-      }
-    } catch (error) {
-      console.error('Unlock failed:', error);
-      alert('Failed to unlock content');
-    }
-  };
 
   return (
     <div className="min-h-screen relative bg-gray-900">
