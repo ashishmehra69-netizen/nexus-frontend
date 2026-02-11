@@ -230,26 +230,44 @@ function App() {
   )}
 
   {activeTab === 'content' && (
-    <div className="markdown-content">
-      {isLocked ? (
-        <div className="locked-content">
-          <h2>🔒 Content Locked</h2>
-          <p>Full training after unlock.</p>
-          <button
-            onClick={handleUnlock}
-            className="btn-primary"
-            disabled={loading}
-          >
-            {loading ? <Loader2 className="spinner" /> : 'Unlock'}
-          </button>
-        </div>
-      ) : (
-        <ReactMarkdown>
-          {result.content}
-        </ReactMarkdown>
-      )}
-    </div>
-  )}
+  <div className="markdown-content">
+    {isLocked ? (
+      <div className="locked-content">
+        <h2>🔒 Content Locked</h2>
+        <p>Full training after unlock.</p>
+        <button
+          onClick={handleUnlock}
+          className="btn-primary"
+          disabled={loading}
+          style={{
+            padding: '12px 24px',
+            fontSize: '16px',
+            cursor: loading ? 'not-allowed' : 'pointer'
+          }}
+        >
+          {loading ? <Loader2 className="spinner" /> : '🔓 Unlock Full Access'}
+        </button>
+      </div>
+    ) : (
+      <ReactMarkdown>{result.content}</ReactMarkdown>
+    )}
+  </div>
+)}
+```
+
+---
+
+## Testing Steps:
+
+1. **Deploy updated `app.py` to Hugging Face**
+2. **Deploy updated `App.js` to Vercel**
+3. **Test generation:**
+   - Open browser console (F12)
+   - Click Generate
+   - You should see logs like:
+```
+     🔍 Backend Response: { isLocked: true, sessionId: "abc123", ... }
+     🔍 isLocked: true
 
   {activeTab === 'facilitator' && (
     <div className="markdown-content">
