@@ -23,40 +23,44 @@ function App() {
   const [activeTab, setActiveTab] = useState('synopsis');
 
   const handleGenerate = async () => {
-    if (!topic.trim()) {
-      setError('Please enter a topic');
-      return;
-    }
+  if (!topic.trim()) {
+    setError('Please enter a topic');
+    return;
+  }
 
-    setLoading(true);
-    setError('');
-    setResult(null);
+  setLoading(true);
+  setError('');
+  setResult(null);
 
-    try {
-      const response = await axios.post(`${API_BASE_URL}/api/generate`, {
-        topic,
-        format,
-        duration,
-        audienceLevel,
-        companyName,
-        companyContext,
-        deliveryMode
-      });
+  try {
+    const response = await axios.post(`${API_BASE_URL}/api/generate`, {
+      topic,
+      format,
+      duration,
+      audienceLevel,
+      companyName,
+      companyContext,
+      deliveryMode
+    });
 
-      setResult({
-        ...response.data,
-        isLocked: response.data.isLocked ?? response.data.locked ?? true
-      });
-      console.log('Backend Response:', response.data);
-      console.log('isLocked value:', response.data.isLocked ?? response.data.locked ?? true);
-      setActiveTab('synopsis');
-    } catch (err) {
-      setError(err.response?.data?.error || 'Failed to generate content');
-      console.error('Generation error:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    // ✅ DEBUG: Log what backend returns
+    console.log('🔍 Backend Response:', response.data);
+    console.log('🔍 isLocked:', response.data.isLocked);
+    console.log('🔍 session_id:', response.data.sessionId || response.data.session_id);
+
+    setResult({
+      ...response.data,
+      isLocked: response.data.isLocked ?? response.data.locked ?? true
+    });
+    
+    setActiveTab('synopsis');
+  } catch (err) {
+    setError(err.response?.data?.error || 'Failed to generate content');
+    console.error('Generation error:', err);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleUnlock = async () => {
   const sessionId = result?.session_id || result?.sessionId;
