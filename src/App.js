@@ -15,13 +15,17 @@ function App() {
   const [companyName, setCompanyName] = useState('');
   const [companyContext, setCompanyContext] = useState('');
   const [deliveryMode, setDeliveryMode] = useState('In-Person');
-  
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const isLocked = result?.isLocked === true;
+  console.log('🐛 App State:', {
+  result,
+  isLocked,
+  'result?.isLocked': result?.isLocked,
+  'result?.locked': result?.locked
+});
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState('synopsis');
-
   const handleGenerate = async () => {
   if (!topic.trim()) {
     setError('Please enter a topic');
@@ -231,58 +235,36 @@ function App() {
 
   {activeTab === 'content' && (
   <div className="markdown-content">
-    {isLocked ? (
-      <div style={{
-        padding: '40px',
-        textAlign: 'center',
-        backgroundColor: '#f8f9fa',
-        borderRadius: '12px',
-        border: '2px solid #e0e0e0'
-      }}>
-        <h2 style={{ color: '#667eea', marginBottom: '20px' }}>🔒 Content Locked</h2>
-        <p style={{ fontSize: '16px', color: '#666', marginBottom: '30px' }}>
-          Full training content available after unlock.
-        </p>
-        <p style={{ fontSize: '14px', color: '#999', marginBottom: '20px' }}>
-          Debug: isLocked={String(isLocked)}, sessionId={result?.sessionId || result?.session_id}
-        </p>
-        
-        <button
-          onClick={() => {
-            console.log('🔓 UNLOCK CLICKED!');
-            console.log('Session ID:', result?.sessionId || result?.session_id);
-            handleUnlock();
-          }}
-          disabled={loading}
-          style={{
-            padding: '15px 40px',
-            fontSize: '18px',
-            backgroundColor: '#667eea',
-            color: 'white',
-            border: 'none',
-            borderRadius: '8px',
-            cursor: loading ? 'not-allowed' : 'pointer',
-            marginTop: '10px',
-            fontWeight: 'bold',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '10px',
-            opacity: loading ? 0.6 : 1
-          }}
-        >
-          {loading ? (
-            <>
-              <Loader2 className="spinner" style={{ width: '20px', height: '20px' }} />
-              Unlocking...
-            </>
-          ) : (
-            '🔓 Unlock Full Access'
-          )}
-        </button>
-      </div>
-    ) : (
-      <ReactMarkdown>{result.content}</ReactMarkdown>
-    )}
+    <h1>DEBUG INFO</h1>
+    <pre>{JSON.stringify({
+      isLocked,
+      'result?.isLocked': result?.isLocked,
+      'result?.locked': result?.locked,
+      'result exists': !!result,
+      sessionId: result?.sessionId || result?.session_id
+    }, null, 2)}</pre>
+    
+    <hr />
+    
+    <h2>FORCED BUTTON TEST</h2>
+    <button
+      onClick={handleUnlock}
+      style={{
+        padding: '20px',
+        fontSize: '20px',
+        backgroundColor: 'red',
+        color: 'white',
+        border: '5px solid black',
+        cursor: 'pointer'
+      }}
+    >
+      CLICK ME TO UNLOCK
+    </button>
+    
+    <hr />
+    
+    <h2>Backend Content:</h2>
+    <ReactMarkdown>{result?.content || 'No content'}</ReactMarkdown>
   </div>
 )}
 
