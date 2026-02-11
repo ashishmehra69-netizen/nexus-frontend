@@ -232,20 +232,44 @@ function App() {
   {activeTab === 'content' && (
   <div className="markdown-content">
     {isLocked ? (
-      <div className="locked-content">
-        <h2>🔒 Content Locked</h2>
-        <p>Full training after unlock.</p>
+      <div className="locked-content" style={{
+        padding: '40px',
+        textAlign: 'center',
+        backgroundColor: '#f8f9fa',
+        borderRadius: '8px',
+        margin: '20px'
+      }}>
+        <h2 style={{ color: '#667eea', marginBottom: '20px' }}>🔒 Content Locked</h2>
+        <p style={{ fontSize: '16px', marginBottom: '30px' }}>
+          Full training content available after unlock.
+        </p>
         <button
           onClick={handleUnlock}
-          className="btn-primary"
           disabled={loading}
           style={{
-            padding: '12px 24px',
-            fontSize: '16px',
-            cursor: loading ? 'not-allowed' : 'pointer'
+            padding: '15px 30px',
+            fontSize: '18px',
+            fontWeight: 'bold',
+            backgroundColor: '#667eea',
+            color: 'white',
+            border: 'none',
+            borderRadius: '8px',
+            cursor: loading ? 'not-allowed' : 'pointer',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '10px'
           }}
         >
-          {loading ? <Loader2 className="spinner" /> : '🔓 Unlock Full Access'}
+          {loading ? (
+            <>
+              <Loader2 className="spinner" style={{ width: '20px', height: '20px' }} />
+              Unlocking...
+            </>
+          ) : (
+            <>
+              🔓 Unlock Full Access
+            </>
+          )}
         </button>
       </div>
     ) : (
@@ -253,7 +277,6 @@ function App() {
     )}
   </div>
 )}
-```
 
 ---
 
