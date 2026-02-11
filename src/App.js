@@ -231,50 +231,37 @@ function App() {
 
   {activeTab === 'content' && (
   <div className="markdown-content">
-    {isLocked ? (
-      <div className="locked-content" style={{
-        padding: '40px',
-        textAlign: 'center',
-        backgroundColor: '#f8f9fa',
-        borderRadius: '8px',
-        margin: '20px'
-      }}>
-        <h2 style={{ color: '#667eea', marginBottom: '20px' }}>🔒 Content Locked</h2>
-        <p style={{ fontSize: '16px', marginBottom: '30px' }}>
-          Full training content available after unlock.
-        </p>
-        <button
-          onClick={handleUnlock}
-          disabled={loading}
-          style={{
-            padding: '15px 30px',
-            fontSize: '18px',
-            fontWeight: 'bold',
-            backgroundColor: '#667eea',
-            color: 'white',
-            border: 'none',
-            borderRadius: '8px',
-            cursor: loading ? 'not-allowed' : 'pointer',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '10px'
-          }}
-        >
-          {loading ? (
-            <>
-              <Loader2 className="spinner" style={{ width: '20px', height: '20px' }} />
-              Unlocking...
-            </>
-          ) : (
-            <>
-              🔓 Unlock Full Access
-            </>
-          )}
-        </button>
-      </div>
-    ) : (
-      <ReactMarkdown>{result.content}</ReactMarkdown>
-    )}
+    <div style={{
+      padding: '40px',
+      textAlign: 'center',
+      backgroundColor: '#f8f9fa',
+      borderRadius: '12px'
+    }}>
+      <h2 style={{ color: '#667eea' }}>🔒 LOCKED</h2>
+      <p>isLocked value: {String(isLocked)}</p>
+      <p>result exists: {String(!!result)}</p>
+      
+      <button
+        onClick={() => {
+          console.log('UNLOCK CLICKED!');
+          console.log('Session ID:', result?.sessionId || result?.session_id);
+          handleUnlock();
+        }}
+        style={{
+          padding: '20px 40px',
+          fontSize: '20px',
+          backgroundColor: '#667eea',
+          color: 'white',
+          border: 'none',
+          borderRadius: '8px',
+          cursor: 'pointer',
+          marginTop: '20px',
+          fontWeight: 'bold'
+        }}
+      >
+        🔓 TEST UNLOCK BUTTON
+      </button>
+    </div>
   </div>
 )}
 
