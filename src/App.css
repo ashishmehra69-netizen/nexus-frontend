@@ -132,6 +132,8 @@
 
 .spinner {
   animation: spin 1s linear infinite;
+  width: 20px;
+  height: 20px;
 }
 
 @keyframes spin {
@@ -169,6 +171,7 @@
 
 .tab-content {
   padding: 20px 0;
+  min-height: 400px;
 }
 
 .markdown-content {
@@ -218,19 +221,64 @@
   margin: 15px 0;
 }
 
+/* ✅ UPDATED LOCKED CONTENT STYLES */
 .locked-content {
   text-align: center;
-  padding: 60px 20px;
+  padding: 60px 40px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  margin: 20px 0;
+  border: 2px dashed #e0e0e0;
 }
 
 .locked-content h2 {
-  color: #667eea;
-  margin-bottom: 20px;
+  color: #667eea !important;
+  margin-bottom: 20px !important;
+  font-size: 2rem !important;
 }
 
 .locked-content p {
   margin-bottom: 30px;
   color: #666;
+  font-size: 1.1rem;
+}
+
+/* ✅ CRITICAL: Unlock button styles */
+.locked-content button {
+  padding: 15px 40px !important;
+  font-size: 18px !important;
+  font-weight: bold !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(102, 126, 234, 0.3);
+  width: auto !important;
+  min-width: 200px;
+}
+
+.locked-content button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #5568d3 0%, #653a8a 100%) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 12px rgba(102, 126, 234, 0.5) !important;
+}
+
+.locked-content button:disabled {
+  cursor: not-allowed !important;
+  opacity: 0.6 !important;
+  transform: none !important;
+}
+
+.locked-content button:focus {
+  outline: 2px solid #667eea !important;
+  outline-offset: 2px !important;
 }
 
 .download-bar {
@@ -243,29 +291,28 @@
   .app-header h1 {
     font-size: 2rem;
   }
-
+  
   .form-row {
     grid-template-columns: 1fr;
   }
-
+  
   .tabs {
     flex-wrap: wrap;
   }
-
+  
   .tab {
     flex: 1 1 auto;
     min-width: 120px;
     padding: 10px 12px;
     font-size: 0.9rem;
   }
-}
-.markdown-content {
-  line-height: 1.7;
-  font-size: 15px;
-}
-
-.markdown-content h1,
-.markdown-content h2,
-.markdown-content h3 {
-  margin-top: 24px;
+  
+  .locked-content {
+    padding: 40px 20px;
+  }
+  
+  .locked-content button {
+    width: 100% !important;
+    max-width: 300px !important;
+  }
 }
