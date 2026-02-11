@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+const API_BASE_URL = 'https://ashishmehra-nexus-backend.hf.space';
 
 const api = axios.create({
   baseURL: `${API_BASE_URL}/api`,
@@ -15,7 +15,7 @@ export const generateTraining = async (data) => {
 };
 
 export const researchCompany = async (companyName) => {
-  const response = await api.post('/research', { companyName });
+  const response = await api.post('/research/company', { companyName });
   return response.data;
 };
 
