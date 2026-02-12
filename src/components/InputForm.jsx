@@ -14,19 +14,24 @@ export default function InputForm({ onGenerate }) {
   });
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
-      const result = await generateTraining(formData);
-      onGenerate(result);
-    } catch (error) {
-      console.error('Generation failed:', error);
-      alert('Generation failed. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
+  e.preventDefault();
+  setLoading(true);
+  
+  try {
+    const result = await generateTraining(formData);
+    
+    // ✅ DEBUG: Log what we're passing to parent
+    console.log('🔍 InputForm sending to App:', result);
+    console.log('🔍 isLocked value:', result.isLocked);
+    
+    onGenerate(result);
+  } catch (error) {
+    console.error('Generation failed:', error);
+    alert('Generation failed. Please try again.');
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 bg-gray-800/50 backdrop-blur-lg p-8 rounded-2xl border border-purple-500/20">
