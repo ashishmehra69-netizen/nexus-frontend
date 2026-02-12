@@ -9,10 +9,38 @@ const api = axios.create({
   },
 });
 
-export const generateTraining = async (data) => {
-  const response = await api.post('/generate', data);
-  return response.data;
-};
+export async function generateTraining(formData) {
+  const response = await fetch('https://ashishmehra-nexus-backend.hf.space/api/generate', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      topic: formData.topic,
+      companyName: formData.companyName,
+      companyContext: formData.companyContext,
+      audienceLevel: formData.audience,
+      format: formData.format,
+      duration: formData.duration,
+      deliveryMode: formData.deliveryMode,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Generation failed');
+  }
+
+  const data = await response.json();
+  
+  // ✅ CRITICAL FIX: Force isLocked to true
+  console.log('🔍 Backend Response:', data);
+  console.log('🔍 Backend isLocked:', data.isLocked);
+  
+  return {
+    ...data,
+    isLocked: true,  // ← FORCE TO TRUE - new generations are always locked
+  };
+}
 
 export const researchCompany = async (companyName) => {
   const response = await api.post('/research/company', { companyName });
