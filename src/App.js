@@ -120,18 +120,58 @@ function App() {
                   )}
                   
                   {activeTab === 'content' && (
-                    generatedContent?.isLocked ? (
-                      <div className="text-center py-20">
-                        <p className="text-xl text-gray-400 mb-4">🔒 Content Locked</p>
-                        <p className="text-gray-500">Click Unlock Full Access to view</p>
-                      </div>
-                    ) : (
-                      <div className="text-gray-300">
-                        <ReactMarkdown>{generatedContent.content}</ReactMarkdown>
-                      </div>
-                    )
+                    <div className="text-gray-300">
+                      {console.log('🐛 Content Tab Debug:', { 
+                        isLocked: generatedContent?.isLocked, 
+                        contentPreview: generatedContent?.content?.substring(0, 50) 
+                      })}
+                      
+                      {generatedContent?.isLocked ? (
+                        <div style={{
+                          padding: '60px 40px',
+                          textAlign: 'center',
+                          backgroundColor: '#1f2937',
+                          borderRadius: '12px',
+                          border: '2px dashed #6366f1',
+                          margin: '20px 0'
+                        }}>
+                          <div style={{ fontSize: '48px', marginBottom: '20px' }}>🔒</div>
+                          <h2 style={{ color: '#a78bfa', marginBottom: '20px', fontSize: '2rem' }}>
+                            Content Locked
+                          </h2>
+                          <p style={{ fontSize: '18px', color: '#9ca3af', marginBottom: '30px' }}>
+                            Full training content available after unlock.
+                          </p>
+                          
+                          <button
+                            onClick={handleUnlock}
+                            style={{
+                              padding: '20px 40px',
+                              fontSize: '20px',
+                              fontWeight: 'bold',
+                              background: 'linear-gradient(to right, rgb(168, 85, 247), rgb(59, 130, 246))',
+                              color: 'white',
+                              border: 'none',
+                              borderRadius: '12px',
+                              cursor: 'pointer',
+                              boxShadow: '0 4px 12px rgba(168, 85, 247, 0.3)',
+                              marginTop: '20px'
+                            }}
+                          >
+                            🔓 Unlock Full Access
+                          </button>
+                          
+                          <p style={{ fontSize: '14px', color: '#6b7280', marginTop: '30px' }}>
+                            Session: {generatedContent?.sessionId || generatedContent?.session_id || 'N/A'}
+                          </p>
+                        </div>
+                      ) : (
+                        <ReactMarkdown>{generatedContent?.content}</ReactMarkdown>
+                      )}
+                    </div>
                   )}
-                  
+
+src/components/InputForm.jsx
                   {activeTab === 'facilitator' && (
                     generatedContent?.isLocked ? (
                       <div className="text-center py-20">
