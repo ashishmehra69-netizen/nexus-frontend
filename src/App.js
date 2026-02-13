@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+// eslint-disable-next-line no-unused-vars
 import NeuralBackground from './components/NeuralBackground';
 import InputForm from './components/InputForm';
 import ReactMarkdown from 'react-markdown';
