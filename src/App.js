@@ -39,7 +39,7 @@ function App() {
 
   return (
     <div className="min-h-screen relative bg-gray-900">
-      {/* <NeuralBackground /> */}
+      <NeuralBackground />
       
       <div className="relative z-10 container mx-auto px-4 py-12">
         <div className="text-center mb-12">
