@@ -19,11 +19,10 @@ function App() {
     return;
   }
 
-  try {
-    const response = await fetch(
-      `https://ashishmehra-nexus-sankara.hf.space/api/unlock/${sessionId}`,
-      { method: 'POST' }
-    );
+  const response = await fetch(
+  `https://ashishmehra-nexus-backend.hf.space/api/unlock/${sessionId}`,
+  { method: 'POST' }
+  );
 
     const data = await response.json();
     console.log("Unlock response:", data);
