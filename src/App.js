@@ -128,7 +128,7 @@ function App() {
                         contentPreview: generatedContent?.content?.substring(0, 50) 
                       })}
                       
-                      {true ? (  // ← FORCE TO ALWAYS SHOW BUTTON
+                      {generatedContent?.isLocked ? (
                         <div style={{
                           padding: '60px 40px',
                           textAlign: 'center',
