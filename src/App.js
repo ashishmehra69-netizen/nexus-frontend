@@ -124,13 +124,13 @@ function App() {
                   
                   {activeTab === 'content' && (
                     <div className="text-gray-300">
-                      {console.log('🐛 Content Tab Debug:', { 
-                        isLocked: generatedContent?.isLocked, 
-                        contentPreview: generatedContent?.content?.substring(0, 50) 
+                      {console.log('🐛 Content check:', {
+                        isLocked: generatedContent?.isLocked,
+                        locked: generatedContent?.locked,
+                        contentPreview: generatedContent?.content?.substring(0, 100)
                       })}
                       
-                      {generatedContent?.isLocked ? (
-                        <div style={{
+                      {(generatedContent?.isLocked || generatedContent?.locked) ? (                        <div style={{
                           padding: '60px 40px',
                           textAlign: 'center',
                           backgroundColor: '#1f2937',
