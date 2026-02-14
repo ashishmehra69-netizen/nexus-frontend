@@ -9,20 +9,21 @@ function App() {
   const [activeTab, setActiveTab] = useState('synopsis');
 
   const handleUnlock = async () => {
-  const sessionId = generatedContent?.sessionId || generatedContent?.session_id;
+    const sessionId = generatedContent?.sessionId || generatedContent?.session_id;
 
   console.log("Unlock clicked, sessionId:", sessionId);
-    console.log("Full content:", generatedContent);
+  console.log("Full content:", generatedContent);
 
   if (!sessionId) {
     alert("No session ID found!");
     return;
   }
 
-  const response = await fetch(
-  `https://ashishmehra-nexus-backend.hf.space/api/unlock/${sessionId}`,
-  { method: 'POST' }
-  );
+  try {
+    const response = await fetch(
+      `https://ashishmehra-nexus-backend.hf.space/api/unlock/${sessionId}`,
+      { method: 'POST' }
+    );
 
     const data = await response.json();
     console.log("Unlock response:", data);
