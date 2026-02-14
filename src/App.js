@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// eslint-disable-next-line no-unused-vars
 import NeuralBackground from './components/NeuralBackground';
 import InputForm from './components/InputForm';
 import ReactMarkdown from 'react-markdown';
@@ -11,34 +10,44 @@ function App() {
   const handleUnlock = async () => {
     const sessionId = generatedContent?.sessionId || generatedContent?.session_id;
 
-  console.log("Unlock clicked, sessionId:", sessionId);
-  console.log("Full content:", generatedContent);
+    console.log("🔓 Unlock clicked, sessionId:", sessionId);
+    console.log("📦 Current content:", generatedContent);
 
-  if (!sessionId) {
-    alert("No session ID found!");
-    return;
-  }
+    if (!sessionId) {
+      alert("No session ID found!");
+      return;
+    }
 
-  try {
-    const response = await fetch(
-      `https://ashishmehra-nexus-backend.hf.space/api/unlock/${sessionId}`,
-      { method: 'POST' }
-    );
+    try {
+      const response = await fetch(
+        `https://ashishmehra-nexus-backend.hf.space/api/unlock/${sessionId}`,
+        { method: 'POST' }
+      );
 
-    const data = await response.json();
-    console.log("Unlock response:", data);
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
 
-    setGeneratedContent(prev => ({
-      ...prev,
-      ...data,
-      isLocked: false
-    }));
+      const data = await response.json();
+      console.log("✅ Unlock response:", data);
 
-  } catch (error) {
-    console.error("Unlock failed", error);
-    alert("Failed to unlock content");
-  }
-};
+      // CRITICAL: Force complete state replacement
+      setGeneratedContent({
+        ...generatedContent,
+        content: data.content,
+        facilitator: data.facilitator,
+        handout: data.handout,
+        isLocked: false,
+        locked: false
+      });
+
+      console.log("✅ State updated, content should be unlocked now");
+
+    } catch (error) {
+      console.error("❌ Unlock failed:", error);
+      alert(`Failed to unlock: ${error.message}`);
+    }
+  };
 
   return (
     <div className="min-h-screen relative bg-gray-900">
@@ -54,6 +63,7 @@ function App() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <InputForm onGenerate={(data) => {
+            console.log("📥 Received from backend:", data);
             setGeneratedContent(data);
             setActiveTab('synopsis');
           }} />
@@ -61,6 +71,7 @@ function App() {
           <div className="bg-gray-800/50 backdrop-blur-lg p-8 rounded-2xl border border-purple-500/20">
             {generatedContent ? (
               <div>
+                {/* Show unlock button only if content is locked */}
                 {generatedContent?.isLocked && (
                   <div className="mb-6 text-center">
                     <button
@@ -72,6 +83,7 @@ function App() {
                   </div>
                 )}
 
+                {/* Tabs */}
                 <div className="flex space-x-2 mb-6 border-b border-gray-700">
                   <button
                     onClick={() => setActiveTab('synopsis')}
@@ -115,6 +127,7 @@ function App() {
                   </button>
                 </div>
 
+                {/* Content Display */}
                 <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
                   {activeTab === 'synopsis' && (
                     <div className="text-gray-300">
@@ -124,81 +137,20 @@ function App() {
                   
                   {activeTab === 'content' && (
                     <div className="text-gray-300">
-                      {console.log('🐛 Content check:', {
-                        isLocked: generatedContent?.isLocked,
-                        locked: generatedContent?.locked,
-                        contentPreview: generatedContent?.content?.substring(0, 100)
-                      })}
-                      
-                      {(generatedContent?.isLocked || generatedContent?.locked) ? (                        <div style={{
-                          padding: '60px 40px',
-                          textAlign: 'center',
-                          backgroundColor: '#1f2937',
-                          borderRadius: '12px',
-                          border: '2px dashed #6366f1',
-                          margin: '20px 0'
-                        }}>
-                          <div style={{ fontSize: '48px', marginBottom: '20px' }}>🔒</div>
-                          <h2 style={{ color: '#a78bfa', marginBottom: '20px', fontSize: '2rem' }}>
-                            Content Locked
-                          </h2>
-                          <p style={{ fontSize: '18px', color: '#9ca3af', marginBottom: '30px' }}>
-                            Full training content available after unlock.
-                          </p>
-                          
-                          <button
-                            onClick={handleUnlock}
-                            style={{
-                              padding: '20px 40px',
-                              fontSize: '20px',
-                              fontWeight: 'bold',
-                              background: 'linear-gradient(to right, rgb(168, 85, 247), rgb(59, 130, 246))',
-                              color: 'white',
-                              border: 'none',
-                              borderRadius: '12px',
-                              cursor: 'pointer',
-                              boxShadow: '0 4px 12px rgba(168, 85, 247, 0.3)',
-                              marginTop: '20px'
-                            }}
-                          >
-                            🔓 Unlock Full Access
-                          </button>
-                          
-                          <p style={{ fontSize: '14px', color: '#6b7280', marginTop: '30px' }}>
-                            Session: {generatedContent?.sessionId || generatedContent?.session_id || 'N/A'}
-                          </p>
-                        </div>
-                      ) : (
-                        <ReactMarkdown>{generatedContent?.content}</ReactMarkdown>
-                      )}
+                      <ReactMarkdown>{generatedContent.content}</ReactMarkdown>
                     </div>
                   )}
-
-src/components/InputForm.jsx
+                  
                   {activeTab === 'facilitator' && (
-                    generatedContent?.isLocked ? (
-                      <div className="text-center py-20">
-                        <p className="text-xl text-gray-400 mb-4">🔒 Content Locked</p>
-                        <p className="text-gray-500">Click Unlock Full Access to view</p>
-                      </div>
-                    ) : (
-                      <div className="text-gray-300">
-                        <ReactMarkdown>{generatedContent.facilitator}</ReactMarkdown>
-                      </div>
-                    )
+                    <div className="text-gray-300">
+                      <ReactMarkdown>{generatedContent.facilitator}</ReactMarkdown>
+                    </div>
                   )}
                   
                   {activeTab === 'handout' && (
-                    generatedContent?.isLocked ? (
-                      <div className="text-center py-20">
-                        <p className="text-xl text-gray-400 mb-4">🔒 Content Locked</p>
-                        <p className="text-gray-500">Click Unlock Full Access to view</p>
-                      </div>
-                    ) : (
-                      <div className="text-gray-300">
-                        <ReactMarkdown>{generatedContent.handout}</ReactMarkdown>
-                      </div>
-                    )
+                    <div className="text-gray-300">
+                      <ReactMarkdown>{generatedContent.handout}</ReactMarkdown>
+                    </div>
                   )}
                 </div>
               </div>
