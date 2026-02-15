@@ -1,94 +1,31 @@
-import React, { useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Sphere } from '@react-three/drei';
-import * as THREE from 'three';
-
-function NeuralNode({ position, color }) {
-  const meshRef = useRef();
-  
-  useFrame((state) => {
-    const time = state.clock.getElapsedTime();
-    meshRef.current.scale.setScalar(1 + Math.sin(time * 2) * 0.1);
-  });
-  
-  return (
-    <Sphere ref={meshRef} position={position} args={[0.1, 32, 32]}>
-      <meshStandardMaterial 
-        color={color}
-        emissive={color}
-        emissiveIntensity={0.5}
-      />
-    </Sphere>
-  );
-}
-
-function NeuralConnection({ start, end }) {
-  const points = [
-    new THREE.Vector3(...start),
-    new THREE.Vector3(...end)
-  ];
-  
-  const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
-  
-  return (
-    <line geometry={lineGeometry}>
-      <lineBasicMaterial color="#667eea" opacity={0.3} transparent />
-    </line>
-  );
-}
-
-function NeuralNetwork() {
-  const nodes = [
-    { pos: [-4, 2, 0], color: '#667eea' },
-    { pos: [-4, 0, 0], color: '#667eea' },
-    { pos: [-4, -2, 0], color: '#667eea' },
-    { pos: [-2, 2.5, 0], color: '#2de2a0' },
-    { pos: [-2, 0.5, 0], color: '#667eea' },
-    { pos: [-2, -1.5, 0], color: '#2de2a0' },
-    { pos: [0, 2, 0], color: '#667eea' },
-    { pos: [0, 0, 0], color: '#2de2a0' },
-    { pos: [0, -2, 0], color: '#667eea' },
-    { pos: [2, 1, 0], color: '#2de2a0' },
-    { pos: [2, -1, 0], color: '#667eea' },
-  ];
-  
-  const connections = [
-    [[-4, 2, 0], [-2, 2.5, 0]],
-    [[-4, 0, 0], [-2, 0.5, 0]],
-    [[-4, -2, 0], [-2, -1.5, 0]],
-    [[-2, 2.5, 0], [0, 2, 0]],
-    [[-2, 0.5, 0], [0, 0, 0]],
-    [[-2, -1.5, 0], [0, -2, 0]],
-    [[0, 2, 0], [2, 1, 0]],
-    [[0, -2, 0], [2, -1, 0]],
-  ];
-  
-  return (
-    <>
-      {nodes.map((node, i) => (
-        <NeuralNode key={i} position={node.pos} color={node.color} />
-      ))}
-      {connections.map((conn, i) => (
-        <NeuralConnection key={i} start={conn[0]} end={conn[1]} />
-      ))}
-    </>
-  );
-}
+import React from 'react';
 
 export default function NeuralBackground() {
   return (
-    <div className="fixed inset-0 -z-10 bg-gradient-to-br from-purple-900 via-gray-900 to-green-900">
-      <Canvas camera={{ position: [0, 0, 10], fov: 50 }}>
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} />
-        <NeuralNetwork />
-        <OrbitControls 
-          enableZoom={false}
-          enablePan={false}
-          autoRotate
-          autoRotateSpeed={0.5}
-        />
-      </Canvas>
+    <div className="fixed inset-0 -z-10 overflow-hidden bg-gradient-to-br from-purple-900 via-gray-900 to-green-900">
+      {/* Animated neural nodes */}
+      <div className="absolute top-1/4 left-1/4 w-3 h-3 bg-purple-400 rounded-full animate-pulse" style={{animationDuration: '2s'}}></div>
+      <div className="absolute top-1/3 left-1/2 w-4 h-4 bg-green-400 rounded-full animate-pulse" style={{animationDuration: '3s'}}></div>
+      <div className="absolute top-1/2 left-1/3 w-2 h-2 bg-purple-300 rounded-full animate-pulse" style={{animationDuration: '2.5s'}}></div>
+      <div className="absolute top-2/3 left-2/3 w-3 h-3 bg-green-300 rounded-full animate-pulse" style={{animationDuration: '2.2s'}}></div>
+      <div className="absolute top-3/4 left-1/4 w-4 h-4 bg-purple-400 rounded-full animate-pulse" style={{animationDuration: '2.8s'}}></div>
+      <div className="absolute top-1/4 right-1/4 w-3 h-3 bg-green-400 rounded-full animate-pulse" style={{animationDuration: '2.4s'}}></div>
+      <div className="absolute bottom-1/4 right-1/3 w-2 h-2 bg-purple-300 rounded-full animate-pulse" style={{animationDuration: '3.2s'}}></div>
+      <div className="absolute bottom-1/3 left-1/2 w-3 h-3 bg-green-300 rounded-full animate-pulse" style={{animationDuration: '2.6s'}}></div>
+      
+      {/* Connection lines */}
+      <svg className="absolute inset-0 w-full h-full opacity-20" xmlns="http://www.w3.org/2000/svg">
+        <line x1="25%" y1="25%" x2="50%" y2="33%" stroke="#667eea" strokeWidth="1" className="animate-pulse" />
+        <line x1="50%" y1="33%" x2="33%" y2="50%" stroke="#2de2a0" strokeWidth="1" className="animate-pulse" />
+        <line x1="33%" y1="50%" x2="66%" y2="66%" stroke="#667eea" strokeWidth="1" className="animate-pulse" />
+        <line x1="66%" y1="66%" x2="25%" y2="75%" stroke="#2de2a0" strokeWidth="1" className="animate-pulse" />
+        <line x1="75%" y1="25%" x2="66%" y2="75%" stroke="#667eea" strokeWidth="1" className="animate-pulse" />
+      </svg>
+      
+      {/* Floating brain emoji */}
+      <div className="absolute top-10 right-10 text-6xl animate-bounce" style={{animationDuration: '3s'}}>
+        🧠
+      </div>
     </div>
   );
 }
