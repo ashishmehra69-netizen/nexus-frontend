@@ -34,7 +34,7 @@ export default function InputForm({ onGenerate }) {
 };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 bg-gray-800/50 backdrop-blur-lg p-8 rounded-2xl border border-purple-500/20">
+    <form onSubmit={handleSubmit} className="space-y-6 bg-gray-900/20 backdrop-blur-2xl p-8 rounded-2xl border border-purple-500/40 shadow-2xl">
       <div>
         <label className="block text-sm font-medium mb-2">Purpose of Training</label>
         <input
