@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function NeuralBackground() {
   return (
-    <div className="fixed inset-0 -z-10 overflow-hidden bg-gradient-to-br from-purple-900 via-gray-900 to-green-900">
+    <div className="fixed inset-0 z-50 overflow-hidden bg-gradient-to-br from-purple-900 via-gray-900 to-green-900">
       {/* Animated neural nodes */}
       <div className="absolute top-1/4 left-1/4 w-3 h-3 bg-purple-400 rounded-full animate-pulse" style={{animationDuration: '2s'}}></div>
       <div className="absolute top-1/3 left-1/2 w-4 h-4 bg-green-400 rounded-full animate-pulse" style={{animationDuration: '3s'}}></div>
