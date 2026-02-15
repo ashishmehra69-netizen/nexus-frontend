@@ -4,14 +4,14 @@ export default function NeuralBackground() {
   return (
     <div className="fixed inset-0 z-10 overflow-hidden bg-gradient-to-br from-purple-900 via-gray-900 to-green-900">
       {/* Animated neural nodes */}
-      <div className="absolute top-1/4 left-1/4 w-3 h-3 bg-purple-400 rounded-full animate-pulse" style={{animationDuration: '2s'}}></div>
-      <div className="absolute top-1/3 left-1/2 w-4 h-4 bg-green-400 rounded-full animate-pulse" style={{animationDuration: '3s'}}></div>
-      <div className="absolute top-1/2 left-1/3 w-2 h-2 bg-purple-300 rounded-full animate-pulse" style={{animationDuration: '2.5s'}}></div>
-      <div className="absolute top-2/3 left-2/3 w-3 h-3 bg-green-300 rounded-full animate-pulse" style={{animationDuration: '2.2s'}}></div>
-      <div className="absolute top-3/4 left-1/4 w-4 h-4 bg-purple-400 rounded-full animate-pulse" style={{animationDuration: '2.8s'}}></div>
-      <div className="absolute top-1/4 right-1/4 w-3 h-3 bg-green-400 rounded-full animate-pulse" style={{animationDuration: '2.4s'}}></div>
-      <div className="absolute bottom-1/4 right-1/3 w-2 h-2 bg-purple-300 rounded-full animate-pulse" style={{animationDuration: '3.2s'}}></div>
-      <div className="absolute bottom-1/3 left-1/2 w-3 h-3 bg-green-300 rounded-full animate-pulse" style={{animationDuration: '2.6s'}}></div>
+      <div className="absolute top-1/4 left-1/4 w-3 h-3 bg-purple-400 rounded-full" style={{animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'}}></div>
+      <div className="absolute top-1/3 left-1/2 w-4 h-4 bg-green-400 rounded-full" style={{animation: 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite'}}></div>
+      <div className="absolute top-1/2 left-1/3 w-2 h-2 bg-purple-300 rounded-full" style={{animation: 'pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite'}}></div>
+      <div className="absolute top-2/3 left-2/3 w-3 h-3 bg-green-300 rounded-full" style={{animation: 'pulse 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite'}}></div>
+      <div className="absolute top-3/4 left-1/4 w-4 h-4 bg-purple-400 rounded-full" style={{animation: 'pulse 2.8s cubic-bezier(0.4, 0, 0.6, 1) infinite'}}></div>
+      <div className="absolute top-1/4 right-1/4 w-3 h-3 bg-green-400 rounded-full" style={{animation: 'pulse 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite'}}></div>
+      <div className="absolute bottom-1/4 right-1/3 w-2 h-2 bg-purple-300 rounded-full" style={{animation: 'pulse 3.2s cubic-bezier(0.4, 0, 0.6, 1) infinite'}}></div>
+      <div className="absolute bottom-1/3 left-1/2 w-3 h-3 bg-green-300 rounded-full" style={{animation: 'pulse 2.6s cubic-bezier(0.4, 0, 0.6, 1) infinite'}}></div>
       
       {/* Connection lines */}
       <svg className="absolute inset-0 w-full h-full opacity-20" xmlns="http://www.w3.org/2000/svg">
