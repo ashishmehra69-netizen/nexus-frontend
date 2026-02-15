@@ -22,10 +22,6 @@ export default function NeuralBackground() {
         <line x1="75%" y1="25%" x2="66%" y2="75%" stroke="#667eea" strokeWidth="1" className="animate-pulse" />
       </svg>
       
-      {/* Floating brain emoji */}
-      <div className="absolute top-6 left-6 text-5xl animate-bounce" style={{animationDuration: '3s'}}>
-        🧠
       </div>
-    </div>
   );
 }
