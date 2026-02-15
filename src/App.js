@@ -55,8 +55,11 @@ function App() {
       
       <div className="relative z-10 container mx-auto px-4 py-12">
         <div className="text-center mb-12">
-          <h1 className="text-6xl font-bold bg-gradient-to-r from-purple-400 to-green-400 bg-clip-text text-transparent">
-            🧠 NEXUS Learning Generator
+          <h1 className="text-6xl font-bold bg-gradient-to-r from-purple-400 to-green-400 bg-clip-text text-transparent flex items-center justify-center gap-4">
+            <svg className="w-16 h-16 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+            </svg>
+            NEXUS Learning Generator
           </h1>
           <p className="text-xl mt-4 text-gray-300">Think Clear. Act Better.</p>
         </div>
