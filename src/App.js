@@ -69,7 +69,7 @@ function App() {
             setActiveTab('synopsis');
           }} />
           
-          <div className="bg-gray-800/30 backdrop-blur-xl p-8 rounded-2xl border border-purple-500/30 shadow-2xl">
+          <div className="bg-gray-900/20 backdrop-blur-2xl p-8 rounded-2xl border border-purple-500/40 shadow-2xl">
             {generatedContent ? (
               <div>
                 {/* Show unlock button only if content is locked */}
