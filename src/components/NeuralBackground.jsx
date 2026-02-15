@@ -23,7 +23,7 @@ export default function NeuralBackground() {
       </svg>
       
       {/* Floating brain emoji */}
-      <div className="absolute top-10 right-10 text-6xl animate-bounce" style={{animationDuration: '3s'}}>
+      <div className="absolute top-6 left-6 text-5xl animate-bounce" style={{animationDuration: '3s'}}>
         🧠
       </div>
     </div>
