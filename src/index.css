@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Force transparent inputs - override Tailwind */
+@layer components {
+  input, textarea, select {
+    background-color: transparent !important;
+  }
+}
+
 body {
   margin: 0;
   background: radial-gradient(ellipse at top, #0f1419, #050810);
