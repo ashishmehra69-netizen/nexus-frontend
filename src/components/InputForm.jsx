@@ -42,7 +42,7 @@ export default function InputForm({ onGenerate }) {
           value={formData.topic}
           onChange={(e) => setFormData({ ...formData, topic: e.target.value })}
           placeholder="e.g., Strategic Planning, Python Programming"
-          className="w-full px-4 py-3 bg-black/20 backdrop-blur-lg border border-purple-500/40 rounded-lg focus:outline-none focus:border-purple-500 text-white placeholder-gray-400"
+         className="space-y-6 bg-white/[0.05] backdrop-blur-[20px] p-8 rounded-3xl border border-white/10 shadow-2xl"
           required
         />
       </div>
@@ -54,8 +54,7 @@ export default function InputForm({ onGenerate }) {
           value={formData.companyName}
           onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
           placeholder="e.g., Airtel, Infosys"
-          className="w-full px-4 py-3 bg-black/20 backdrop-blur-lg border border-purple-500/40 rounded-lg focus:outline-none focus:border-purple-500 text-white placeholder-gray-400"
-        />
+          className="space-y-6 bg-white/[0.05] backdrop-blur-[20px] p-8 rounded-3xl border border-white/10 shadow-2xl"
       </div>
 
       <div>
@@ -65,7 +64,7 @@ export default function InputForm({ onGenerate }) {
           onChange={(e) => setFormData({ ...formData, companyContext: e.target.value })}
           placeholder="Specific details about their situation..."
           rows="4"
-          className="w-full px-4 py-3 bg-black/20 backdrop-blur-lg border border-purple-500/40 rounded-lg focus:outline-none focus:border-purple-500 text-white placeholder-gray-400"
+          className="space-y-6 bg-white/[0.05] backdrop-blur-[20px] p-8 rounded-3xl border border-white/10 shadow-2xl"
         />
       </div>
 
@@ -75,7 +74,7 @@ export default function InputForm({ onGenerate }) {
           <select
             value={formData.audience}
             onChange={(e) => setFormData({ ...formData, audience: e.target.value })}
-            className="w-full px-4 py-3 bg-black/20 backdrop-blur-lg border border-purple-500/40 rounded-lg focus:outline-none focus:border-purple-500 text-white placeholder-gray-400"
+            className="space-y-6 bg-white/[0.05] backdrop-blur-[20px] p-8 rounded-3xl border border-white/10 shadow-2xl"
           >
             <option>Executive/C-Suite/Senior Leadership</option>
             <option>Manager/Supervisor/Team Lead</option>
@@ -89,7 +88,7 @@ export default function InputForm({ onGenerate }) {
           <select
             value={formData.format}
             onChange={(e) => setFormData({ ...formData, format: e.target.value })}
-           className="w-full px-4 py-3 bg-black/20 backdrop-blur-lg border border-purple-500/40 rounded-lg focus:outline-none focus:border-purple-500 text-white placeholder-gray-400"
+           className="space-y-6 bg-white/[0.05] backdrop-blur-[20px] p-8 rounded-3xl border border-white/10 shadow-2xl"
           >
             <option>Training</option>
             <option>Workshop</option>
