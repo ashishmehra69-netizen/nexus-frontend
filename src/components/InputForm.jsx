@@ -33,15 +33,15 @@ export default function InputForm({ onGenerate }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 bg-white/[0.05] backdrop-blur-[20px] p-8 rounded-3xl border border-white/10 shadow-2xl">
-      <div>
+    <form onSubmit={handleSubmit} className="space-y-6 bg-white/[0.02] backdrop-blur-sm p-8 rounded-3xl border border-white/20 shadow-2xl">
         <label className="block text-sm font-medium mb-2">Purpose of Training</label>
         <input
           type="text"
           value={formData.topic}
           onChange={(e) => setFormData({ ...formData, topic: e.target.value })}
           placeholder="e.g., Strategic Planning, Python Programming"
-          className="w-full px-4 py-3 bg-white/5 border-2 border-white/15 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:bg-white/[0.12] transition-all"
+          className="w-full px-4 py-3 border-2 border-white/10 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all"
+          style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
           required
         />
       </div>
@@ -53,7 +53,8 @@ export default function InputForm({ onGenerate }) {
           value={formData.companyName}
           onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
           placeholder="e.g., Airtel, Infosys"
-          className="w-full px-4 py-3 bg-white/5 border-2 border-white/10 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:bg-white/[0.12] transition-all"
+          className="w-full px-4 py-3 border-2 border-white/10 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all"
+          style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
         />
       </div>
 
@@ -64,8 +65,8 @@ export default function InputForm({ onGenerate }) {
           onChange={(e) => setFormData({ ...formData, companyContext: e.target.value })}
           placeholder="Specific details about their situation..."
           rows="4"
-          className="w-full px-4 py-3 bg-white/5 border-2 border-white/10 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:bg-white/[0.12] transition-all"
-        />
+          className="w-full px-4 py-3 border-2 border-white/10 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all"
+          style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
       </div>
 
       <div className="grid grid-cols-2 gap-4">
@@ -74,7 +75,8 @@ export default function InputForm({ onGenerate }) {
           <select
             value={formData.audience}
             onChange={(e) => setFormData({ ...formData, audience: e.target.value })}
-            className="w-full px-4 py-3 bg-white/5 border-2 border-white/10 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:bg-white/[0.12] transition-all"
+            className="w-full px-4 py-3 border-2 border-white/10 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all"
+            style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
           >
             <option>Executive/C-Suite/Senior Leadership</option>
             <option>Manager/Supervisor/Team Lead</option>
@@ -88,7 +90,8 @@ export default function InputForm({ onGenerate }) {
           <select
             value={formData.format}
             onChange={(e) => setFormData({ ...formData, format: e.target.value })}
-            className="w-full px-4 py-3 bg-white/5 border-2 border-white/10 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:bg-white/[0.12] transition-all"
+            className="w-full px-4 py-3 border-2 border-white/10 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all"
+            style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
           >
             <option>Training</option>
             <option>Workshop</option>
