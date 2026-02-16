@@ -14,27 +14,26 @@ export default function InputForm({ onGenerate }) {
   });
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
-  
-  try {
-    const result = await generateTraining(formData);
+    e.preventDefault();
+    setLoading(true);
     
-    // ✅ DEBUG: Log what we're passing to parent
-    console.log('🔍 InputForm sending to App:', result);
-    console.log('🔍 isLocked value:', result.isLocked);
-    
-    onGenerate(result);
-  } catch (error) {
-    console.error('Generation failed:', error);
-    alert('Generation failed. Please try again.');
-  } finally {
-    setLoading(false);
-  }
-};
+    try {
+      const result = await generateTraining(formData);
+      
+      console.log('🔍 InputForm sending to App:', result);
+      console.log('🔍 isLocked value:', result.isLocked);
+      
+      onGenerate(result);
+    } catch (error) {
+      console.error('Generation failed:', error);
+      alert('Generation failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 bg-gray-900/20 backdrop-blur-2xl p-8 rounded-2xl border border-purple-500/40 shadow-2xl">
+    <form onSubmit={handleSubmit} className="space-y-6 bg-white/[0.05] backdrop-blur-[20px] p-8 rounded-3xl border border-white/10 shadow-2xl">
       <div>
         <label className="block text-sm font-medium mb-2">Purpose of Training</label>
         <input
@@ -42,7 +41,7 @@ export default function InputForm({ onGenerate }) {
           value={formData.topic}
           onChange={(e) => setFormData({ ...formData, topic: e.target.value })}
           placeholder="e.g., Strategic Planning, Python Programming"
-         className="space-y-6 bg-white/[0.05] backdrop-blur-[20px] p-8 rounded-3xl border border-white/10 shadow-2xl"
+          className="w-full px-4 py-3 bg-white/[0.08] border-2 border-white/[0.15] rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:bg-white/[0.12] transition-all"
           required
         />
       </div>
@@ -54,7 +53,8 @@ export default function InputForm({ onGenerate }) {
           value={formData.companyName}
           onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
           placeholder="e.g., Airtel, Infosys"
-          className="space-y-6 bg-white/[0.05] backdrop-blur-[20px] p-8 rounded-3xl border border-white/10 shadow-2xl"
+          className="w-full px-4 py-3 bg-white/[0.08] border-2 border-white/[0.15] rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:bg-white/[0.12] transition-all"
+        />
       </div>
 
       <div>
@@ -64,7 +64,7 @@ export default function InputForm({ onGenerate }) {
           onChange={(e) => setFormData({ ...formData, companyContext: e.target.value })}
           placeholder="Specific details about their situation..."
           rows="4"
-          className="space-y-6 bg-white/[0.05] backdrop-blur-[20px] p-8 rounded-3xl border border-white/10 shadow-2xl"
+          className="w-full px-4 py-3 bg-white/[0.08] border-2 border-white/[0.15] rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:bg-white/[0.12] transition-all"
         />
       </div>
 
@@ -74,7 +74,7 @@ export default function InputForm({ onGenerate }) {
           <select
             value={formData.audience}
             onChange={(e) => setFormData({ ...formData, audience: e.target.value })}
-            className="space-y-6 bg-white/[0.05] backdrop-blur-[20px] p-8 rounded-3xl border border-white/10 shadow-2xl"
+            className="w-full px-4 py-3 bg-white/[0.08] border-2 border-white/[0.15] rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:bg-white/[0.12] transition-all"
           >
             <option>Executive/C-Suite/Senior Leadership</option>
             <option>Manager/Supervisor/Team Lead</option>
@@ -88,7 +88,7 @@ export default function InputForm({ onGenerate }) {
           <select
             value={formData.format}
             onChange={(e) => setFormData({ ...formData, format: e.target.value })}
-           className="space-y-6 bg-white/[0.05] backdrop-blur-[20px] p-8 rounded-3xl border border-white/10 shadow-2xl"
+            className="w-full px-4 py-3 bg-white/[0.08] border-2 border-white/[0.15] rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:bg-white/[0.12] transition-all"
           >
             <option>Training</option>
             <option>Workshop</option>
