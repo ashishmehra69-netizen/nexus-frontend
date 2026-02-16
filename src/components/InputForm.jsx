@@ -28,26 +28,6 @@ export default function InputForm({ onGenerate }) {
     }
   };
 
-  const inputStyle = {
-    width: '100%',
-    background: 'rgba(255,255,255,0.03)',
-    border: '2px solid rgba(255,255,255,0.15)',
-    borderRadius: '16px',
-    padding: '16px 20px',
-    color: 'white',
-    fontSize: '1em',
-    marginBottom: '20px',
-    transition: 'all 0.3s ease'
-  };
-
-  const labelStyle = {
-    color: 'white',
-    fontWeight: '600',
-    fontSize: '1.05em',
-    marginBottom: '12px',
-    display: 'block'
-  };
-
   return (
     <div style={{
       background: 'rgba(255,255,255,0.05)',
@@ -59,19 +39,18 @@ export default function InputForm({ onGenerate }) {
     }}>
       <form onSubmit={handleSubmit}>
         <div>
-          <label style={labelStyle}>🎓 What's Your Training Topic?</label>
+          <label >🎓 What's Your Training Topic?</label>
           <input
             type="text"
             value={formData.topic}
             onChange={(e) => setFormData({ ...formData, topic: e.target.value })}
             placeholder="Strategic Planning, Medical Diagnosis, Python Programming..."
-            style={inputStyle}
-            onFocus={(e) => {
+            ={(e) => {
               e.target.style.background = 'rgba(255,255,255,0.06)';
               e.target.style.borderColor = '#667eea';
               e.target.style.boxShadow = '0 0 0 4px rgba(102, 126, 234, 0.2)';
             }}
-            onBlur={(e) => {
+            ={(e) => {
               e.target.style.background = 'rgba(255,255,255,0.08)';
               e.target.style.borderColor = 'rgba(255,255,255,0.15)';
               e.target.style.boxShadow = 'none';
@@ -81,19 +60,19 @@ export default function InputForm({ onGenerate }) {
         </div>
 
         <div>
-          <label style={labelStyle}>🏢 Company Name (Optional)</label>
+          <label >🏢 Company Name (Optional)</label>
           <input
             type="text"
             value={formData.companyName}
             onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
             placeholder="e.g., Tata Steel, Apollo Hospitals, Infosys"
-            style={inputStyle}
-            onFocus={(e) => {
+            
+          ={(e) => {
               e.target.style.background = 'rgba(255,255,255,0.06)';
               e.target.style.borderColor = '#667eea';
               e.target.style.boxShadow = '0 0 0 4px rgba(102, 126, 234, 0.2)';
             }}
-            onBlur={(e) => {
+            ={(e) => {
               e.target.style.background = 'rgba(255,255,255,0.08)';
               e.target.style.borderColor = 'rgba(255,255,255,0.15)';
               e.target.style.boxShadow = 'none';
@@ -102,19 +81,19 @@ export default function InputForm({ onGenerate }) {
         </div>
 
         <div>
-          <label style={labelStyle}>📋 Company Context (Optional)</label>
+          <label >📋 Company Context (Optional)</label>
           <textarea
             value={formData.companyContext}
             onChange={(e) => setFormData({ ...formData, companyContext: e.target.value })}
             placeholder="e.g., Manufacturing, 500 employees, digital transformation..."
             rows="3"
-            style={inputStyle}
-            onFocus={(e) => {
+            
+            ={(e) => {
               e.target.style.background = 'rgba(255,255,255,0.06)';
               e.target.style.borderColor = '#667eea';
               e.target.style.boxShadow = '0 0 0 4px rgba(102, 126, 234, 0.2)';
             }}
-            onBlur={(e) => {
+            ={(e) => {
               e.target.style.background = 'rgba(255,255,255,0.08)';
               e.target.style.borderColor = 'rgba(255,255,255,0.15)';
               e.target.style.boxShadow = 'none';
@@ -123,17 +102,17 @@ export default function InputForm({ onGenerate }) {
         </div>
 
         <div>
-          <label style={labelStyle}>👥 Audience Level</label>
+          <label >👥 Audience Level</label>
           <select
             value={formData.audience}
             onChange={(e) => setFormData({ ...formData, audience: e.target.value })}
             style={{...inputStyle, cursor: 'pointer'}}
-            onFocus={(e) => {
+            ={(e) => {
               e.target.style.background = 'rgba(255,255,255,0.06)';
               e.target.style.borderColor = '#667eea';
               e.target.style.boxShadow = '0 0 0 4px rgba(102, 126, 234, 0.2)';
             }}
-            onBlur={(e) => {
+            ={(e) => {
               e.target.style.background = 'rgba(255,255,255,0.08)';
               e.target.style.borderColor = 'rgba(255,255,255,0.15)';
               e.target.style.boxShadow = 'none';
@@ -148,7 +127,7 @@ export default function InputForm({ onGenerate }) {
 
         <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px'}}>
           <div>
-            <label style={labelStyle}>📚 Format</label>
+            <label >📚 Format</label>
             <div style={{
               background: 'rgba(255,255,255,0.05)',
               border: '1px solid rgba(255,255,255,0.1)',
@@ -182,7 +161,7 @@ export default function InputForm({ onGenerate }) {
           </div>
 
           <div>
-            <label style={labelStyle}>⏱️ Duration</label>
+            <label >⏱️ Duration</label>
             <div style={{
               background: 'rgba(255,255,255,0.05)',
               border: '1px solid rgba(255,255,255,0.1)',
