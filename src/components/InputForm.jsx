@@ -45,12 +45,12 @@ export default function InputForm({ onGenerate }) {
             value={formData.topic}
             onChange={(e) => setFormData({ ...formData, topic: e.target.value })}
             placeholder="Strategic Planning, Medical Diagnosis, Python Programming..."
-            ={(e) => {
+         
               e.target.style.background = 'rgba(255,255,255,0.06)';
               e.target.style.borderColor = '#667eea';
               e.target.style.boxShadow = '0 0 0 4px rgba(102, 126, 234, 0.2)';
             }}
-            ={(e) => {
+           
               e.target.style.background = 'rgba(255,255,255,0.08)';
               e.target.style.borderColor = 'rgba(255,255,255,0.15)';
               e.target.style.boxShadow = 'none';
@@ -67,12 +67,12 @@ export default function InputForm({ onGenerate }) {
             onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
             placeholder="e.g., Tata Steel, Apollo Hospitals, Infosys"
             
-          ={(e) => {
+     
               e.target.style.background = 'rgba(255,255,255,0.06)';
               e.target.style.borderColor = '#667eea';
               e.target.style.boxShadow = '0 0 0 4px rgba(102, 126, 234, 0.2)';
             }}
-            ={(e) => {
+           
               e.target.style.background = 'rgba(255,255,255,0.08)';
               e.target.style.borderColor = 'rgba(255,255,255,0.15)';
               e.target.style.boxShadow = 'none';
@@ -88,12 +88,12 @@ export default function InputForm({ onGenerate }) {
             placeholder="e.g., Manufacturing, 500 employees, digital transformation..."
             rows="3"
             
-            ={(e) => {
+           
               e.target.style.background = 'rgba(255,255,255,0.06)';
               e.target.style.borderColor = '#667eea';
               e.target.style.boxShadow = '0 0 0 4px rgba(102, 126, 234, 0.2)';
             }}
-            ={(e) => {
+          
               e.target.style.background = 'rgba(255,255,255,0.08)';
               e.target.style.borderColor = 'rgba(255,255,255,0.15)';
               e.target.style.boxShadow = 'none';
@@ -107,12 +107,12 @@ export default function InputForm({ onGenerate }) {
             value={formData.audience}
             onChange={(e) => setFormData({ ...formData, audience: e.target.value })}
             style={{...inputStyle, cursor: 'pointer'}}
-            ={(e) => {
+         
               e.target.style.background = 'rgba(255,255,255,0.06)';
               e.target.style.borderColor = '#667eea';
               e.target.style.boxShadow = '0 0 0 4px rgba(102, 126, 234, 0.2)';
             }}
-            ={(e) => {
+            
               e.target.style.background = 'rgba(255,255,255,0.08)';
               e.target.style.borderColor = 'rgba(255,255,255,0.15)';
               e.target.style.boxShadow = 'none';
