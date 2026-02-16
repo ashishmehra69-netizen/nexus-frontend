@@ -30,7 +30,7 @@ export default function InputForm({ onGenerate }) {
 
   const inputStyle = {
     width: '100%',
-    background: 'rgba(255,255,255,0.08)',
+    background: 'rgba(255,255,255,0.03)',
     border: '2px solid rgba(255,255,255,0.15)',
     borderRadius: '16px',
     padding: '16px 20px',
@@ -67,7 +67,7 @@ export default function InputForm({ onGenerate }) {
             placeholder="Strategic Planning, Medical Diagnosis, Python Programming..."
             style={inputStyle}
             onFocus={(e) => {
-              e.target.style.background = 'rgba(255,255,255,0.12)';
+              e.target.style.background = 'rgba(255,255,255,0.06)';
               e.target.style.borderColor = '#667eea';
               e.target.style.boxShadow = '0 0 0 4px rgba(102, 126, 234, 0.2)';
             }}
@@ -89,7 +89,7 @@ export default function InputForm({ onGenerate }) {
             placeholder="e.g., Tata Steel, Apollo Hospitals, Infosys"
             style={inputStyle}
             onFocus={(e) => {
-              e.target.style.background = 'rgba(255,255,255,0.12)';
+              e.target.style.background = 'rgba(255,255,255,0.06)';
               e.target.style.borderColor = '#667eea';
               e.target.style.boxShadow = '0 0 0 4px rgba(102, 126, 234, 0.2)';
             }}
@@ -110,7 +110,7 @@ export default function InputForm({ onGenerate }) {
             rows="3"
             style={inputStyle}
             onFocus={(e) => {
-              e.target.style.background = 'rgba(255,255,255,0.12)';
+              e.target.style.background = 'rgba(255,255,255,0.06)';
               e.target.style.borderColor = '#667eea';
               e.target.style.boxShadow = '0 0 0 4px rgba(102, 126, 234, 0.2)';
             }}
@@ -129,7 +129,7 @@ export default function InputForm({ onGenerate }) {
             onChange={(e) => setFormData({ ...formData, audience: e.target.value })}
             style={{...inputStyle, cursor: 'pointer'}}
             onFocus={(e) => {
-              e.target.style.background = 'rgba(255,255,255,0.12)';
+              e.target.style.background = 'rgba(255,255,255,0.06)';
               e.target.style.borderColor = '#667eea';
               e.target.style.boxShadow = '0 0 0 4px rgba(102, 126, 234, 0.2)';
             }}
