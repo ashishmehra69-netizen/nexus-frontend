@@ -34,6 +34,7 @@ export default function InputForm({ onGenerate }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 bg-white/[0.02] backdrop-blur-sm p-8 rounded-3xl border border-white/20 shadow-2xl">
+      <div>
         <label className="block text-sm font-medium mb-2">Purpose of Training</label>
         <input
           type="text"
@@ -67,6 +68,7 @@ export default function InputForm({ onGenerate }) {
           rows="4"
           className="w-full px-4 py-3 border-2 border-white/10 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all"
           style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
+        />
       </div>
 
       <div className="grid grid-cols-2 gap-4">
