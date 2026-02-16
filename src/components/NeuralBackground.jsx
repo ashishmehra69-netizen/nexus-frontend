@@ -77,7 +77,7 @@ function NeuralNetwork() {
 
 export default function NeuralBackground() {
   return (
-    <div className="fixed inset-0 -z-10 bg-gradient-to-br from-purple-900 via-gray-900 to-green-900">
+    <div className="fixed inset-0 -z-0 bg-gradient-to-br from-purple-900 via-gray-900 to-green-900">
       <Canvas camera={{ position: [0, 0, 10], fov: 50 }}>
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} />
