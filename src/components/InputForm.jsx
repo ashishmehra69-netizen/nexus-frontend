@@ -40,7 +40,7 @@ export default function InputForm({ onGenerate }) {
           onChange={(e) => setFormData({ ...formData, topic: e.target.value })}
           placeholder="e.g., Strategic Planning, Python Programming"
           className="w-full px-4 py-3 border-2 border-white/10 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all"
-          style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
+          style={{ backgroundColor: 'rgba(255, 255, 255, 0.15)', backdropFilter: 'blur(10px)' }}
           required
         />
       </div>
@@ -53,7 +53,7 @@ export default function InputForm({ onGenerate }) {
           onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
           placeholder="e.g., Airtel, Infosys"
           className="w-full px-4 py-3 border-2 border-white/10 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all"
-          style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
+          style={{ backgroundColor: 'rgba(255, 255, 255, 0.15)', backdropFilter: 'blur(10px)' }}
         />
       </div>
 
@@ -65,7 +65,7 @@ export default function InputForm({ onGenerate }) {
           placeholder="Specific details about their situation..."
           rows="4"
           className="w-full px-4 py-3 border-2 border-white/10 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all"
-          style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
+          style={{ backgroundColor: 'rgba(255, 255, 255, 0.15)', backdropFilter: 'blur(10px)' }}
         />
       </div>
 
@@ -76,7 +76,7 @@ export default function InputForm({ onGenerate }) {
             value={formData.audience}
             onChange={(e) => setFormData({ ...formData, audience: e.target.value })}
             className="w-full px-4 py-3 border-2 border-white/10 rounded-2xl text-white focus:outline-none focus:border-purple-500 transition-all"
-            style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
+            style={{ backgroundColor: 'rgba(255, 255, 255, 0.15)', backdropFilter: 'blur(10px)' }}
           >
             <option>Executive/C-Suite/Senior Leadership</option>
             <option>Manager/Supervisor/Team Lead</option>
@@ -91,7 +91,7 @@ export default function InputForm({ onGenerate }) {
             value={formData.format}
             onChange={(e) => setFormData({ ...formData, format: e.target.value })}
             className="w-full px-4 py-3 border-2 border-white/10 rounded-2xl text-white focus:outline-none focus:border-purple-500 transition-all"
-            style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
+            style={{ backgroundColor: 'rgba(255, 255, 255, 0.15)', backdropFilter: 'blur(10px)' }}
           >
             <option>Training</option>
             <option>Workshop</option>
