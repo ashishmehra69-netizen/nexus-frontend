@@ -215,9 +215,9 @@ function App() {
         `https://ashishmehra-nexus-backend.hf.space/api/unlock/${sessionId}`,
         { method: 'POST' }
       );
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      if (!response.ok) throw new Error('Generation failed');
       const data = await response.json();
-      setGeneratedContent({ ...generatedContent, content: data.content, facilitator: data.facilitator, handout: data.handout, isLocked: false });
+      setGeneratedContent({ ...data, isLocked: true });
     } catch (error) {
       alert(`Failed to unlock: ${error.message}`);
     }
