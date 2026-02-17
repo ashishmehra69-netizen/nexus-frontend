@@ -26,6 +26,7 @@ export default function InputForm({ onGenerate, isGenerating }) {
   const radioOptionStyle = (selected) => ({
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'space-between',
     gap: '8px',
     padding: '10px 16px',
     borderRadius: '10px',
@@ -49,42 +50,76 @@ export default function InputForm({ onGenerate, isGenerating }) {
       <form onSubmit={handleSubmit}>
 
         {/* Topic */}
-        <div>
-          <label>🎓 What's Your Training Topic?</label>
+        <div style={{ marginBottom: '20px' }}>
+          <label style={{ color: 'white', fontWeight: '600', display: 'block', marginBottom: '8px' }}>🎓 What's Your Training Topic?</label>
           <input
             type="text"
             value={formData.topic}
             onChange={(e) => setFormData({ ...formData, topic: e.target.value })}
             placeholder="Strategic Planning, Medical Diagnosis, Python Programming..."
             required
+            style={{
+              width: '100%',
+              background: 'rgba(255,255,255,0.08)',
+              border: '1px solid rgba(255,255,255,0.2)',
+              borderRadius: '12px',
+              padding: '12px 16px',
+              color: 'white',
+              fontFamily: 'inherit',
+              fontSize: '1em',
+              boxSizing: 'border-box'
+            }}
           />
         </div>
 
         {/* Company Name */}
-        <div>
-          <label>🏢 Company Name (Optional)</label>
+        <div style={{ marginBottom: '20px' }}>
+          <label style={{ color: 'white', fontWeight: '600', display: 'block', marginBottom: '8px' }}>🏢 Company Name (Optional)</label>
           <input
             type="text"
             value={formData.companyName}
             onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
             placeholder="e.g., Tata Steel, Apollo Hospitals, Infosys"
+            style={{
+              width: '100%',
+              background: 'rgba(255,255,255,0.08)',
+              border: '1px solid rgba(255,255,255,0.2)',
+              borderRadius: '12px',
+              padding: '12px 16px',
+              color: 'white',
+              fontFamily: 'inherit',
+              fontSize: '1em',
+              boxSizing: 'border-box'
+            }}
           />
         </div>
 
         {/* Company Context */}
-        <div>
-          <label>📋 Company Context (Optional)</label>
+        <div style={{ marginBottom: '20px' }}>
+          <label style={{ color: 'white', fontWeight: '600', display: 'block', marginBottom: '8px' }}>📋 Company Context (Optional)</label>
           <textarea
             value={formData.companyContext}
             onChange={(e) => setFormData({ ...formData, companyContext: e.target.value })}
             placeholder="e.g., Manufacturing, 500 employees, digital transformation..."
             rows="3"
+            style={{
+              width: '100%',
+              background: 'rgba(255,255,255,0.08)',
+              border: '1px solid rgba(255,255,255,0.2)',
+              borderRadius: '12px',
+              padding: '12px 16px',
+              color: 'white',
+              fontFamily: 'inherit',
+              fontSize: '1em',
+              resize: 'vertical',
+              boxSizing: 'border-box'
+            }}
           />
         </div>
 
         {/* Audience Level */}
-        <div>
-          <label>👥 Audience Level</label>
+        <div style={{ marginBottom: '20px' }}>
+          <label style={{ color: 'white', fontWeight: '600', display: 'block', marginBottom: '10px' }}>👥 Audience Level</label>
           <div style={radioGroupStyle}>
             {[
               'Executive/C-Suite/Senior Leadership',
@@ -93,37 +128,37 @@ export default function InputForm({ onGenerate, isGenerating }) {
               'Individual Contributor/Specialist'
             ].map((aud) => (
               <label key={aud} style={radioOptionStyle(formData.audience === aud)}>
+                <span>{aud}</span>
                 <input type="radio" name="audience" value={aud}
                   checked={formData.audience === aud}
                   onChange={(e) => setFormData({ ...formData, audience: e.target.value })}
-                  style={{ accentColor: '#667eea' }}
+                  style={{ accentColor: '#667eea', flexShrink: 0 }}
                 />
-                {aud}
               </label>
             ))}
           </div>
         </div>
 
         {/* Format */}
-        <div>
-          <label>📚 Format</label>
+        <div style={{ marginBottom: '20px' }}>
+          <label style={{ color: 'white', fontWeight: '600', display: 'block', marginBottom: '10px' }}>📚 Format</label>
           <div style={radioGroupStyle}>
             {['Training', 'Workshop', 'Action Learning'].map((fmt) => (
               <label key={fmt} style={radioOptionStyle(formData.format === fmt)}>
+                <span>{fmt}</span>
                 <input type="radio" name="format" value={fmt}
                   checked={formData.format === fmt}
                   onChange={(e) => setFormData({ ...formData, format: e.target.value })}
-                  style={{ accentColor: '#667eea' }}
+                  style={{ accentColor: '#667eea', flexShrink: 0 }}
                 />
-                {fmt}
               </label>
             ))}
           </div>
         </div>
 
         {/* Duration */}
-        <div>
-          <label>⏱️ Duration</label>
+        <div style={{ marginBottom: '20px' }}>
+          <label style={{ color: 'white', fontWeight: '600', display: 'block', marginBottom: '10px' }}>⏱️ Duration</label>
           <div style={radioGroupStyle}>
             {[
               'Half Day (3-4 hours)',
@@ -131,30 +166,41 @@ export default function InputForm({ onGenerate, isGenerating }) {
               '2 Days (12-14 hours)'
             ].map((dur) => (
               <label key={dur} style={radioOptionStyle(formData.duration === dur)}>
+                <span>{dur}</span>
                 <input type="radio" name="duration" value={dur}
                   checked={formData.duration === dur}
                   onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
-                  style={{ accentColor: '#667eea' }}
+                  style={{ accentColor: '#667eea', flexShrink: 0 }}
                 />
-                {dur}
               </label>
             ))}
           </div>
         </div>
 
         {/* Delivery Mode */}
-        <div>
-          <label>🖥️ Delivery Mode</label>
-          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85em', marginTop: '-8px', marginBottom: '10px' }}>
+        <div style={{ marginBottom: '20px' }}>
+          <label style={{ color: 'white', fontWeight: '600', display: 'block', marginBottom: '8px' }}>🖥️ Delivery Mode</label>
+          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85em', marginTop: '0', marginBottom: '10px' }}>
             Adjusts exercises and activities for the delivery format
           </p>
           <select
             value={formData.deliveryMode}
             onChange={(e) => setFormData({ ...formData, deliveryMode: e.target.value })}
+            style={{
+              width: '100%',
+              background: 'rgba(255,255,255,0.08)',
+              border: '1px solid rgba(255,255,255,0.2)',
+              borderRadius: '12px',
+              padding: '12px 16px',
+              color: 'white',
+              fontFamily: 'inherit',
+              fontSize: '1em',
+              boxSizing: 'border-box'
+            }}
           >
-            <option>In-Person</option>
-            <option>Virtual</option>
-            <option>Hybrid</option>
+            <option style={{ background: '#1a1f3a' }}>In-Person</option>
+            <option style={{ background: '#1a1f3a' }}>Virtual</option>
+            <option style={{ background: '#1a1f3a' }}>Hybrid</option>
           </select>
         </div>
 
