@@ -563,8 +563,24 @@ function App() {
                     }}>🔓 Unlock Full Access</button>
                   </div>
                 )}
-                <div className="prose prose-invert max-w-none overflow-auto max-h-[500px]">
-                  <ReactMarkdown>{generatedContent.synopsis}</ReactMarkdown>
+                <div className="text-white font-semibold text-lg mb-3">📊 Generation Complete!</div>
+                <div style={{ fontFamily: 'Monaco, monospace', fontSize: '0.85em', lineHeight: '1.8', color: 'rgba(255,255,255,0.85)' }}>
+                  ✅ Training Generated!<br /><br />
+                  📌 Topic: {pendingFormData?.topic}<br />
+                  🎯 Format: {pendingFormData?.format}<br />
+                  👥 Audience: {pendingFormData?.audience}<br />
+                  ⏱️ Duration: {pendingFormData?.duration}<br />
+                  🌍 Domain: {generatedContent.domain || 'Business'}<br /><br />
+                  {generatedContent.isLocked
+                    ? '🔒 Click Unlock above to view full content'
+                    : '🔓 Content unlocked and ready!'}
+                  <br /><br />
+                  📋 Available Tabs:<br />
+                  ✓ Synopsis — Overview & objectives<br />
+                  ✓ Content — Full training modules<br />
+                  ✓ Facilitator — Delivery guide<br />
+                  ✓ Handout — Participant materials<br />
+                  ✓ PPT — Export to presentation<br />
                 </div>
               </div>
             ) : (
