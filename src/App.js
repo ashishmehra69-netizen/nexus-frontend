@@ -156,7 +156,7 @@ function App() {
           </div>
           
           <div className="p-9 rounded-3xl" style={{
-            background: 'rgba(255,255,255,0.05)',
+            background: 'rgba(0,0,0,0.3)',  // More transparent
             backdropFilter: 'blur(20px)',
             border: '1px solid rgba(255,255,255,0.1)',
             boxShadow: '0 8px 32px rgba(0,0,0,0.3)'
@@ -181,7 +181,7 @@ function App() {
               <div>
                 <label className="text-white font-semibold text-lg block mb-3">📊 Generation Status</label>
                 <div className="p-8 rounded-2xl text-white" style={{
-                  background: 'rgba(255,255,255,0.05)',
+                  background: 'transparent',
                   border: '1px solid rgba(255,255,255,0.1)',
                   fontFamily: 'Monaco, monospace',
                   fontSize: '0.95em',
@@ -219,7 +219,7 @@ function App() {
         {generatedContent && (
           <div>
             <div className="flex gap-2 p-2 rounded-2xl mb-6" style={{
-              background: 'rgba(255,255,255,0.05)',
+              background: 'transparent',
               border: '1px solid rgba(255,255,255,0.1)',
               backdropFilter: 'blur(10px)'
             }}>
@@ -246,7 +246,7 @@ function App() {
             </div>
 
             <div className="p-9 rounded-3xl" style={{
-              background: 'rgba(255,255,255,0.05)',
+              background: 'transparent',
               backdropFilter: 'blur(20px)',
               border: '1px solid rgba(255,255,255,0.1)',
               boxShadow: '0 8px 32px rgba(0,0,0,0.3)'
