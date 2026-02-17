@@ -25,8 +25,10 @@ export default function InputForm({ onGenerate, isGenerating }) {
 
  const radioOptionStyle = (selected) => ({
   display: 'flex',
+  flexDirection: 'row',
   alignItems: 'center',
   justifyContent: 'space-between',
+  verticalAlign: 'middle',
   gap: '8px',
   padding: '12px 16px',
   borderRadius: '10px',
@@ -146,7 +148,7 @@ With this detail, you get HYPER-SPECIFIC training worth 10x more.`}
               <input type="radio" name="audience" value={aud}
                 checked={formData.audience === aud}
                 onChange={(e) => setFormData({ ...formData, audience: e.target.value })}
-                style={{ accentColor: '#667eea', width: '16px', height: '16px', flexShrink: 0, cursor: 'pointer' }}
+                style={{ accentColor: '#667eea', width: '16px', height: '16px', flexShrink: 0, cursor: 'pointer', marginTop: '0', display: 'block' }}
               />
             </label>
           ))}
@@ -160,7 +162,7 @@ With this detail, you get HYPER-SPECIFIC training worth 10x more.`}
               <input type="radio" name="format" value={fmt}
                 checked={formData.format === fmt}
                 onChange={(e) => setFormData({ ...formData, format: e.target.value })}
-                style={{ accentColor: '#667eea', width: '16px', height: '16px', flexShrink: 0, cursor: 'pointer' }}
+                style={{ accentColor: '#667eea', width: '16px', height: '16px', flexShrink: 0, cursor: 'pointer', marginTop: '0', display: 'block' }}
               />
             </label>
           ))}
@@ -177,7 +179,7 @@ With this detail, you get HYPER-SPECIFIC training worth 10x more.`}
               <input type="radio" name="duration" value={dur}
                 checked={formData.duration === dur}
                 onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
-                style={{ accentColor: '#667eea', width: '16px', height: '16px', flexShrink: 0, cursor: 'pointer' }}
+                style={{ accentColor: '#667eea', width: '16px', height: '16px', flexShrink: 0, cursor: 'pointer', marginTop: '0', display: 'block' }}
               />
             </label>
           ))}
