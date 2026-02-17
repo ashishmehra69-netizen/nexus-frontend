@@ -43,7 +43,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen relative" style={{ background: '#0a0e27', padding: '40px 20px' }}>
+    <div className="min-h-screen relative" style={{ background: 'transparent', padding: '40px 20px' }}>
       <NeuralBackground />
       
       <div className="relative z-10 container mx-auto" style={{ maxWidth: '1400px' }}>
