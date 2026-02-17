@@ -338,8 +338,8 @@ function App() {
 
 clearTimeout(timeoutId);
       if (!response.ok) throw new Error('Generation failed');
-      const timeTaken = ((Date.now() - startTime) / 1000).toFixed(1);
-      setGeneratedContent({ ...data, isLocked: true, timeTaken });
+      const data = await response.json();
+      setGeneratedContent({ ...data, isLocked: true });
       setActiveTab('synopsis');
     } catch (error) {
       if (error.name === 'AbortError') {
