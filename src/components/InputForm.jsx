@@ -150,7 +150,7 @@ With this detail, you get HYPER-SPECIFIC training worth 10x more.`}
               <input type="radio" name="audience" value={aud}
                 checked={formData.audience === aud}
                 onChange={(e) => setFormData({ ...formData, audience: e.target.value })}
-                style={{ accentColor: '#667eea', width: '16px', height: '16px', flexShrink: 0, cursor: 'pointer', marginTop: '0', display: 'block' }}
+                style={{ accentColor: '#667eea', width: '16px', height: '16px', flexShrink: 0, cursor: 'pointer', margin: 'auto 0' }}
               />
             </label>
           ))}
@@ -164,7 +164,7 @@ With this detail, you get HYPER-SPECIFIC training worth 10x more.`}
               <input type="radio" name="format" value={fmt}
                 checked={formData.format === fmt}
                 onChange={(e) => setFormData({ ...formData, format: e.target.value })}
-                style={{ accentColor: '#667eea', width: '16px', height: '16px', flexShrink: 0, cursor: 'pointer', marginTop: '0', display: 'block' }}
+                style={{ accentColor: '#667eea', width: '16px', height: '16px', flexShrink: 0, cursor: 'pointer', margin: 'auto 0' }}
               />
             </label>
           ))}
@@ -181,7 +181,7 @@ With this detail, you get HYPER-SPECIFIC training worth 10x more.`}
               <input type="radio" name="duration" value={dur}
                 checked={formData.duration === dur}
                 onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
-                style={{ accentColor: '#667eea', width: '16px', height: '16px', flexShrink: 0, cursor: 'pointer', marginTop: '0', display: 'block' }}
+                style={{ accentColor: '#667eea', width: '16px', height: '16px', flexShrink: 0, cursor: 'pointer', margin: 'auto 0' }}
               />
             </label>
           ))}
