@@ -319,7 +319,7 @@ function App() {
       }
 
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 180000); // 3 minutes
+      const timeoutId = setTimeout(() => controller.abort(), 300000); // 5 minutes
 
       const response = await fetch('https://ashishmehra-nexus-backend.hf.space/api/generate', {
         method: 'POST',
@@ -342,12 +342,13 @@ clearTimeout(timeoutId);
       setGeneratedContent({ ...data, isLocked: true });
       setActiveTab('synopsis');
     } catch (error) {
+      console.error('Full error:', error);
       if (error.name === 'AbortError') {
-        alert('Generation is taking longer than 3 minutes. Please try again.');
+        alert(`Timed out after ${Math.round((Date.now() - startTime)/1000)}s`);
       } else {
-        alert(`Generation failed: ${error.message}`);
+        alert(`Error: ${error.message} | Type: ${error.name}`);
       }
-}
+    }
   };
 
   const UnlockButton = () => (
