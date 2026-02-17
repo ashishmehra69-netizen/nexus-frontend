@@ -23,7 +23,6 @@ const textareaStyle = {
   fontFamily: 'inherit'
 };
 
-// Domain detection matching backend logic
 const TECHNICAL_DOMAINS = ['engineering', 'manufacturing', 'automotive', 'construction', 'technical', 'quality', 'production', 'machine', 'equipment', 'process', 'safety', 'maintenance'];
 const BEHAVIORAL_DOMAINS = ['business', 'sales', 'marketing', 'leadership', 'management', 'communication', 'finance', 'legal', 'education', 'training', 'strategy', 'hr', 'planning', 'team', 'coaching'];
 
@@ -75,8 +74,9 @@ const SAMPLE_CONTENT = `# SAMPLE: Strategic Planning Training
 4. Write your positioning statement: "We are the only _____ that _____"
 
 ### Resources to Go Deeper
-- YouTube search: "blue ocean strategy explained 3 minutes"
-- YouTube search: "cirque du soleil blue ocean strategy case study"
+- [Blue Ocean Strategy - Harvard Business Review](https://hbr.org/search?term=blue+ocean+strategy)
+- [McKinsey - Strategic Planning Insights](https://www.mckinsey.com/capabilities/strategy-and-corporate-finance/our-insights)
+- [BCG - Strategy Resources](https://www.bcg.com/capabilities/strategy)
 
 ---
 
@@ -94,6 +94,62 @@ const SAMPLE_CONTENT = `# SAMPLE: Strategic Planning Training
 
 ---
 *This is an abbreviated sample. Your generated training will include ALL modules with elaborate frameworks, templates, and curated video resources.*`;
+
+const HOW_TO_CONTENT = `# How to Use NEXUS
+
+## 🚀 Quick Start Guide
+
+### Step 1: Enter Your Topic
+Enter any professional topic in the "What's Your Training Topic?" field.
+
+**Examples:**
+- Strategic Planning
+- Leadership Coaching
+- Python Programming
+- Ophthalmology for Residents
+- Car Engine Diagnostics
+- Tensile Testing Procedures
+
+### Step 2: Add Company Details (Optional)
+- **Company Name**: Enter the company receiving this training
+- **Company Context**: Add specific details about their situation
+- More detail = more customized training!
+
+### Step 3: Select Settings
+- **Audience Level**: Executive, Manager, Emerging Leader, or Individual
+- **Format**: Training, Workshop, or Action Learning
+- **Duration**: Half Day, 1 Day, or 2 Days
+- **Delivery Mode**: In-Person, Virtual, or Hybrid
+
+### Step 4: Click Generate
+- Answer the context questions for better results
+- Wait 45-60 seconds while NEXUS creates your content
+- Click **Unlock Full Access** to view all materials
+
+---
+
+## 📦 What You'll Get
+
+✅ Complete training content with frameworks and examples
+
+✅ Facilitator guide with talking points
+
+✅ Participant handout with note-taking space
+
+✅ PowerPoint export ready for AI generation
+
+---
+
+## 💡 Pro Tips
+
+1. Be specific with your topic
+2. Add company context for hyper-customized content
+3. Choose audience level carefully
+4. Check the **Sample** tab to see example output
+
+---
+
+**Ready? Fill in your topic above and click Generate!**`;
 
 function getPPTPrompt(topic) {
   return `Create a professional presentation on: ${topic || 'Training Topic'}
@@ -127,7 +183,7 @@ function App() {
   const [elapsedTime, setElapsedTime] = useState(0);
   const [showQuestions, setShowQuestions] = useState(false);
   const [pendingFormData, setPendingFormData] = useState(null);
-  const [detectedDomain, setDetectedDomain] = useState('general');
+  const [detectedDomain, setDetectedDomain] = useState('behavioral');
   const [pptCopied, setPptCopied] = useState(false);
   const [answers, setAnswers] = useState({
     challenges: '',
@@ -165,6 +221,57 @@ function App() {
     } catch (error) {
       alert(`Failed to unlock: ${error.message}`);
     }
+  };
+
+  const openContentPopup = (content, title) => {
+    const newWin = window.open('', '_blank', 'width=1000,height=800,scrollbars=yes');
+    if (!newWin) { alert('Please allow popups for this site'); return; }
+    newWin.document.write(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>${title}</title>
+        <style>
+          body { font-family: Georgia, serif; max-width: 900px; margin: 40px auto; padding: 20px 40px; color: #111; line-height: 1.8; font-size: 16px; background: #fff; }
+          h1 { color: #1a1a2e; border-bottom: 3px solid #667eea; padding-bottom: 10px; font-size: 2em; }
+          h2 { color: #2d1b4e; border-bottom: 1px solid #ddd; padding-bottom: 6px; margin-top: 30px; font-size: 1.5em; }
+          h3 { color: #333; margin-top: 20px; font-size: 1.2em; }
+          strong { color: #1a1a2e; }
+          ul, ol { margin: 10px 0; padding-left: 25px; }
+          li { margin: 6px 0; }
+          blockquote { border-left: 4px solid #667eea; padding-left: 15px; color: #555; font-style: italic; margin: 20px 0; }
+          hr { border: none; border-top: 2px solid #eee; margin: 30px 0; }
+          p { margin: 12px 0; }
+          .print-btn { position: fixed; top: 20px; right: 20px; padding: 12px 24px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: bold; box-shadow: 0 4px 15px rgba(102,126,234,0.4); z-index: 1000; }
+          .print-btn:hover { opacity: 0.9; }
+          @media print { .print-btn { display: none; } }
+        </style>
+      </head>
+      <body>
+        <button class="print-btn" onclick="window.print()">🖨️ Print / Save PDF</button>
+        <div id="content"></div>
+        <script>
+          const raw = ${JSON.stringify(content)};
+          // Simple markdown to HTML conversion
+          let html = raw
+            .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+            .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+            .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+            .replace(/\\*\\*(.+?)\\*\\*/g, '<strong>$1</strong>')
+            .replace(/\\*(.+?)\\*/g, '<em>$1</em>')
+            .replace(/^\\* (.+)$/gm, '<li>$1</li>')
+            .replace(/^- (.+)$/gm, '<li>$1</li>')
+            .replace(/(<li>.*<\\/li>)/gs, '<ul>$1</ul>')
+            .replace(/^---$/gm, '<hr>')
+            .replace(/\\[([^\\]]+)\\]\\(([^)]+)\\)/g, '<a href="$2" target="_blank" style="color:#667eea;">$1</a>')
+            .replace(/\\n\\n/g, '</p><p>')
+            .replace(/^(.+)$/gm, '$1');
+          document.getElementById('content').innerHTML = '<p>' + html + '</p>';
+        </script>
+      </body>
+      </html>
+    `);
+    newWin.document.close();
   };
 
   const handleFormSubmit = (formData) => {
@@ -243,6 +350,26 @@ function App() {
     </div>
   );
 
+  const OpenFullPageButton = ({ content, title }) => (
+    <button
+      onClick={() => openContentPopup(content, title)}
+      style={{
+        marginBottom: '16px',
+        padding: '10px 20px',
+        background: 'linear-gradient(135deg, #667eea, #764ba2)',
+        color: 'white',
+        border: 'none',
+        borderRadius: '8px',
+        cursor: 'pointer',
+        fontWeight: 'bold',
+        fontSize: '0.9em',
+        display: 'block'
+      }}
+    >
+      📄 Open Full Page (White Background)
+    </button>
+  );
+
   return (
     <div className="min-h-screen relative" style={{ background: 'transparent', padding: '40px 20px' }}>
       <NeuralBackground />
@@ -286,12 +413,11 @@ function App() {
           ))}
         </div>
 
-        {/* ===== ENHANCEMENT QUESTIONS MODAL ===== */}
+        {/* Enhancement Questions Modal */}
         {showQuestions && (
           <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(10px)' }}>
             <div style={{ ...cardStyle, maxWidth: '650px', width: '92%', maxHeight: '90vh', overflowY: 'auto' }}>
               
-              {/* Header */}
               <div className="text-center mb-6 p-4 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(102,126,234,0.3), rgba(118,75,162,0.3))' }}>
                 <h2 className="text-2xl font-bold text-white mb-1">✨ Quick Context Check</h2>
                 <p style={{ color: 'rgba(255,255,255,0.8)' }}>Answer 2-3 quick questions to make your training hyper-specific</p>
@@ -306,7 +432,6 @@ function App() {
               </div>
 
               <div className="space-y-5">
-
                 {/* Q1 - Always shown */}
                 <div>
                   <label className="text-white font-semibold block mb-1">
@@ -376,7 +501,6 @@ function App() {
                 </div>
               </div>
 
-              {/* Buttons */}
               <div className="flex gap-3 mt-6">
                 <button
                   onClick={() => { setShowQuestions(false); generateContent(pendingFormData, answers); }}
@@ -488,91 +612,65 @@ function App() {
           </div>
 
           <div style={cardStyle}>
-             {activeTab === 'synopsis' && (
-                <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
-                  {generatedContent
-                    ? <ReactMarkdown>{generatedContent.synopsis}</ReactMarkdown>
-                    : <ReactMarkdown>{`# How to Use NEXUS
 
-## 🚀 Quick Start Guide
+            {/* SYNOPSIS TAB */}
+            {activeTab === 'synopsis' && (
+              <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
+                {generatedContent
+                  ? <ReactMarkdown>{generatedContent.synopsis}</ReactMarkdown>
+                  : <ReactMarkdown>{HOW_TO_CONTENT}</ReactMarkdown>}
+              </div>
+            )}
 
-### Step 1: Enter Your Topic
-Enter any professional topic in the "What's Your Training Topic?" field.
-
-**Examples:**
-- Strategic Planning
-- Leadership Coaching
-- Python Programming
-- Ophthalmology for Residents
-- Car Engine Diagnostics
-
-### Step 2: Add Company Details (Optional)
-- **Company Name**: Enter the company receiving this training
-- **Company Context**: Add specific details about their situation
-- More detail = more customized training!
-
-### Step 3: Select Settings
-- **Audience Level**: Executive, Manager, Emerging Leader, or Individual
-- **Format**: Training, Workshop, or Action Learning
-- **Duration**: Half Day, 1 Day, or 2 Days
-- **Delivery Mode**: In-Person, Virtual, or Hybrid
-
-### Step 4: Click Generate
-- Answer the context questions for better results
-- Wait 45-60 seconds while NEXUS creates your content
-- Click **Unlock Full Access** to view all materials
-
----
-
-## 📦 What You'll Get
-
-✅ Complete training content with frameworks and examples
-
-✅ Facilitator guide with talking points
-
-✅ Participant handout with note-taking space
-
-✅ PowerPoint export ready for AI generation
-
----
-
-## 💡 Pro Tips
-
-1. Be specific with your topic
-2. Add company context for hyper-customized content
-3. Choose audience level carefully
-4. Check the **Sample** tab to see example output
-
----
-
-**Ready? Fill in your topic above and click Generate!**`}</ReactMarkdown>}
-  </div>
-)}
-
+            {/* CONTENT TAB */}
             {activeTab === 'content' && (
               <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
-                {!generatedContent ? <p style={{ color: 'rgba(255,255,255,0.5)' }}>Generate a training program to see content here.</p>
-                  : generatedContent.isLocked ? <UnlockButton />
-                  : <ReactMarkdown>{generatedContent.content}</ReactMarkdown>}
+                {!generatedContent
+                  ? <p style={{ color: 'rgba(255,255,255,0.5)' }}>Generate a training program to see content here.</p>
+                  : generatedContent.isLocked
+                  ? <UnlockButton />
+                  : (
+                    <div>
+                      <OpenFullPageButton content={generatedContent.content} title="Training Content" />
+                      <ReactMarkdown>{generatedContent.content}</ReactMarkdown>
+                    </div>
+                  )}
               </div>
             )}
 
+            {/* FACILITATOR TAB */}
             {activeTab === 'facilitator' && (
               <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
-                {!generatedContent ? <p style={{ color: 'rgba(255,255,255,0.5)' }}>Generate a training program to see the facilitator guide here.</p>
-                  : generatedContent.isLocked ? <UnlockButton />
-                  : <ReactMarkdown>{generatedContent.facilitator}</ReactMarkdown>}
+                {!generatedContent
+                  ? <p style={{ color: 'rgba(255,255,255,0.5)' }}>Generate a training program to see the facilitator guide here.</p>
+                  : generatedContent.isLocked
+                  ? <UnlockButton />
+                  : (
+                    <div>
+                      <OpenFullPageButton content={generatedContent.facilitator} title="Facilitator Guide" />
+                      <ReactMarkdown>{generatedContent.facilitator}</ReactMarkdown>
+                    </div>
+                  )}
               </div>
             )}
 
+            {/* HANDOUT TAB */}
             {activeTab === 'handout' && (
               <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
-                {!generatedContent ? <p style={{ color: 'rgba(255,255,255,0.5)' }}>Generate a training program to see the handout here.</p>
-                  : generatedContent.isLocked ? <UnlockButton />
-                  : <ReactMarkdown>{generatedContent.handout}</ReactMarkdown>}
+                {!generatedContent
+                  ? <p style={{ color: 'rgba(255,255,255,0.5)' }}>Generate a training program to see the handout here.</p>
+                  : generatedContent.isLocked
+                  ? <UnlockButton />
+                  : (
+                    <div>
+                      <OpenFullPageButton content={generatedContent.handout} title="Participant Handout" />
+                      <ReactMarkdown>{generatedContent.handout}</ReactMarkdown>
+                    </div>
+                  )}
               </div>
             )}
 
+            {/* PPT TAB */}
             {activeTab === 'ppt' && (
               <div>
                 {!generatedContent || generatedContent.isLocked ? (
@@ -622,18 +720,23 @@ Enter any professional topic in the "What's Your Training Topic?" field.
               </div>
             )}
 
-           {activeTab === 'sample' && (
+            {/* SAMPLE TAB */}
+            {activeTab === 'sample' && (
               <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
                 <ReactMarkdown>{SAMPLE_CONTENT}</ReactMarkdown>
               </div>
             )}
 
+            {/* ABOUT CREATOR TAB */}
             {activeTab === 'about' && (
               <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
                 <h1 style={{ color: 'white' }}>About the Creator</h1>
                 <h2 style={{ color: 'rgba(255,255,255,0.9)' }}>Your Professional Thought Partner</h2>
                 <p style={{ color: 'rgba(255,255,255,0.8)' }}>
-                  <strong style={{ color: 'white' }}>Ashish Mehra</strong> is an ICF Level 2 certified transformational coach and leadership trainer with 1,000+ hours of coaching experience, working with CEOs and senior leaders across India, Canada, Singapore, and Africa.
+                  <strong style={{ color: 'white' }}>Ashish Mehra</strong> is an ICF Level 2 certified transformational coach
+                  and leadership trainer with 1,000+ hours of coaching experience, working with CEOs and senior leaders
+                  across India, Canada, Singapore, and Africa. He blends deep coaching expertise with hands-on leadership
+                  experience from global organisations to drive measurable change in mindset, performance, and business impact.
                 </p>
                 <h2 style={{ color: 'rgba(255,255,255,0.9)' }}>Credentials & Experience</h2>
                 <ul style={{ color: 'rgba(255,255,255,0.8)' }}>
@@ -641,10 +744,22 @@ Enter any professional topic in the "What's Your Training Topic?" field.
                   <li>ICF Level 2 Certified Coach</li>
                   <li>3 decades of experience in blue-chip companies: Xerox, Airtel, Singtel, Hitachi</li>
                   <li>Trained by Centre for Creative Leadership</li>
+                  <li>1,000+ hours of coaching experience</li>
                 </ul>
                 <h2 style={{ color: 'rgba(255,255,255,0.9)' }}>Why NEXUS?</h2>
                 <p style={{ color: 'rgba(255,255,255,0.8)' }}>
-                  I created NEXUS to solve a problem I faced repeatedly: spending long hours creating and preparing bespoke training content. After 5 years of manually creating training programs, NEXUS combines my expertise with AI to generate complete, research-backed training programs instantly.
+                  I created NEXUS to solve a problem I faced repeatedly: spending long hours creating
+                  and preparing bespoke training content. After 5 years of manually creating training programs,
+                  I realized traditional design takes 40-80 hours per program. NEXUS combines my expertise in
+                  understanding behaviours and leadership with AI-powered content generation to create
+                  complete, research-backed training programs instantly.
+                </p>
+                <h2 style={{ color: 'rgba(255,255,255,0.9)' }}>My Approach</h2>
+                <p style={{ color: 'rgba(255,255,255,0.8)' }}>
+                  My methodology blends deep inner clarity with sharp business relevance — helping leaders
+                  align who they are with how they lead. I work at the intersection of mindset, behaviour,
+                  and strategy, using powerful inquiry and real-world experiments to create shifts that are
+                  both human and measurable.
                 </p>
                 <h2 style={{ color: 'rgba(255,255,255,0.9)' }}>Connect With Me</h2>
                 <p style={{ color: 'rgba(255,255,255,0.8)' }}>
@@ -663,6 +778,7 @@ Enter any professional topic in the "What's Your Training Topic?" field.
 
           </div>
         </div>
+
       </div>
     </div>
   );
