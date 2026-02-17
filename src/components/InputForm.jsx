@@ -46,7 +46,7 @@ export default function InputForm({ onGenerate, isGenerating }) {
       border: '1px solid rgba(255,255,255,0.15)',
       borderRadius: '24px',
       padding: '35px',
-      boxShadow: '0 8px 32px rgba(0,0,0,0.2)'
+      boxShadow: '0 8px 32px rgba(0,0,0,0.2)''
     }}>
       <form onSubmit={handleSubmit}>
 
