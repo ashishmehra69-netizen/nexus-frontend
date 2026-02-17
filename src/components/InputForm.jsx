@@ -30,6 +30,7 @@ export default function InputForm({ onGenerate, isGenerating }) {
   justifyContent: 'space-between',
   verticalAlign: 'middle',
   gap: '8px',
+  lineHeight: '1',
   padding: '12px 16px',
   borderRadius: '10px',
   cursor: 'pointer',
