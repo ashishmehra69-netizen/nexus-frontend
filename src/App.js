@@ -31,7 +31,7 @@ function detectDomain(topic) {
   const lower = topic.toLowerCase();
   if (TECHNICAL_DOMAINS.some(d => lower.includes(d))) return 'technical';
   if (BEHAVIORAL_DOMAINS.some(d => lower.includes(d))) return 'behavioral';
-  return 'general';
+  return 'behavioral';
 }
 
 const PROGRESS_STEPS = [
@@ -488,13 +488,66 @@ function App() {
           </div>
 
           <div style={cardStyle}>
-            {activeTab === 'synopsis' && (
-              <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
-                {generatedContent
-                  ? <ReactMarkdown>{generatedContent.synopsis}</ReactMarkdown>
-                  : <p style={{ color: 'rgba(255,255,255,0.5)' }}>Generate a training program to see the synopsis here.</p>}
-              </div>
-            )}
+             {activeTab === 'synopsis' && (
+                <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
+                  {generatedContent
+                    ? <ReactMarkdown>{generatedContent.synopsis}</ReactMarkdown>
+                    : <ReactMarkdown>{`# How to Use NEXUS
+
+## 🚀 Quick Start Guide
+
+### Step 1: Enter Your Topic
+Enter any professional topic in the "What's Your Training Topic?" field.
+
+**Examples:**
+- Strategic Planning
+- Leadership Coaching
+- Python Programming
+- Ophthalmology for Residents
+- Car Engine Diagnostics
+
+### Step 2: Add Company Details (Optional)
+- **Company Name**: Enter the company receiving this training
+- **Company Context**: Add specific details about their situation
+- More detail = more customized training!
+
+### Step 3: Select Settings
+- **Audience Level**: Executive, Manager, Emerging Leader, or Individual
+- **Format**: Training, Workshop, or Action Learning
+- **Duration**: Half Day, 1 Day, or 2 Days
+- **Delivery Mode**: In-Person, Virtual, or Hybrid
+
+### Step 4: Click Generate
+- Answer the context questions for better results
+- Wait 45-60 seconds while NEXUS creates your content
+- Click **Unlock Full Access** to view all materials
+
+---
+
+## 📦 What You'll Get
+
+✅ Complete training content with frameworks and examples
+
+✅ Facilitator guide with talking points
+
+✅ Participant handout with note-taking space
+
+✅ PowerPoint export ready for AI generation
+
+---
+
+## 💡 Pro Tips
+
+1. Be specific with your topic
+2. Add company context for hyper-customized content
+3. Choose audience level carefully
+4. Check the **Sample** tab to see example output
+
+---
+
+**Ready? Fill in your topic above and click Generate!**`}</ReactMarkdown>}
+  </div>
+)}
 
             {activeTab === 'content' && (
               <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
