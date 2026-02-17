@@ -264,6 +264,7 @@ function App() {
             .replace(/(<li>.*<\\/li>)/gs, '<ul>$1</ul>')
             .replace(/^---$/gm, '<hr>')
             .replace(/\\[([^\\]]+)\\]\\(([^)]+)\\)/g, '<a href="$2" target="_blank" style="color:#667eea;">$1</a>')
+            .replace(/Link: (https?:\/\/[^\s\n]+)/g, '<a href="$1" target="_blank" style="color:#667eea;text-decoration:underline;">🔗 View Source</a>')
             .replace(/\\n\\n/g, '</p><p>')
             .replace(/^(.+)$/gm, '$1');
           document.getElementById('content').innerHTML = '<p>' + html + '</p>';
