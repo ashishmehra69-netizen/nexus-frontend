@@ -215,14 +215,20 @@ function App() {
         `https://ashishmehra-nexus-backend.hf.space/api/unlock/${sessionId}`,
         { method: 'POST' }
       );
-      if (!response.ok) throw new Error('Generation failed');
-      const data = await response.json();
-      setGeneratedContent({ ...data, isLocked: true });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const text = await response.text();
+      const data = JSON.parse(text);
+      setGeneratedContent({
+        ...generatedContent,
+        content: data.content,
+        facilitator: data.facilitator,
+        handout: data.handout,
+        isLocked: false
+      });
     } catch (error) {
       alert(`Failed to unlock: ${error.message}`);
     }
   };
-
   const openContentPopup = (content, title) => {
     const newWin = window.open('', '_blank', 'width=1000,height=800,scrollbars=yes');
     if (!newWin) { alert('Please allow popups for this site'); return; }
