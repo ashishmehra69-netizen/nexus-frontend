@@ -97,25 +97,40 @@ export default function InputForm({ onGenerate, isGenerating }) {
         {/* Company Context */}
         <div style={{ marginBottom: '20px' }}>
           <label style={{ color: 'white', fontWeight: '600', display: 'block', marginBottom: '8px' }}>📋 Company Context (Optional)</label>
+          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85em', marginTop: '0', marginBottom: '8px' }}>
+            ⚠️ QUALITY TIP: More detail = Better training. Aim for 100+ words with numbers, names, real scenarios
+          </p>
           <textarea
             value={formData.companyContext}
             onChange={(e) => setFormData({ ...formData, companyContext: e.target.value })}
-            placeholder="e.g., Manufacturing, 500 employees, digital transformation..."
-            rows="3"
-            style={{
-              width: '100%',
-              background: 'rgba(255,255,255,0.08)',
-              border: '1px solid rgba(255,255,255,0.2)',
-              borderRadius: '12px',
-              padding: '12px 16px',
-              color: 'white',
-              fontFamily: 'inherit',
-              fontSize: '1em',
-              resize: 'vertical',
-              boxSizing: 'border-box'
-            }}
-          />
-        </div>
+            placeholder={`❌ BAD: "Telecom company facing competition"
+
+✅ GOOD: "Airtel: 500M subscribers, lost 15M to Jio in 2023 due to pricing. CEO Gopal Vittal pushing ₹50K crore 5G investment. CFO wants 15% cost cuts. Network ops resists change. Comms are siloed - Finance/Marketing/Network don't talk. Recent fail: Launched pricing without telling customer service = 10M complaints."
+
+INCLUDE (the more specific, the better):
+📊 Numbers: Employees, revenue, market share, specific metrics
+👥 Stakeholders: Who disagrees with whom? Named roles/people
+💰 Constraints: Budget limits, political dynamics, what you CAN'T do
+⚡ Recent events: What happened that prompted this training?
+🎯 Specific problem: Not just "need better communication" but "Finance launched new pricing without telling customer service, caused 10M complaints"
+
+Without this detail, you get GENERIC training.
+With this detail, you get HYPER-SPECIFIC training worth 10x more.`}
+    rows="6"
+    style={{
+      width: '100%',
+      background: 'rgba(255,255,255,0.08)',
+      border: '1px solid rgba(255,255,255,0.2)',
+      borderRadius: '12px',
+      padding: '12px 16px',
+      color: 'white',
+      fontFamily: 'inherit',
+      fontSize: '0.9em',
+      resize: 'vertical',
+      boxSizing: 'border-box'
+    }}
+  />
+</div>
 
         {/* Audience Level */}
         <div style={{ marginBottom: '20px' }}>
