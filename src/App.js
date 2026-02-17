@@ -4,10 +4,10 @@ import InputForm from './components/InputForm';
 import ReactMarkdown from 'react-markdown';
 
 const cardStyle = {
-  background: 'rgba(0,0,0,0.3)',
-  backdropFilter: 'blur(20px)',
-  border: '1px solid rgba(255,255,255,0.1)',
-  boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+  background: 'rgba(0,0,0,0.1)',
+  backdropFilter: 'blur(8px)',
+  border: '1px solid rgba(255,255,255,0.15)',
+  boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
   borderRadius: '24px',
   padding: '35px'
 };
@@ -116,6 +116,7 @@ const TABS = [
   { key: 'handout', label: '📝 Handout' },
   { key: 'ppt', label: '🎨 PPT Export' },
   { key: 'sample', label: '🎯 Sample' },
+  { key: 'about', label: '👤 About Creator' },
 ];
 
 function App() {
@@ -568,14 +569,47 @@ function App() {
               </div>
             )}
 
-            {activeTab === 'sample' && (
+           {activeTab === 'sample' && (
               <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
                 <ReactMarkdown>{SAMPLE_CONTENT}</ReactMarkdown>
               </div>
             )}
+
+            {activeTab === 'about' && (
+              <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
+                <h1 style={{ color: 'white' }}>About the Creator</h1>
+                <h2 style={{ color: 'rgba(255,255,255,0.9)' }}>Your Professional Thought Partner</h2>
+                <p style={{ color: 'rgba(255,255,255,0.8)' }}>
+                  <strong style={{ color: 'white' }}>Ashish Mehra</strong> is an ICF Level 2 certified transformational coach and leadership trainer with 1,000+ hours of coaching experience, working with CEOs and senior leaders across India, Canada, Singapore, and Africa.
+                </p>
+                <h2 style={{ color: 'rgba(255,255,255,0.9)' }}>Credentials & Experience</h2>
+                <ul style={{ color: 'rgba(255,255,255,0.8)' }}>
+                  <li>INSEAD Alumnus</li>
+                  <li>ICF Level 2 Certified Coach</li>
+                  <li>3 decades of experience in blue-chip companies: Xerox, Airtel, Singtel, Hitachi</li>
+                  <li>Trained by Centre for Creative Leadership</li>
+                </ul>
+                <h2 style={{ color: 'rgba(255,255,255,0.9)' }}>Why NEXUS?</h2>
+                <p style={{ color: 'rgba(255,255,255,0.8)' }}>
+                  I created NEXUS to solve a problem I faced repeatedly: spending long hours creating and preparing bespoke training content. After 5 years of manually creating training programs, NEXUS combines my expertise with AI to generate complete, research-backed training programs instantly.
+                </p>
+                <h2 style={{ color: 'rgba(255,255,255,0.9)' }}>Connect With Me</h2>
+                <p style={{ color: 'rgba(255,255,255,0.8)' }}>
+                  📧 <strong style={{ color: 'white' }}>Email:</strong> ashish.mehra@interfaceinc.co.in<br />
+                  💼 <strong style={{ color: 'white' }}>LinkedIn:</strong>{' '}
+                  <a href="https://www.linkedin.com/in/asmehra" target="_blank" rel="noreferrer" style={{ color: '#667eea' }}>
+                    linkedin.com/in/asmehra
+                  </a><br />
+                  🌐 <strong style={{ color: 'white' }}>Website:</strong>{' '}
+                  <a href="https://interfaceinc.co.in" target="_blank" rel="noreferrer" style={{ color: '#667eea' }}>
+                    interfaceinc.co.in
+                  </a>
+                </p>
+              </div>
+            )}
+
           </div>
         </div>
-
       </div>
     </div>
   );
