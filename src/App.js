@@ -285,6 +285,7 @@ function App() {
   const generateContent = async (formData, extraAnswers) => {
     setIsGenerating(true);
     setGeneratedContent(null);
+    const startTime = Date.now();
     try {
       let enhancedContext = formData.companyContext || '';
 
@@ -330,8 +331,8 @@ function App() {
         }),
       });
       if (!response.ok) throw new Error('Generation failed');
-      const data = await response.json();
-      setGeneratedContent({ ...data, isLocked: true });
+      const timeTaken = ((Date.now() - startTime) / 1000).toFixed(1);
+      setGeneratedContent({ ...data, isLocked: true, timeTaken });
       setActiveTab('synopsis');
     } catch (error) {
       alert('Generation failed. Please try again.');
@@ -570,7 +571,8 @@ function App() {
                   🎯 Format: {pendingFormData?.format}<br />
                   👥 Audience: {pendingFormData?.audience}<br />
                   ⏱️ Duration: {pendingFormData?.duration}<br />
-                  🌍 Domain: {generatedContent.domain || 'Business'}<br /><br />
+                  🌍 Domain: {generatedContent.domain || 'Business'}<br />
+                  ⚡ Time Taken: {generatedContent.timeTaken}s<br /><br />
                   {generatedContent.isLocked
                     ? '🔒 Click Unlock above to view full content'
                     : '🔓 Content unlocked and ready!'}
