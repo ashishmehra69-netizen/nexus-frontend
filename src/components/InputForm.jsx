@@ -24,19 +24,21 @@ export default function InputForm({ onGenerate, isGenerating }) {
   };
 
   const radioOptionStyle = (selected) => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: '8px',
-    padding: '10px 16px',
-    borderRadius: '10px',
-    cursor: 'pointer',
-    color: 'white',
-    fontWeight: selected ? '600' : '400',
-    background: selected ? 'rgba(102,126,234,0.3)' : 'rgba(255,255,255,0.05)',
-    border: selected ? '1px solid rgba(102,126,234,0.5)' : '1px solid rgba(255,255,255,0.1)',
-    transition: 'all 0.2s'
-  });
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  gap: '8px',
+  padding: '10px 16px',
+  borderRadius: '10px',
+  cursor: 'pointer',
+  color: 'white',
+  fontWeight: selected ? '600' : '400',
+  background: selected ? 'rgba(102,126,234,0.3)' : 'rgba(255,255,255,0.05)',
+  border: selected ? '1px solid rgba(102,126,234,0.5)' : '1px solid rgba(255,255,255,0.1)',
+  transition: 'all 0.2s',
+  whiteSpace: 'nowrap',  // ← Prevents text wrapping
+  overflow: 'hidden'
+});
 
   return (
     <div style={{
@@ -133,63 +135,53 @@ With this detail, you get HYPER-SPECIFIC training worth 10x more.`}
 </div>
 
         {/* Audience Level */}
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ color: 'white', fontWeight: '600', display: 'block', marginBottom: '10px' }}>👥 Audience Level</label>
-          <div style={radioGroupStyle}>
-            {[
-              'Executive/C-Suite/Senior Leadership',
-              'Manager/Supervisor/Team Lead',
-              'Emerging/New/First-Time Leader',
-              'Individual Contributor/Specialist'
-            ].map((aud) => (
-              <label key={aud} style={radioOptionStyle(formData.audience === aud)}>
-                <span>{aud}</span>
-                <input type="radio" name="audience" value={aud}
-                  checked={formData.audience === aud}
-                  onChange={(e) => setFormData({ ...formData, audience: e.target.value })}
-                  style={{ accentColor: '#667eea', flexShrink: 0 }}
-                />
-              </label>
-            ))}
-          </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '20px' }}>
+          {[
+            'Executive/C-Suite/Senior Leadership',
+            'Manager/Supervisor/Team Lead',
+            'Emerging/New/First-Time Leader',
+            'Individual Contributor/Specialist'
+          ].map((aud) => (
+            <label key={aud} style={radioOptionStyle(formData.audience === aud)}>
+              <span style={{ whiteSpace: 'normal', fontSize: '0.9em' }}>{aud}</span>
+              <input type="radio" name="audience" value={aud}
+                checked={formData.audience === aud}
+                onChange={(e) => setFormData({ ...formData, audience: e.target.value })}
+                style={{ accentColor: '#667eea', flexShrink: 0, marginLeft: '8px' }}
+              />
+            </label>
+          ))}
         </div>
 
         {/* Format */}
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ color: 'white', fontWeight: '600', display: 'block', marginBottom: '10px' }}>📚 Format</label>
-          <div style={radioGroupStyle}>
-            {['Training', 'Workshop', 'Action Learning'].map((fmt) => (
-              <label key={fmt} style={radioOptionStyle(formData.format === fmt)}>
-                <span>{fmt}</span>
-                <input type="radio" name="format" value={fmt}
-                  checked={formData.format === fmt}
-                  onChange={(e) => setFormData({ ...formData, format: e.target.value })}
-                  style={{ accentColor: '#667eea', flexShrink: 0 }}
-                />
-              </label>
-            ))}
-          </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginBottom: '20px' }}>
+          {['Training', 'Workshop', 'Action Learning'].map((fmt) => (
+            <label key={fmt} style={radioOptionStyle(formData.format === fmt)}>
+              <span>{fmt}</span>
+              <input type="radio" name="format" value={fmt}
+                checked={formData.format === fmt}
+                onChange={(e) => setFormData({ ...formData, format: e.target.value })}
+                style={{ accentColor: '#667eea', flexShrink: 0 }}
+              />
+            </label>
+          ))}
         </div>
-
         {/* Duration */}
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ color: 'white', fontWeight: '600', display: 'block', marginBottom: '10px' }}>⏱️ Duration</label>
-          <div style={radioGroupStyle}>
-            {[
-              'Half Day (3-4 hours)',
-              '1 Day (6-7 hours)',
-              '2 Days (12-14 hours)'
-            ].map((dur) => (
-              <label key={dur} style={radioOptionStyle(formData.duration === dur)}>
-                <span>{dur}</span>
-                <input type="radio" name="duration" value={dur}
-                  checked={formData.duration === dur}
-                  onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
-                  style={{ accentColor: '#667eea', flexShrink: 0 }}
-                />
-              </label>
-            ))}
-          </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginBottom: '20px' }}>
+          {[
+            'Half Day (3-4 hours)',
+            '1 Day (6-7 hours)',
+            '2 Days (12-14 hours)'
+          ].map((dur) => (
+            <label key={dur} style={{...radioOptionStyle(formData.duration === dur), whiteSpace: 'nowrap', fontSize: '0.85em', padding: '10px 10px' }}>
+              <span>{dur}</span>
+              <input type="radio" name="duration" value={dur}
+                checked={formData.duration === dur}
+                onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
+                style={{ accentColor: '#667eea', flexShrink: 0 }}
+              />
+            </label>
+          ))}
         </div>
 
         {/* Delivery Mode */}
