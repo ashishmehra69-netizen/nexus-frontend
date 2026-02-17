@@ -23,12 +23,12 @@ export default function InputForm({ onGenerate, isGenerating }) {
     marginBottom: '20px'
   };
 
-  const radioOptionStyle = (selected) => ({
+ const radioOptionStyle = (selected) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
   gap: '8px',
-  padding: '10px 16px',
+  padding: '12px 16px',
   borderRadius: '10px',
   cursor: 'pointer',
   color: 'white',
@@ -36,8 +36,7 @@ export default function InputForm({ onGenerate, isGenerating }) {
   background: selected ? 'rgba(102,126,234,0.3)' : 'rgba(255,255,255,0.05)',
   border: selected ? '1px solid rgba(102,126,234,0.5)' : '1px solid rgba(255,255,255,0.1)',
   transition: 'all 0.2s',
-  whiteSpace: 'nowrap',  // ← Prevents text wrapping
-  overflow: 'hidden'
+  minHeight: '48px'
 });
 
   return (
@@ -143,11 +142,11 @@ With this detail, you get HYPER-SPECIFIC training worth 10x more.`}
             'Individual Contributor/Specialist'
           ].map((aud) => (
             <label key={aud} style={radioOptionStyle(formData.audience === aud)}>
-              <span style={{ whiteSpace: 'normal', fontSize: '0.9em' }}>{aud}</span>
+              <span style={{ flex: 1, fontSize: '0.9em', lineHeight: '1.3' }}>{aud}</span>
               <input type="radio" name="audience" value={aud}
                 checked={formData.audience === aud}
                 onChange={(e) => setFormData({ ...formData, audience: e.target.value })}
-                style={{ accentColor: '#667eea', flexShrink: 0, marginLeft: '8px' }}
+                style={{ accentColor: '#667eea', width: '16px', height: '16px', flexShrink: 0, cursor: 'pointer' }}
               />
             </label>
           ))}
@@ -161,7 +160,7 @@ With this detail, you get HYPER-SPECIFIC training worth 10x more.`}
               <input type="radio" name="format" value={fmt}
                 checked={formData.format === fmt}
                 onChange={(e) => setFormData({ ...formData, format: e.target.value })}
-                style={{ accentColor: '#667eea', flexShrink: 0 }}
+                style={{ accentColor: '#667eea', width: '16px', height: '16px', flexShrink: 0, cursor: 'pointer' }}
               />
             </label>
           ))}
@@ -178,7 +177,7 @@ With this detail, you get HYPER-SPECIFIC training worth 10x more.`}
               <input type="radio" name="duration" value={dur}
                 checked={formData.duration === dur}
                 onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
-                style={{ accentColor: '#667eea', flexShrink: 0 }}
+                style={{ accentColor: '#667eea', width: '16px', height: '16px', flexShrink: 0, cursor: 'pointer' }}
               />
             </label>
           ))}
