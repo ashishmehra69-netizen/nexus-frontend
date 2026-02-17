@@ -554,7 +554,7 @@ clearTimeout(timeoutId);
                   </div>
                   <div className="w-full rounded-full h-2" style={{ background: 'rgba(255,255,255,0.1)' }}>
                     <div className="h-2 rounded-full transition-all duration-1000" style={{
-                      width: `${Math.min((elapsedTime / 70) * 100, 95)}%`,
+                      width: `${Math.min((elapsedTime / 150) * 100, 95)}%`,
                       background: 'linear-gradient(135deg, #667eea, #764ba2)'
                     }}></div>
                   </div>
