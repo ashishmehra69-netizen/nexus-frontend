@@ -27,6 +27,7 @@ export default function InputForm({ onGenerate, isGenerating }) {
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
+  height: '48px',
   justifyContent: 'space-between',
   verticalAlign: 'middle',
   gap: '8px',
