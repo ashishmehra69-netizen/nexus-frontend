@@ -4,12 +4,13 @@ import InputForm from './components/InputForm';
 import ReactMarkdown from 'react-markdown';
 
 const cardStyle = {
-  background: 'rgba(0,0,0,0.1)',
-  backdropFilter: 'blur(8px)',
-  border: '1px solid rgba(255,255,255,0.15)',
-  boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
-  borderRadius: '24px',
-  padding: '35px'
+  background: 'rgba(255, 255, 255, 0.03)',
+  backdropFilter: 'blur(20px) saturate(180%)',
+  WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+  border: '1px solid rgba(255, 255, 255, 0.18)',
+  boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+  borderRadius: '20px',
+  padding: '25px'
 };
 
 const textareaStyle = {
@@ -462,33 +463,42 @@ function App() {
         
         {/* Hero Section */}
         <div className="mb-3 relative overflow-hidden" style={{
-          background: 'linear-gradient(135deg, rgba(102,126,234,0.3) 0%, rgba(118,75,162,0.3) 50%, rgba(240,147,251,0.3) 100%)',
-          backdropFilter: 'blur(10px)', padding: '30px 40px', borderRadius: '24px',
-          boxShadow: '0 20px 60px rgba(102,126,234,0.4)', border: '1px solid rgba(255,255,255,0.1)',
+          background: 'linear-gradient(135deg, rgba(102,126,234,0.2) 0%, rgba(118,75,162,0.2) 50%, rgba(240,147,251,0.2) 100%)',
+          backdropFilter: 'blur(20px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+          padding: '20px 30px', 
+          borderRadius: '20px',
+          boxShadow: '0 20px 60px rgba(102,126,234,0.3)', 
+          border: '1px solid rgba(255,255,255,0.18)',
         }}>
           <div className="text-center relative z-10">
-            <h1 className="text-4xl font-black text-white mb-2" style={{ letterSpacing: '-1px' }}>🧠 NEXUS</h1>
-            <p className="text-lg text-white mb-2" style={{ opacity: 0.95 }}>AI-Powered Training Development Platform</p>
-            <p className="text-sm text-white max-w-3xl mx-auto mb-4" style={{ opacity: 0.9, lineHeight: '1.6' }}>
+            <h1 className="text-3xl font-black text-white mb-2" style={{ letterSpacing: '-1px' }}>🧠 NEXUS</h1>
+            <p className="text-base text-white mb-2" style={{ opacity: 0.95 }}>AI-Powered Training Development Platform</p>
+            <p className="text-xs text-white max-w-3xl mx-auto mb-4" style={{ opacity: 0.9, lineHeight: '1.6' }}>
               Transform training development from weeks to minutes. Generate research-backed, pedagogically sound training programs — instantly.
             </p>
-            <div className="flex flex-wrap gap-2 justify-center">
-              {['✨ Domain Agnostic', '⚡ 45-Second Generation', '🎓 Research-Backed', '🔄 Auto-Customized', '📊 Export Ready'].map(pill => (
-                <span key={pill} className="px-3 py-1 rounded-full text-white font-semibold text-xs" style={{
-                  background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.3)'
-                }}>{pill}</span>
+            <div className="flex flex-wrap gap-2 p-2 rounded-2xl mb-4" style={{
+              background: 'rgba(0, 0, 0, 0.15)',
+              backdropFilter: 'blur(20px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+              border: '1px solid rgba(255,255,255,0.18)'
+            }}>
               ))}
             </div>
           </div>
         </div>
 
         {/* Stats Banner */}
-        <div className="flex justify-around flex-wrap gap-2 p-3 rounded-2xl mb-3" style={{
-          background: 'linear-gradient(135deg, #1a1f3a 0%, #2d1b4e 100%)', boxShadow: '0 10px 40px rgba(0,0,0,0.3)'
+        <div className="flex justify-around flex-wrap gap-2 p-3 rounded-2xl mb-4" style={{
+          background: 'rgba(26, 31, 58, 0.6)',
+          backdropFilter: 'blur(20px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+          boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+          border: '1px solid rgba(255,255,255,0.18)'
         }}>
-          {[['∞','Domain Agnostic'],['3-5','Modules Generated'],['45s','Average Time'],['100%','Customizable']].map(([num, label]) => (
+          {[['∞','Domain Agnostic'],['3-5','Modules'],['45s','Avg Time'],['100%','Custom']].map(([num, label]) => (
             <div key={label} className="text-center text-white">
-              <div className="text-3xl font-black mb-1" style={{
+              <div className="text-2xl font-black mb-1" style={{
                 background: 'linear-gradient(135deg, #667eea, #f093fb)',
                 WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'
               }}>{num}</div>
@@ -518,7 +528,7 @@ function App() {
                 ✕
               </button>
               
-              <div className="text-center mb-6 p-4 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(102,126,234,0.3), rgba(118,75,162,0.3))' }}>
+              <div className="text-center mb-6 p-3 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(102,126,234,0.3), rgba(118,75,162,0.3))' }}>
                 <h2 className="text-2xl font-bold text-white mb-1">✨ Quick Context Check</h2>
                 <p style={{ color: 'rgba(255,255,255,0.8)' }}>Answer 2-3 quick questions to make your training hyper-specific</p>
                 {detectedDomain !== 'general' && (
@@ -680,11 +690,14 @@ function App() {
         {/* Tabs */}
         <div>
           <div className="flex flex-wrap gap-2 p-2 rounded-2xl mb-4" style={{
-            background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)'
+            background: 'rgba(0, 0, 0, 0.15)',
+            backdropFilter: 'blur(20px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+            border: '1px solid rgba(255,255,255,0.18)'
           }}>
             {TABS.map((tab) => (
               <button key={tab.key} onClick={() => setActiveTab(tab.key)}
-                className="flex-1 py-3 px-4 rounded-xl font-semibold text-sm transition-all"
+                className="flex-1 py-2 px-3 rounded-xl font-semibold text-xs transition-all"
                 style={activeTab === tab.key ? {
                   background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                   color: 'white', boxShadow: '0 4px 15px rgba(102,126,234,0.4)'
@@ -776,7 +789,7 @@ function App() {
                         {getPPTPrompt(pendingFormData?.topic)}
                       </p>
                     </div>
-                    <div className="flex gap-3 flex-wrap">
+                    <div className="flex gap-2 flex-wrap">
                       <button onClick={() => {
                         navigator.clipboard.writeText(getPPTPrompt(pendingFormData?.topic));
                         setPptCopied(true);
