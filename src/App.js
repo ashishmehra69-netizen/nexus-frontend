@@ -97,6 +97,12 @@ const SAMPLE_CONTENT = `# SAMPLE: Strategic Planning Training
 
 const HOW_TO_CONTENT = `# How to Use NEXUS
 
+---
+
+**💬 I learn with your feedback which is important to serve you better. Please spare a few moments to fill a small questionnaire in the Feedback tab.**
+
+---
+
 ## 🚀 Quick Start Guide
 
 ### Step 1: Enter Your Topic
