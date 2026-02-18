@@ -349,10 +349,11 @@ function App() {
   
   clearTimeout(timeoutId);
   console.log('✅ Fetch completed!', response.status);
-    if (!response.ok) throw new Error('Generation failed');
-    console.log('🔄 Parsing JSON...');
-    const data = await response.json();
-    console.log('✅ JSON parsed!', data);
+  console.log('📦 Response size:', response.headers.get('content-length'));
+  if (!response.ok) throw new Error('Generation failed');
+  console.log('🔄 Parsing JSON...');
+  const data = await response.json();
+  console.log('✅ JSON parsed!', data);
       setGeneratedContent({ ...data, isLocked: true });
       setActiveTab('synopsis');
     } catch (error) {
