@@ -290,10 +290,11 @@ function App() {
   };
 
   const generateContent = async (formData, extraAnswers) => {
-  console.log('🚀 generateContent called!', formData);
-  
-  setIsGenerating(true);
-  setGeneratedContent(null);
+    const startTime = Date.now(); 
+    
+    console.log('🚀 generateContent called!', formData);
+    setIsGenerating(true);
+    setGeneratedContent(null);
   
   console.log('✅ State updated, building context...');
   
@@ -353,8 +354,10 @@ function App() {
   if (!response.ok) throw new Error('Generation failed');
   console.log('🔄 Parsing JSON...');
   const data = await response.json();
+  const endTime = Date.now();
+  const timeTaken = ((endTime - startTime) / 1000).toFixed(2);
   console.log('✅ JSON parsed!', data);
-      setGeneratedContent({ ...data, isLocked: true });
+      setGeneratedContent({ ...data, isLocked: true, timeTaken });
       setActiveTab('synopsis');
       setIsGenerating(false);
     } catch (error) {
