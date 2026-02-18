@@ -458,10 +458,10 @@ function App() {
     <div className="min-h-screen relative" style={{ background: 'transparent', padding: '40px 20px' }}>
       <NeuralBackground />
       
-      <div className="relative z-10 container mx-auto" style={{ maxWidth: '1400px' }}>
+      <div className="relative z-10 container mx-auto px-4" style={{ maxWidth: '1400px' }}>
         
         {/* Hero Section */}
-        <div className="mb-6 relative overflow-hidden" style={{
+        <div className="mb-3 relative overflow-hidden" style={{
           background: 'linear-gradient(135deg, rgba(102,126,234,0.3) 0%, rgba(118,75,162,0.3) 50%, rgba(240,147,251,0.3) 100%)',
           backdropFilter: 'blur(10px)', padding: '30px 40px', borderRadius: '24px',
           boxShadow: '0 20px 60px rgba(102,126,234,0.4)', border: '1px solid rgba(255,255,255,0.1)',
@@ -483,7 +483,7 @@ function App() {
         </div>
 
         {/* Stats Banner */}
-        <div className="flex justify-around flex-wrap gap-3 p-4 rounded-2xl mb-6" style={{
+        <div className="flex justify-around flex-wrap gap-2 p-3 rounded-2xl mb-3" style={{
           background: 'linear-gradient(135deg, #1a1f3a 0%, #2d1b4e 100%)', boxShadow: '0 10px 40px rgba(0,0,0,0.3)'
         }}>
           {[['∞','Domain Agnostic'],['3-5','Modules Generated'],['45s','Average Time'],['100%','Customizable']].map(([num, label]) => (
@@ -583,7 +583,7 @@ function App() {
         )}
 
         {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
           <div className="lg:col-span-2">
             <InputForm onGenerate={handleFormSubmit} isGenerating={isGenerating} />
           </div>
@@ -679,7 +679,7 @@ function App() {
 
         {/* Tabs */}
         <div>
-          <div className="flex flex-wrap gap-2 p-2 rounded-2xl mb-6" style={{
+          <div className="flex flex-wrap gap-2 p-2 rounded-2xl mb-4" style={{
             background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)'
           }}>
             {TABS.map((tab) => (
