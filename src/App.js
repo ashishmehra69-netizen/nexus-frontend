@@ -280,8 +280,12 @@ function App() {
     `);
     newWin.document.close();
   };
-  
+  const closeQuestionsModal = () => {
+    setShowQuestions(false);
+    setPendingFormData(null);
+  };
   const handleFormSubmit = (formData) => {
+    
     const domain = detectDomain(formData.topic);
     setDetectedDomain(domain);
     setPendingFormData(formData);
@@ -447,7 +451,23 @@ function App() {
         {/* Enhancement Questions Modal */}
         {showQuestions && (
           <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(10px)' }}>
-            <div style={{ ...cardStyle, maxWidth: '650px', width: '92%', maxHeight: '90vh', overflowY: 'auto' }}>
+            <div style={{ ...cardStyle, maxWidth: '650px', width: '92%', maxHeight: '90vh', overflowY: 'auto', position: 'relative' }}>
+  
+              <button
+                onClick={closeQuestionsModal}
+                style={{
+                  position: 'absolute',
+                  top: '15px',
+                  right: '20px',
+                  background: 'transparent',
+                  border: 'none',
+                  fontSize: '22px',
+                  cursor: 'pointer',
+                  color: 'white'
+                }}
+              >
+                ✕
+              </button>
               
               <div className="text-center mb-6 p-4 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(102,126,234,0.3), rgba(118,75,162,0.3))' }}>
                 <h2 className="text-2xl font-bold text-white mb-1">✨ Quick Context Check</h2>
