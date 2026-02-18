@@ -298,74 +298,57 @@ function App() {
   console.log('✅ State updated, building context...');
   
   try {
-    let enhancedContext = formData.companyContext || '';
-    
-    console.log('📝 Enhanced context:', enhancedContext.substring(0, 200));
-    
-    console.log('🌐 About to fetch backend...');
-    
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      signal: controller.signal,
-      body: JSON.stringify({
-        topic: formData.topic,
-        companyName: formData.companyName,
-        companyContext: enhancedContext.trim(),
-        audienceLevel: formData.audience,
-        format: formData.format,
-        duration: formData.duration,
-        deliveryMode: formData.deliveryMode,
-      }),
-    });
-    
-    console.log('✅ Fetch completed!', response.status);
-      if (extraAnswers.challenges?.trim()) {
-        enhancedContext += `\n\n${'='.repeat(70)}\nMANDATORY: USER-SPECIFIED REQUIREMENTS\n${'='.repeat(70)}\n`;
-        enhancedContext += `\n**CHALLENGE TO SOLVE:**\n${extraAnswers.challenges}\n`;
-        enhancedContext += `→ MODULE 1 MUST start by addressing this exact challenge\n`;
-        enhancedContext += `→ Framework in Module 1 MUST solve this (not generic)\n`;
-        enhancedContext += `→ Exercise in Module 1 MUST use this as the scenario\n`;
-      }
+  let enhancedContext = formData.companyContext || '';
+  
+  // Build enhanced context FIRST (before fetch)
+  if (extraAnswers.challenges?.trim()) {
+    enhancedContext += `\n\n${'='.repeat(70)}\nMANDATORY: USER-SPECIFIED REQUIREMENTS\n${'='.repeat(70)}\n`;
+    enhancedContext += `\n**CHALLENGE TO SOLVE:**\n${extraAnswers.challenges}\n`;
+    enhancedContext += `→ MODULE 1 MUST start by addressing this exact challenge\n`;
+    enhancedContext += `→ Framework in Module 1 MUST solve this (not generic)\n`;
+    enhancedContext += `→ Exercise in Module 1 MUST use this as the scenario\n`;
+  }
+  if (extraAnswers.technical?.trim()) {
+    enhancedContext += `\n**TECHNICAL CONTEXT (MUST USE IN EXAMPLES):**\n${extraAnswers.technical}\n`;
+    enhancedContext += `→ Reference SPECIFIC equipment models mentioned above\n`;
+    enhancedContext += `→ Use ACTUAL SOP numbers in procedures\n`;
+    enhancedContext += `→ Apply REAL metrics/targets in examples\n`;
+  }
+  if (extraAnswers.behavioral?.trim()) {
+    enhancedContext += `\n**CULTURAL CONTEXT (MUST USE IN SCENARIOS):**\n${extraAnswers.behavioral}\n`;
+    enhancedContext += `→ Start Module 1 with the ACTUAL dysfunction described\n`;
+    enhancedContext += `→ Role-play exercises MUST use this culture dynamic\n`;
+    enhancedContext += `→ Avoid generic advice - address THIS specific culture\n`;
+  }
+  if (extraAnswers.outcomes?.trim()) {
+    enhancedContext += `\n**SUCCESS CRITERIA (MUST BE MODULE OUTCOMES):**\n${extraAnswers.outcomes}\n`;
+    enhancedContext += `→ Each module outcome MUST connect to these results\n`;
+    enhancedContext += `→ Exercises MUST produce deliverables that achieve these\n`;
+  }
 
-      if (extraAnswers.technical?.trim()) {
-        enhancedContext += `\n**TECHNICAL CONTEXT (MUST USE IN EXAMPLES):**\n${extraAnswers.technical}\n`;
-        enhancedContext += `→ Reference SPECIFIC equipment models mentioned above\n`;
-        enhancedContext += `→ Use ACTUAL SOP numbers in procedures\n`;
-        enhancedContext += `→ Apply REAL metrics/targets in examples\n`;
-      }
-
-      if (extraAnswers.behavioral?.trim()) {
-        enhancedContext += `\n**CULTURAL CONTEXT (MUST USE IN SCENARIOS):**\n${extraAnswers.behavioral}\n`;
-        enhancedContext += `→ Start Module 1 with the ACTUAL dysfunction described\n`;
-        enhancedContext += `→ Role-play exercises MUST use this culture dynamic\n`;
-        enhancedContext += `→ Avoid generic advice - address THIS specific culture\n`;
-      }
-
-      if (extraAnswers.outcomes?.trim()) {
-        enhancedContext += `\n**SUCCESS CRITERIA (MUST BE MODULE OUTCOMES):**\n${extraAnswers.outcomes}\n`;
-        enhancedContext += `→ Each module outcome MUST connect to these results\n`;
-        enhancedContext += `→ Exercises MUST produce deliverables that achieve these\n`;
-      }
-
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 300000); // 5 minutes
-
-      const response = await fetch('https://ashishmehra-nexus-backend.hf.space/api/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        signal: controller.signal,
-        body: JSON.stringify({
-          topic: formData.topic,
-          companyName: formData.companyName,
-          companyContext: enhancedContext.trim(),
-          audienceLevel: formData.audience,
-          format: formData.format,
-          duration: formData.duration,
-          deliveryMode: formData.deliveryMode,
-        }),
-      });
-
-clearTimeout(timeoutId);
+  console.log('📝 Enhanced context:', enhancedContext.substring(0, 200));
+  console.log('🌐 About to fetch backend...');
+  
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 300000);
+  
+  const response = await fetch('https://ashishmehra-nexus-backend.hf.space/api/generate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    signal: controller.signal,
+    body: JSON.stringify({
+      topic: formData.topic,
+      companyName: formData.companyName,
+      companyContext: enhancedContext.trim(),
+      audienceLevel: formData.audience,
+      format: formData.format,
+      duration: formData.duration,
+      deliveryMode: formData.deliveryMode,
+    }),
+  });
+  
+  clearTimeout(timeoutId);
+  console.log('✅ Fetch completed!', response.status);
       if (!response.ok) throw new Error('Generation failed');
       const data = await response.json();
       setGeneratedContent({ ...data, isLocked: true });
