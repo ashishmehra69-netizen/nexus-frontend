@@ -280,7 +280,8 @@ function App() {
     `);
     newWin.document.close();
   };
-
+    newWin.document.getElementById('content').innerText = content;
+  };
   const handleFormSubmit = (formData) => {
     const domain = detectDomain(formData.topic);
     setDetectedDomain(domain);
