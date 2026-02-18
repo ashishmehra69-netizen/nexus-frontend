@@ -454,9 +454,19 @@ function App() {
     </button>
   );
 
-  return (
-    <div className="min-h-screen relative" style={{ background: 'transparent', padding: '40px 20px' }}>
-      <NeuralBackground />
+    return (
+      <div
+        className="min-h-screen relative"
+        style={{
+          background: 'transparent',
+          padding: '8px 6px',
+          transform: 'scale(0.86)',
+          transformOrigin: 'top center',
+          width: '116.3%',
+          marginLeft: '-8.15%'
+        }}
+      >
+        <NeuralBackground />
       
       <div className="relative z-10 container mx-auto px-4" style={{ maxWidth: '1400px' }}>
         
