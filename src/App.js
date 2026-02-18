@@ -320,9 +320,9 @@ function App() {
         duration: formData.duration,
         deliveryMode: formData.deliveryMode,
       }),
+    });
     
     console.log('✅ Fetch completed!', response.status);
-
       if (extraAnswers.challenges?.trim()) {
         enhancedContext += `\n\n${'='.repeat(70)}\nMANDATORY: USER-SPECIFIED REQUIREMENTS\n${'='.repeat(70)}\n`;
         enhancedContext += `\n**CHALLENGE TO SOLVE:**\n${extraAnswers.challenges}\n`;
