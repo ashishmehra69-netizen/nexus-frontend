@@ -311,8 +311,15 @@ function App() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       signal: controller.signal,
-      body: JSON.stringify({...}),
-    });
+      body: JSON.stringify({
+        topic: formData.topic,
+        companyName: formData.companyName,
+        companyContext: enhancedContext.trim(),
+        audienceLevel: formData.audience,
+        format: formData.format,
+        duration: formData.duration,
+        deliveryMode: formData.deliveryMode,
+      }),
     
     console.log('✅ Fetch completed!', response.status);
 
