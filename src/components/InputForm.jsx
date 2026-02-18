@@ -1,6 +1,33 @@
 import React, { useState } from 'react';
 
+const PremiumHowTo = () => (
+  <div style={{ padding: '10px 4px' }}>
+
+    {/* Feedback Banner */}
+    <div
+      style={{
+        marginBottom: '28px',
+        padding: '16px 20px',
+        borderRadius: '14px',
+        background: 'linear-gradient(135deg, rgba(102,126,234,0.25), rgba(118,75,162,0.25))',
+        border: '1px solid rgba(102,126,234,0.4)',
+        fontSize: '14px',
+        lineHeight: '1.6'
+      }}
+    >
+      💬 <strong>Your feedback matters.</strong>  
+      I continuously improve NEXUS based on your insights.  
+      Please take a moment to share your thoughts in the <strong>Feedback</strong> tab.
+    </div>
+
+    <h1 style={{ fontSize: '28px', fontWeight: 700, marginBottom: '20px' }}>
+      🚀 How to Use NEXUS
+    </h1>
+  </div>
+);
+
 export default function InputForm({ onGenerate, isGenerating }) {
+  
   const [formData, setFormData] = useState({
     topic: '',
     companyName: '',
