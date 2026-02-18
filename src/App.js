@@ -304,10 +304,6 @@ function App() {
     
     console.log('🌐 About to fetch backend...');
     
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 300000);
-    
-    const response = await fetch('https://ashishmehra-nexus-backend.hf.space/api/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       signal: controller.signal,
