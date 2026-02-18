@@ -356,8 +356,10 @@ function App() {
   console.log('✅ JSON parsed!', data);
       setGeneratedContent({ ...data, isLocked: true });
       setActiveTab('synopsis');
+      setIsGenerating(false);
     } catch (error) {
       console.error('Full error:', error);
+      setIsGenerating(false);
       if (error.name === 'AbortError') {
         alert(`Timed out after ${Math.round((Date.now() - startTime)/1000)}s`);
       } else {
