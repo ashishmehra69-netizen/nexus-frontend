@@ -290,11 +290,31 @@ function App() {
   };
 
   const generateContent = async (formData, extraAnswers) => {
-    setIsGenerating(true);
-    setGeneratedContent(null);
-    const startTime = Date.now();
-    try {
-      let enhancedContext = formData.companyContext || '';
+  console.log('🚀 generateContent called!', formData);
+  
+  setIsGenerating(true);
+  setGeneratedContent(null);
+  
+  console.log('✅ State updated, building context...');
+  
+  try {
+    let enhancedContext = formData.companyContext || '';
+    
+    console.log('📝 Enhanced context:', enhancedContext.substring(0, 200));
+    
+    console.log('🌐 About to fetch backend...');
+    
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 300000);
+    
+    const response = await fetch('https://ashishmehra-nexus-backend.hf.space/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      signal: controller.signal,
+      body: JSON.stringify({...}),
+    });
+    
+    console.log('✅ Fetch completed!', response.status);
 
       if (extraAnswers.challenges?.trim()) {
         enhancedContext += `\n\n${'='.repeat(70)}\nMANDATORY: USER-SPECIFIED REQUIREMENTS\n${'='.repeat(70)}\n`;
