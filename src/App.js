@@ -172,6 +172,7 @@ const TABS = [
   { key: 'handout', label: '📝 Handout' },
   { key: 'ppt', label: '🎨 PPT Export' },
   { key: 'sample', label: '🎯 Sample' },
+  { key: 'feedback', label: '💬 Feedback' },
   { key: 'about', label: '👤 About Creator' },
 ];
 
@@ -191,6 +192,14 @@ function App() {
     behavioral: '',
     outcomes: ''
   });
+  const [feedback, setFeedback] = useState({
+    rating: 5,
+    whatWorked: '',
+    whatNeedsImprovement: '',
+    suggestions: '',
+    wouldUseAgain: true
+  });
+  const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
 
   useEffect(() => {
     if (!isGenerating) return;
@@ -229,14 +238,17 @@ function App() {
       alert(`Failed to unlock: ${error.message}`);
     }
   };
+
   const openContentPopup = (content, title) => {
     const newWin = window.open('', '_blank', 'width=1000,height=800,scrollbars=yes');
     if (!newWin) { alert('Please allow popups for this site'); return; }
+    
     newWin.document.write(`
       <!DOCTYPE html>
       <html>
       <head>
         <title>${title}</title>
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
         <style>
           body { font-family: Georgia, serif; max-width: 900px; margin: 40px auto; padding: 20px 40px; color: #111; line-height: 1.8; font-size: 16px; background: #fff; }
           h1 { color: #1a1a2e; border-bottom: 3px solid #667eea; padding-bottom: 10px; font-size: 2em; }
@@ -248,6 +260,7 @@ function App() {
           blockquote { border-left: 4px solid #667eea; padding-left: 15px; color: #555; font-style: italic; margin: 20px 0; }
           hr { border: none; border-top: 2px solid #eee; margin: 30px 0; }
           p { margin: 12px 0; }
+          a { color: #667eea; text-decoration: underline; }
           .print-btn { position: fixed; top: 20px; right: 20px; padding: 12px 24px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: bold; box-shadow: 0 4px 15px rgba(102,126,234,0.4); z-index: 1000; }
           .print-btn:hover { opacity: 0.9; }
           @media print { .print-btn { display: none; } }
@@ -257,35 +270,21 @@ function App() {
         <button class="print-btn" onclick="window.print()">🖨️ Print / Save PDF</button>
         <div id="content"></div>
         <script>
-          const raw = ${JSON.stringify(content)};
-          // Simple markdown to HTML conversion
-          let html = raw
-            .replace(/^### (.+)$/gm, '<h3>$1</h3>')
-            .replace(/^## (.+)$/gm, '<h2>$1</h2>')
-            .replace(/^# (.+)$/gm, '<h1>$1</h1>')
-            .replace(/\\*\\*(.+?)\\*\\*/g, '<strong>$1</strong>')
-            .replace(/\\*(.+?)\\*/g, '<em>$1</em>')
-            .replace(/^\\* (.+)$/gm, '<li>$1</li>')
-            .replace(/^- (.+)$/gm, '<li>$1</li>')
-            .replace(/(<li>.*<\\/li>)/gs, '<ul>$1</ul>')
-            .replace(/^---$/gm, '<hr>')
-            .replace(/\\[([^\\]]+)\\]\\(([^)]+)\\)/g, '<a href="$2" target="_blank" style="color:#667eea;">$1</a>')
-            .replace(/Link: (https?:\/\/[^\s\n]+)/g, '<a href="$1" target="_blank" style="color:#667eea;text-decoration:underline;">🔗 View Source</a>')
-            .replace(/\\n\\n/g, '</p><p>')
-            .replace(/^(.+)$/gm, '$1');
-          document.getElementById('content').innerHTML = '<p>' + html + '</p>';
+          const rawContent = ${JSON.stringify(content)};
+          document.getElementById('content').innerHTML = marked.parse(rawContent);
         </script>
       </body>
       </html>
     `);
     newWin.document.close();
   };
+
   const closeQuestionsModal = () => {
     setShowQuestions(false);
     setPendingFormData(null);
   };
+
   const handleFormSubmit = (formData) => {
-    
     const domain = detectDomain(formData.topic);
     setDetectedDomain(domain);
     setPendingFormData(formData);
@@ -300,78 +299,122 @@ function App() {
     setIsGenerating(true);
     setGeneratedContent(null);
   
-  console.log('✅ State updated, building context...');
+    console.log('✅ State updated, building context...');
   
-  try {
-  let enhancedContext = formData.companyContext || '';
-  
-  // Build enhanced context FIRST (before fetch)
-  if (extraAnswers.challenges?.trim()) {
-    enhancedContext += `\n\n${'='.repeat(70)}\nMANDATORY: USER-SPECIFIED REQUIREMENTS\n${'='.repeat(70)}\n`;
-    enhancedContext += `\n**CHALLENGE TO SOLVE:**\n${extraAnswers.challenges}\n`;
-    enhancedContext += `→ MODULE 1 MUST start by addressing this exact challenge\n`;
-    enhancedContext += `→ Framework in Module 1 MUST solve this (not generic)\n`;
-    enhancedContext += `→ Exercise in Module 1 MUST use this as the scenario\n`;
-  }
-  if (extraAnswers.technical?.trim()) {
-    enhancedContext += `\n**TECHNICAL CONTEXT (MUST USE IN EXAMPLES):**\n${extraAnswers.technical}\n`;
-    enhancedContext += `→ Reference SPECIFIC equipment models mentioned above\n`;
-    enhancedContext += `→ Use ACTUAL SOP numbers in procedures\n`;
-    enhancedContext += `→ Apply REAL metrics/targets in examples\n`;
-  }
-  if (extraAnswers.behavioral?.trim()) {
-    enhancedContext += `\n**CULTURAL CONTEXT (MUST USE IN SCENARIOS):**\n${extraAnswers.behavioral}\n`;
-    enhancedContext += `→ Start Module 1 with the ACTUAL dysfunction described\n`;
-    enhancedContext += `→ Role-play exercises MUST use this culture dynamic\n`;
-    enhancedContext += `→ Avoid generic advice - address THIS specific culture\n`;
-  }
-  if (extraAnswers.outcomes?.trim()) {
-    enhancedContext += `\n**SUCCESS CRITERIA (MUST BE MODULE OUTCOMES):**\n${extraAnswers.outcomes}\n`;
-    enhancedContext += `→ Each module outcome MUST connect to these results\n`;
-    enhancedContext += `→ Exercises MUST produce deliverables that achieve these\n`;
-  }
+    try {
+      let enhancedContext = formData.companyContext || '';
+      
+      if (extraAnswers.challenges?.trim()) {
+        enhancedContext += `\n\n${'='.repeat(70)}\nMANDATORY: USER-SPECIFIED REQUIREMENTS\n${'='.repeat(70)}\n`;
+        enhancedContext += `\n**CHALLENGE TO SOLVE:**\n${extraAnswers.challenges}\n`;
+        enhancedContext += `→ MODULE 1 MUST start by addressing this exact challenge\n`;
+        enhancedContext += `→ Framework in Module 1 MUST solve this (not generic)\n`;
+        enhancedContext += `→ Exercise in Module 1 MUST use this as the scenario\n`;
+      }
+      if (extraAnswers.technical?.trim()) {
+        enhancedContext += `\n**TECHNICAL CONTEXT (MUST USE IN EXAMPLES):**\n${extraAnswers.technical}\n`;
+        enhancedContext += `→ Reference SPECIFIC equipment models mentioned above\n`;
+        enhancedContext += `→ Use ACTUAL SOP numbers in procedures\n`;
+        enhancedContext += `→ Apply REAL metrics/targets in examples\n`;
+      }
+      if (extraAnswers.behavioral?.trim()) {
+        enhancedContext += `\n**CULTURAL CONTEXT (MUST USE IN SCENARIOS):**\n${extraAnswers.behavioral}\n`;
+        enhancedContext += `→ Start Module 1 with the ACTUAL dysfunction described\n`;
+        enhancedContext += `→ Role-play exercises MUST use this culture dynamic\n`;
+        enhancedContext += `→ Avoid generic advice - address THIS specific culture\n`;
+      }
+      if (extraAnswers.outcomes?.trim()) {
+        enhancedContext += `\n**SUCCESS CRITERIA (MUST BE MODULE OUTCOMES):**\n${extraAnswers.outcomes}\n`;
+        enhancedContext += `→ Each module outcome MUST connect to these results\n`;
+        enhancedContext += `→ Exercises MUST produce deliverables that achieve these\n`;
+      }
 
-  console.log('📝 Enhanced context:', enhancedContext.substring(0, 200));
-  console.log('🌐 About to fetch backend...');
+      console.log('📝 Enhanced context:', enhancedContext.substring(0, 200));
+      console.log('🌐 About to fetch backend...');
   
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 300000);
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 300000);
   
-  const response = await fetch('https://ashishmehra-nexus-backend.hf.space/api/generate', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    signal: controller.signal,
-    body: JSON.stringify({
-      topic: formData.topic,
-      companyName: formData.companyName,
-      companyContext: enhancedContext.trim(),
-      audienceLevel: formData.audience,
-      format: formData.format,
-      duration: formData.duration,
-      deliveryMode: formData.deliveryMode,
-    }),
-  });
+      const response = await fetch('https://ashishmehra-nexus-backend.hf.space/api/generate', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        signal: controller.signal,
+        body: JSON.stringify({
+          topic: formData.topic,
+          companyName: formData.companyName,
+          companyContext: enhancedContext.trim(),
+          audienceLevel: formData.audience,
+          format: formData.format,
+          duration: formData.duration,
+          deliveryMode: formData.deliveryMode,
+        }),
+      });
   
-  clearTimeout(timeoutId);
-  console.log('✅ Fetch completed!', response.status);
-  console.log('📦 Response size:', response.headers.get('content-length'));
-  if (!response.ok) throw new Error('Generation failed');
-  console.log('🔄 Parsing JSON...');
-  const data = await response.json();
-  const endTime = Date.now();
-  const timeTaken = ((endTime - startTime) / 1000).toFixed(2);
-  console.log('✅ JSON parsed!', data);
+      clearTimeout(timeoutId);
+      console.log('✅ Fetch completed!', response.status);
+      console.log('📦 Response headers:', [...response.headers.entries()]);
+      
+      if (!response.ok) throw new Error('Generation failed');
+      
+      console.log('🔄 Parsing response...');
+      const text = await response.text();
+      console.log('📊 Response size:', text.length, 'characters');
+      console.log('🔍 First 500 chars:', text.substring(0, 500));
+      
+      const data = JSON.parse(text);
+      const endTime = Date.now();
+      const timeTaken = ((endTime - startTime) / 1000).toFixed(2);
+      console.log('✅ JSON parsed!', data);
+      
       setGeneratedContent({ ...data, isLocked: true, timeTaken });
       setActiveTab('synopsis');
       setIsGenerating(false);
     } catch (error) {
-      console.error('Full error:', error);
+      console.error('❌ Full error:', error);
       setIsGenerating(false);
       if (error.name === 'AbortError') {
         alert(`Timed out after ${Math.round((Date.now() - startTime)/1000)}s`);
       } else {
         alert(`Error: ${error.message} | Type: ${error.name}`);
       }
+    }
+  };
+
+  const handleSubmitFeedback = async () => {
+    if (!generatedContent) {
+      alert('Please generate a training program first!');
+      return;
+    }
+
+    try {
+      const response = await fetch('https://ashishmehra-nexus-backend.hf.space/api/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          generationId: generatedContent.generationId || generatedContent.session_id,
+          topic: pendingFormData?.topic || 'Unknown',
+          companyName: pendingFormData?.companyName || '',
+          rating: feedback.rating,
+          whatWorked: feedback.whatWorked,
+          whatNeedsImprovement: feedback.whatNeedsImprovement,
+          suggestions: feedback.suggestions,
+          wouldUseAgain: feedback.wouldUseAgain
+        }),
+      });
+
+      if (!response.ok) throw new Error('Failed to submit feedback');
+      
+      setFeedbackSubmitted(true);
+      setTimeout(() => {
+        setFeedback({ rating: 5, whatWorked: '', whatNeedsImprovement: '', suggestions: '', wouldUseAgain: true });
+        setFeedbackSubmitted(false);
+      }, 3000);
+      
+    } catch (error) {
+      alert(`Failed to submit feedback: ${error.message}`);
     }
   };
 
@@ -483,86 +526,49 @@ function App() {
               </div>
 
               <div className="space-y-5">
-                {/* Q1 - Always shown */}
                 <div>
-                  <label className="text-white font-semibold block mb-1">
-                    🎯 What specific challenges should this training address?
-                  </label>
-                  <p className="text-xs mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>Be specific about the ACTUAL problem, not the symptom</p>
-                  <textarea
-                    value={answers.challenges}
-                    onChange={(e) => setAnswers({ ...answers, challenges: e.target.value })}
-                    placeholder="e.g. 'Team leads don't give feedback', 'Scrap rate too high', 'Departments don't collaborate'"
-                    rows="2"
-                    style={textareaStyle}
-                  />
+                  <label className="text-white font-semibold block mb-1">🎯 What specific challenges should this training address?</label>
+                  <p className="text-xs mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>Be specific about the ACTUAL problem</p>
+                  <textarea value={answers.challenges} onChange={(e) => setAnswers({ ...answers, challenges: e.target.value })}
+                    placeholder="e.g. 'Team leads don't give feedback', 'Scrap rate too high'" rows="2" style={textareaStyle} />
                 </div>
 
-                {/* Q2 - Technical only */}
                 {detectedDomain === 'technical' && (
                   <div>
                     <div className="p-3 rounded-lg mb-2" style={{ background: 'rgba(102,126,234,0.15)', borderLeft: '4px solid #667eea' }}>
-                      <span className="text-white font-semibold">⚙️ Technical Training Detected</span>
-                      <span style={{ color: 'rgba(255,255,255,0.7)' }}> — Add equipment/process details for maximum relevance</span>
+                      <span className="text-white font-semibold">⚙️ Add equipment/process details</span>
                     </div>
                     <label className="text-white font-semibold block mb-1">⚙️ Equipment, Standards & Metrics</label>
-                    <p className="text-xs mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>Specific equipment models, SOP numbers, real metrics make training directly applicable</p>
-                    <textarea
-                      value={answers.technical}
-                      onChange={(e) => setAnswers({ ...answers, technical: e.target.value })}
-                      placeholder={`Equipment: "MTS Criterion Model 43 tensile tester"\nStandards: "ASTM E8, ISO 6892-1, SOP-QC-023"\nCurrent metrics: "15% scrap rate, Cpk = 0.98"\nTargets: "Target <5% scrap, Cpk ≥ 1.33"\nCommon issues: "Grip slippage at >50kN"`}
-                      rows="4"
-                      style={textareaStyle}
-                    />
+                    <textarea value={answers.technical} onChange={(e) => setAnswers({ ...answers, technical: e.target.value })}
+                      placeholder="Equipment, SOP numbers, metrics" rows="3" style={textareaStyle} />
                   </div>
                 )}
 
-                {/* Q2 - Behavioral only */}
                 {detectedDomain === 'behavioral' && (
                   <div>
                     <div className="p-3 rounded-lg mb-2" style={{ background: 'rgba(255,107,53,0.15)', borderLeft: '4px solid #ff6b35' }}>
-                      <span className="text-white font-semibold">🧠 Leadership/Behavioral Training Detected</span>
-                      <span style={{ color: 'rgba(255,255,255,0.7)' }}> — Add culture details for maximum relevance</span>
+                      <span className="text-white font-semibold">🧠 Add culture details</span>
                     </div>
                     <label className="text-white font-semibold block mb-1">🧠 Culture, Dynamics & Real Scenarios</label>
-                    <p className="text-xs mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>Be honest about dysfunction. Real culture details = Real training relevance</p>
-                    <textarea
-                      value={answers.behavioral}
-                      onChange={(e) => setAnswers({ ...answers, behavioral: e.target.value })}
-                      placeholder={`Culture: "Command-and-control, heroic firefighting celebrated"\nDynamics: "CFO and CMO don't talk, decisions made in WhatsApp"\nPain points: "Managers promoted from technical roles, no people training"\nReal situation: "CEO wants better comms but real problem is strategy disagreement"`}
-                      rows="4"
-                      style={textareaStyle}
-                    />
+                    <textarea value={answers.behavioral} onChange={(e) => setAnswers({ ...answers, behavioral: e.target.value })}
+                      placeholder="Culture dynamics, team issues" rows="3" style={textareaStyle} />
                   </div>
                 )}
 
-                {/* Q3 - Always shown */}
                 <div>
-                  <label className="text-white font-semibold block mb-1">
-                    🎯 What should participants DO differently after training?
-                  </label>
-                  <p className="text-xs mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>Focus on concrete actions and measurable outcomes</p>
-                  <textarea
-                    value={answers.outcomes}
-                    onChange={(e) => setAnswers({ ...answers, outcomes: e.target.value })}
-                    placeholder="e.g. 'Run effective standups in <15 min', 'Reduce scrap rate to <5%', 'Make decisions without 50-person email chains'"
-                    rows="2"
-                    style={textareaStyle}
-                  />
+                  <label className="text-white font-semibold block mb-1">🎯 What should participants DO differently?</label>
+                  <textarea value={answers.outcomes} onChange={(e) => setAnswers({ ...answers, outcomes: e.target.value })}
+                    placeholder="e.g. 'Run standups in <15 min', 'Reduce scrap to <5%'" rows="2" style={textareaStyle} />
                 </div>
               </div>
 
               <div className="flex gap-3 mt-6">
-                <button
-                  onClick={() => { setShowQuestions(false); generateContent(pendingFormData, answers); }}
-                  style={{ flex: 1, padding: '14px', fontWeight: 'bold', color: 'white', borderRadius: '12px', border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', fontSize: '1em' }}
-                >
+                <button onClick={() => { setShowQuestions(false); generateContent(pendingFormData, answers); }}
+                  style={{ flex: 1, padding: '14px', fontWeight: 'bold', color: 'white', borderRadius: '12px', border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
                   🚀 Generate with Context
                 </button>
-                <button
-                  onClick={() => { setShowQuestions(false); generateContent(pendingFormData, { challenges: '', technical: '', behavioral: '', outcomes: '' }); }}
-                  style={{ flex: 1, padding: '14px', fontWeight: 'bold', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.2)', cursor: 'pointer', background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.7)' }}
-                >
+                <button onClick={() => { setShowQuestions(false); generateContent(pendingFormData, { challenges: '', technical: '', behavioral: '', outcomes: '' }); }}
+                  style={{ flex: 1, padding: '14px', fontWeight: 'bold', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.2)', cursor: 'pointer', background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.7)' }}>
                   ⏭️ Skip — Generate Now
                 </button>
               </div>
@@ -633,6 +639,8 @@ function App() {
                   ✓ Facilitator — Delivery guide<br />
                   ✓ Handout — Participant materials<br />
                   ✓ PPT — Export to presentation<br />
+                  ✓ Feedback — Share your experience<br /><br />
+                  💬 <strong style={{ color: 'white' }}>Please share your feedback to help us improve!</strong>
                 </div>
               </div>
             ) : (
@@ -710,7 +718,7 @@ function App() {
             {activeTab === 'facilitator' && (
               <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
                 {!generatedContent
-                  ? <p style={{ color: 'rgba(255,255,255,0.5)' }}>Generate a training program to see the facilitator guide here.</p>
+                  ? <p style={{ color: 'rgba(255,255,255,0.5)' }}>Generate a training program first.</p>
                   : generatedContent.isLocked
                   ? <UnlockButton />
                   : (
@@ -726,7 +734,7 @@ function App() {
             {activeTab === 'handout' && (
               <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
                 {!generatedContent
-                  ? <p style={{ color: 'rgba(255,255,255,0.5)' }}>Generate a training program to see the handout here.</p>
+                  ? <p style={{ color: 'rgba(255,255,255,0.5)' }}>Generate a training program first.</p>
                   : generatedContent.isLocked
                   ? <UnlockButton />
                   : (
@@ -752,14 +760,9 @@ function App() {
                     <div className="prose prose-invert max-w-none mb-6">
                       <h2 className="text-white">🎨 Ready to Create Your Presentation!</h2>
                       <h3 className="text-white/80">Option 1: Manual Export</h3>
-                      <p className="text-white/70">Copy content from the Content tab and paste into PowerPoint, Google Slides, or Keynote.</p>
+                      <p className="text-white/70">Copy content from the Content tab and paste into PowerPoint.</p>
                       <h3 className="text-white/80">Option 2: AI-Generated PPT (Recommended!)</h3>
-                      <p className="text-white/70">Use Gamma AI or GenSpark AI to automatically create your presentation in minutes.</p>
-                      <ol className="text-white/70">
-                        <li>Copy the AI prompt below</li>
-                        <li>Open Gamma AI (gamma.app) or GenSpark AI (genspark.ai)</li>
-                        <li>Paste the prompt and generate!</li>
-                      </ol>
+                      <p className="text-white/70">Use Gamma AI or GenSpark AI to automatically create your presentation.</p>
                     </div>
                     <div className="text-white font-semibold mb-2">📋 AI Prompt for Gamma/GenSpark:</div>
                     <div style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '16px', marginBottom: '16px' }}>
@@ -795,6 +798,85 @@ function App() {
               </div>
             )}
 
+            {/* FEEDBACK TAB */}
+            {activeTab === 'feedback' && (
+              <div>
+                <div className="mb-6 p-4 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(102,126,234,0.2), rgba(118,75,162,0.2))' }}>
+                  <h2 className="text-2xl font-bold text-white mb-2">💬 Your Feedback Matters!</h2>
+                  <p className="text-white/80" style={{ fontSize: '1.1em', fontWeight: '600' }}>
+                    Help us serve you better by sharing your experience with NEXUS
+                  </p>
+                </div>
+
+                {feedbackSubmitted ? (
+                  <div className="text-center py-10">
+                    <div className="text-6xl mb-4">🎉</div>
+                    <h3 className="text-2xl text-white font-bold mb-2">Thank you for your feedback!</h3>
+                    <p className="text-white/70">Your input helps make NEXUS smarter and more useful.</p>
+                  </div>
+                ) : (
+                  <div className="space-y-5">
+                    <div>
+                      <label className="text-white font-semibold block mb-2">⭐ Overall Rating</label>
+                      <div className="flex gap-2">
+                        {[1,2,3,4,5].map(star => (
+                          <button key={star} onClick={() => setFeedback({...feedback, rating: star})}
+                            style={{ fontSize: '2em', background: 'none', border: 'none', cursor: 'pointer',
+                            color: star <= feedback.rating ? '#fbbf24' : 'rgba(255,255,255,0.3)' }}>
+                            ★
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="text-white font-semibold block mb-2">✅ What worked well?</label>
+                      <textarea value={feedback.whatWorked} onChange={(e) => setFeedback({...feedback, whatWorked: e.target.value})}
+                        placeholder="e.g., Frameworks were relevant, examples were specific..." rows="3" style={textareaStyle} />
+                    </div>
+
+                    <div>
+                      <label className="text-white font-semibold block mb-2">🔧 What needs improvement?</label>
+                      <textarea value={feedback.whatNeedsImprovement} onChange={(e) => setFeedback({...feedback, whatNeedsImprovement: e.target.value})}
+                        placeholder="e.g., Exercises could be more detailed, needed more examples..." rows="3" style={textareaStyle} />
+                    </div>
+
+                    <div>
+                      <label className="text-white font-semibold block mb-2">💡 Any suggestions?</label>
+                      <textarea value={feedback.suggestions} onChange={(e) => setFeedback({...feedback, suggestions: e.target.value})}
+                        placeholder="e.g., Add video recommendations, include templates..." rows="3" style={textareaStyle} />
+                    </div>
+
+                    <div>
+                      <label className="text-white font-semibold block mb-2">🔄 Would you use NEXUS again?</label>
+                      <div className="flex gap-4">
+                        <button onClick={() => setFeedback({...feedback, wouldUseAgain: true})}
+                          style={{ flex: 1, padding: '12px', borderRadius: '12px', border: '2px solid', cursor: 'pointer',
+                          borderColor: feedback.wouldUseAgain ? '#10b981' : 'rgba(255,255,255,0.2)',
+                          background: feedback.wouldUseAgain ? 'rgba(16,185,129,0.2)' : 'transparent',
+                          color: 'white', fontWeight: 'bold' }}>
+                          ✅ Yes
+                        </button>
+                        <button onClick={() => setFeedback({...feedback, wouldUseAgain: false})}
+                          style={{ flex: 1, padding: '12px', borderRadius: '12px', border: '2px solid', cursor: 'pointer',
+                          borderColor: !feedback.wouldUseAgain ? '#ef4444' : 'rgba(255,255,255,0.2)',
+                          background: !feedback.wouldUseAgain ? 'rgba(239,68,68,0.2)' : 'transparent',
+                          color: 'white', fontWeight: 'bold' }}>
+                          ❌ No
+                        </button>
+                      </div>
+                    </div>
+
+                    <button onClick={handleSubmitFeedback}
+                      style={{ width: '100%', padding: '16px', fontWeight: 'bold', color: 'white', borderRadius: '12px',
+                      border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', fontSize: '1.1em' }}>
+                      🚀 Submit Feedback
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* ABOUT CREATOR TAB */}
             {activeTab === 'about' && (
               <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
@@ -803,41 +885,27 @@ function App() {
                 <p style={{ color: 'rgba(255,255,255,0.8)' }}>
                   <strong style={{ color: 'white' }}>Ashish Mehra</strong> is an ICF Level 2 certified transformational coach
                   and leadership trainer with 1,000+ hours of coaching experience, working with CEOs and senior leaders
-                  across India, Canada, Singapore, and Africa. He blends deep coaching expertise with hands-on leadership
-                  experience from global organisations to drive measurable change in mindset, performance, and business impact.
+                  across India, Canada, Singapore, and Africa.
                 </p>
                 <h2 style={{ color: 'rgba(255,255,255,0.9)' }}>Credentials & Experience</h2>
                 <ul style={{ color: 'rgba(255,255,255,0.8)' }}>
                   <li>INSEAD Alumnus</li>
                   <li>ICF Level 2 Certified Coach</li>
-                  <li>3 decades of experience in blue-chip companies: Xerox, Airtel, Singtel, Hitachi</li>
+                  <li>3 decades of experience: Xerox, Airtel, Singtel, Hitachi</li>
                   <li>Trained by Centre for Creative Leadership</li>
-                  <li>1,000+ hours of coaching experience</li>
                 </ul>
                 <h2 style={{ color: 'rgba(255,255,255,0.9)' }}>Why NEXUS?</h2>
                 <p style={{ color: 'rgba(255,255,255,0.8)' }}>
-                  I created NEXUS to solve a problem I faced repeatedly: spending long hours creating
-                  and preparing bespoke training content. After 5 years of manually creating training programs,
-                  I realized traditional design takes 40-80 hours per program. NEXUS combines my expertise in
-                  understanding behaviours and leadership with AI-powered content generation to create
-                  complete, research-backed training programs instantly.
-                </p>
-                <h2 style={{ color: 'rgba(255,255,255,0.9)' }}>My Approach</h2>
-                <p style={{ color: 'rgba(255,255,255,0.8)' }}>
-                  My methodology blends deep inner clarity with sharp business relevance — helping leaders
-                  align who they are with how they lead. I work at the intersection of mindset, behaviour,
-                  and strategy, using powerful inquiry and real-world experiments to create shifts that are
-                  both human and measurable.
+                  After 5 years of manually creating training programs taking 40-80 hours each, I created NEXUS
+                  to combine my expertise with AI to generate complete, research-backed training programs instantly.
                 </p>
                 <h2 style={{ color: 'rgba(255,255,255,0.9)' }}>Connect With Me</h2>
                 <p style={{ color: 'rgba(255,255,255,0.8)' }}>
-                  📧 <strong style={{ color: 'white' }}>Email:</strong> ashish.mehra@interfaceinc.co.in<br />
-                  💼 <strong style={{ color: 'white' }}>LinkedIn:</strong>{' '}
-                  <a href="https://www.linkedin.com/in/asmehra" target="_blank" rel="noreferrer" style={{ color: '#667eea' }}>
+                  📧 ashish.mehra@interfaceinc.co.in<br />
+                  💼 <a href="https://www.linkedin.com/in/asmehra" target="_blank" rel="noreferrer" style={{ color: '#667eea' }}>
                     linkedin.com/in/asmehra
                   </a><br />
-                  🌐 <strong style={{ color: 'white' }}>Website:</strong>{' '}
-                  <a href="https://interfaceinc.co.in" target="_blank" rel="noreferrer" style={{ color: '#667eea' }}>
+                  🌐 <a href="https://interfaceinc.co.in" target="_blank" rel="noreferrer" style={{ color: '#667eea' }}>
                     interfaceinc.co.in
                   </a>
                 </p>
