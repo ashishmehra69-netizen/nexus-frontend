@@ -99,7 +99,7 @@ const HOW_TO_CONTENT = `# How to Use NEXUS
 
 ---
 
-##💬 I learn with your feedback which is important to serve you better. Please spare a few moments to fill a small questionnaire in the Feedback tab.
+**💬 I learn with your feedback which is important to serve you better. Please spare a few moments to fill a small questionnaire in the Feedback tab.**
 
 ---
 
@@ -710,25 +710,28 @@ function App() {
 
             {/* SYNOPSIS TAB */}
             {activeTab === 'synopsis' && (
-              <div className="prose prose-invert max-w-none overflow-auto max-h-[250px]" style={{
-                fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-                fontSize: '1rem',
-                lineHeight: '1.7'
-              }}>
+              <div className="prose prose-invert max-w-none overflow-auto" 
+                style={{
+                  maxHeight: '250px',
+                  fontFamily: "'Inter', -apple-system, sans-serif",
+                  fontSize: '0.95rem',
+                  lineHeight: '1.6'
+                }}>
                 <style>{`
-                  .prose h1 { font-size: 2em; font-weight: 800; margin-bottom: 0.5em; color: white; letter-spacing: -0.02em; }
-                  .prose h2 { font-size: 1.5em; font-weight: 700; margin-top: 1.5em; margin-bottom: 0.5em; color: rgba(255,255,255,0.95); }
-                  .prose h3 { font-size: 1.2em; font-weight: 600; margin-top: 1em; color: rgba(255,255,255,0.9); }
-                  .prose p { margin: 0.8em 0; color: rgba(255,255,255,0.85); }
-                  .prose strong { color: white; font-weight: 600; }
-                  .prose ul, .prose ol { margin: 1em 0; padding-left: 1.5em; }
-                  .prose li { margin: 0.5em 0; color: rgba(255,255,255,0.85); }
-                  .prose hr { border-top: 1px solid rgba(255,255,255,0.15); margin: 1.5em 0; }
-                  .prose code { background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: 'Monaco', monospace; }
+                  .synopsis-content h1 { font-size: 1.8em; font-weight: 800; margin: 0 0 0.5em 0; color: white; }
+                  .synopsis-content h2 { font-size: 1.3em; font-weight: 700; margin: 1em 0 0.5em 0; color: #a78bfa; }
+                  .synopsis-content h3 { font-size: 1.1em; font-weight: 600; margin: 0.8em 0 0.3em 0; color: rgba(255,255,255,0.9); }
+                  .synopsis-content p { margin: 0.5em 0; color: rgba(255,255,255,0.85); }
+                  .synopsis-content strong { color: white; font-weight: 600; }
+                  .synopsis-content ul { margin: 0.5em 0; padding-left: 1.2em; }
+                  .synopsis-content li { margin: 0.3em 0; color: rgba(255,255,255,0.85); }
+                  .synopsis-content hr { border: none; border-top: 1px solid rgba(255,255,255,0.2); margin: 1em 0; }
                 `}</style>
-                {generatedContent
-                  ? <ReactMarkdown>{generatedContent.synopsis}</ReactMarkdown>
-                  : <ReactMarkdown>{HOW_TO_CONTENT}</ReactMarkdown>}
+                <div className="synopsis-content">
+                  <ReactMarkdown>
+                    {generatedContent ? generatedContent.synopsis : HOW_TO_CONTENT}
+                  </ReactMarkdown>
+                </div>
               </div>
             )}
             {/* CONTENT TAB */}
