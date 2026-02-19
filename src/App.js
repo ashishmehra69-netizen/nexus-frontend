@@ -472,8 +472,8 @@ function App() {
           backgroundSize: '200% 200%',
         }}>
           <div className="text-center relative z-10">
-            <h1 className="text-4xl font-black text-white mb-2" style={{ letterSpacing: '-2px' }}>🧠 NEXUS</h1>
-            <p className="text-lg text-white mb-2" style={{ opacity: 0.95 }}>AI-Powered Training Development Platform</p>
+            <h1 className="text-4xl font-black text-white mb-1" style={{ letterSpacing: '-2px' }}>🧠 NEXUS</h1>
+            <p className="text-lg text-white mb-1" style={{ opacity: 0.95 }}>AI-Powered Training Development Platform</p>
             <p className="text-sm text-white max-w-3xl mx-auto mb-3" style={{ opacity: 0.9, lineHeight: '1.6' }}>
               Transform training development from weeks to minutes. Generate research-backed, pedagogically sound training programs — instantly.
             </p>
@@ -497,7 +497,7 @@ function App() {
         }}>
           {[['∞','Domain Agnostic'],['3-5','Modules'],['45s','Avg Time'],['100%','Custom']].map(([num, label]) => (
             <div key={label} className="text-center text-white">
-              <div className="text-3xl font-black mb-1" style={{
+              <div className="text-3xl font-black mb-0" style={{
                 background: 'linear-gradient(135deg, #667eea, #f093fb)',
                 WebkitBackgroundClip: 'text', 
                 WebkitTextFillColor: 'transparent'
@@ -710,7 +710,7 @@ function App() {
 
             {/* SYNOPSIS TAB */}
             {activeTab === 'synopsis' && (
-              <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]" style={{
+              <div className="prose prose-invert max-w-none overflow-auto max-h-[400px]" style={{
                 fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
                 fontSize: '1rem',
                 lineHeight: '1.7'
