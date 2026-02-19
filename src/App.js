@@ -697,9 +697,16 @@ function App() {
             {TABS.map((tab) => (
               <button key={tab.key} onClick={() => setActiveTab(tab.key)}
                 className="flex-1 py-2 px-3 rounded-xl font-semibold text-xs transition-all"
-                ...
-              >
-          <div style={cardStyle}>
+                style={activeTab === tab.key ? {
+                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  color: 'white', boxShadow: '0 4px 15px rgba(102,126,234,0.4)'
+                } : { color: 'rgba(255,255,255,0.7)' }}
+              >{tab.label}</button>
+            ))}
+          </div>
+
+  <div style={cardStyle}>
+    {/* Your existing tab content here */}
 
             {/* SYNOPSIS TAB */}
             {activeTab === 'synopsis' && (
