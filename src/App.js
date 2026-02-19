@@ -465,7 +465,7 @@ function App() {
           maxWidth: '1400px',
           background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 50%, rgba(240, 147, 251, 0.3) 100%)',
           backdropFilter: 'blur(10px)',
-          padding: '30px 40px',
+          padding: '20px 30px',
           borderRadius: '24px',
           boxShadow: '0 20px 60px rgba(102, 126, 234, 0.4)',
           border: '1px solid rgba(255, 255, 255, 0.1)',
@@ -710,13 +710,27 @@ function App() {
 
             {/* SYNOPSIS TAB */}
             {activeTab === 'synopsis' && (
-              <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
+              <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]" style={{
+                fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+                fontSize: '1rem',
+                lineHeight: '1.7'
+              }}>
+                <style>{`
+                  .prose h1 { font-size: 2em; font-weight: 800; margin-bottom: 0.5em; color: white; letter-spacing: -0.02em; }
+                  .prose h2 { font-size: 1.5em; font-weight: 700; margin-top: 1.5em; margin-bottom: 0.5em; color: rgba(255,255,255,0.95); }
+                  .prose h3 { font-size: 1.2em; font-weight: 600; margin-top: 1em; color: rgba(255,255,255,0.9); }
+                  .prose p { margin: 0.8em 0; color: rgba(255,255,255,0.85); }
+                  .prose strong { color: white; font-weight: 600; }
+                  .prose ul, .prose ol { margin: 1em 0; padding-left: 1.5em; }
+                  .prose li { margin: 0.5em 0; color: rgba(255,255,255,0.85); }
+                  .prose hr { border-top: 1px solid rgba(255,255,255,0.15); margin: 1.5em 0; }
+                  .prose code { background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: 'Monaco', monospace; }
+                `}</style>
                 {generatedContent
                   ? <ReactMarkdown>{generatedContent.synopsis}</ReactMarkdown>
                   : <ReactMarkdown>{HOW_TO_CONTENT}</ReactMarkdown>}
               </div>
             )}
-
             {/* CONTENT TAB */}
             {activeTab === 'content' && (
               <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
