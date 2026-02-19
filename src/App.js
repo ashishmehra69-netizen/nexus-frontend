@@ -593,7 +593,7 @@ function App() {
         )}
 
         {/* Main Content Grid */}
-        <div className="container mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 mb-4" style={{ maxWidth: '1400px' }}>
+        <div className="container mx-auto grid grid-cols-1 lg:grid-cols-3 gap-3 mb-4" style={{ maxWidth: '1400px' }}>
           <div className="lg:col-span-2">
             <InputForm onGenerate={handleFormSubmit} isGenerating={isGenerating} />
           </div>
