@@ -76,7 +76,7 @@ export default function InputForm({ onGenerate, isGenerating }) {
       backdropFilter: 'blur(8px)',
       border: '1px solid rgba(255,255,255,0.15)',
       borderRadius: '24px',
-      padding: '35px',
+      padding: '20px',
       boxShadow: '0 8px 32px rgba(0,0,0,0.2)'
     }}>
       <form onSubmit={handleSubmit}>
