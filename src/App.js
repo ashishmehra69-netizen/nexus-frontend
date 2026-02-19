@@ -462,33 +462,33 @@ function App() {
       <div className="relative z-10 container mx-auto px-4" style={{ maxWidth: '1400px' }}>
         
         {/* Hero Section */}
-      <div className="container mx-auto mb-3 relative overflow-hidden" style={{
-        maxWidth: '1400px',
-        background: 'rgba(102, 126, 234, 0.05)',
-        backdropFilter: 'blur(30px) saturate(200%)',
-        WebkitBackdropFilter: 'blur(30px) saturate(200%)',
-        padding: '20px 30px', 
-        borderRadius: '20px',
-        boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.2)', 
-        border: '1px solid rgba(255, 255, 255, 0.1)',
-      }}>
-        <div className="text-center relative z-10">
-          <h1 className="text-3xl font-black text-white mb-2" style={{ letterSpacing: '-1px' }}>🧠 NEXUS</h1>
-          <p className="text-base text-white mb-2" style={{ opacity: 0.95 }}>AI-Powered Training Development Platform</p>
-          <p className="text-xs text-white max-w-3xl mx-auto mb-3" style={{ opacity: 0.9, lineHeight: '1.5' }}>
-            Transform training development from weeks to minutes. Generate research-backed, pedagogically sound training programs — instantly.
-          </p>
-          <div className="flex flex-wrap gap-1 justify-center">
-            {['✨ Domain Agnostic', '⚡ 45-Second', '🎓 Research-Backed', '🔄 Auto-Customized', '📊 Export Ready'].map(pill => (
-              <span key={pill} className="px-2 py-1 rounded-full text-white font-semibold text-xs" style={{
-                background: 'rgba(255, 255, 255, 0.08)',
-                backdropFilter: 'blur(10px)', 
-                border: '1px solid rgba(255, 255, 255, 0.15)'
-              }}>{pill}</span>
-            ))}
+        <div className="container mx-auto mb-3 relative overflow-hidden" style={{
+          maxWidth: '1400px',
+          background: 'rgba(102, 126, 234, 0.05)',
+          backdropFilter: 'blur(30px) saturate(200%)',
+          WebkitBackdropFilter: 'blur(30px) saturate(200%)',
+          padding: '20px 30px', 
+          borderRadius: '20px',
+          boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.2)', 
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+        }}>
+          <div className="text-center relative z-10">
+            <h1 className="text-3xl font-black text-white mb-2" style={{ letterSpacing: '-1px' }}>🧠 NEXUS</h1>
+            <p className="text-base text-white mb-2" style={{ opacity: 0.95 }}>AI-Powered Training Development Platform</p>
+            <p className="text-xs text-white max-w-3xl mx-auto mb-3" style={{ opacity: 0.9, lineHeight: '1.5' }}>
+              Transform training development from weeks to minutes. Generate research-backed, pedagogically sound training programs — instantly.
+            </p>
+            <div className="flex flex-wrap gap-1 justify-center">
+              {['✨ Domain Agnostic', '⚡ 45-Second', '🎓 Research-Backed', '🔄 Auto-Customized', '📊 Export Ready'].map(pill => (
+                <span key={pill} className="px-2 py-1 rounded-full text-white font-semibold text-xs" style={{
+                  background: 'rgba(255, 255, 255, 0.08)',
+                  backdropFilter: 'blur(10px)', 
+                  border: '1px solid rgba(255, 255, 255, 0.15)'
+                }}>{pill}</span>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
 
         {/* Stats Banner */}
         <div className="flex justify-around flex-wrap gap-2 p-3 rounded-2xl mb-4" style={{
