@@ -99,7 +99,7 @@ const HOW_TO_CONTENT = `# How to Use NEXUS
 
 ---
 
-**💬 I learn with your feedback which is important to serve you better. Please spare a few moments to fill a small questionnaire in the Feedback tab.**
+##💬 I learn with your feedback which is important to serve you better. Please spare a few moments to fill a small questionnaire in the Feedback tab.
 
 ---
 
@@ -705,12 +705,12 @@ function App() {
             ))}
           </div>
 
-  <div style={cardStyle}>
+  <div style={{...cardStyle, padding: '20px', minHeight: '300px'}}>
     {/* Your existing tab content here */}
 
             {/* SYNOPSIS TAB */}
             {activeTab === 'synopsis' && (
-              <div className="prose prose-invert max-w-none overflow-auto max-h-[400px]" style={{
+              <div className="prose prose-invert max-w-none overflow-auto max-h-[250px]" style={{
                 fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
                 fontSize: '1rem',
                 lineHeight: '1.7'
