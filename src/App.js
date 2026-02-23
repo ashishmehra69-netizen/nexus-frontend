@@ -608,7 +608,7 @@ function App() {
         )}
 
         {/* Main Content Grid */}
-        <div className="container <div
+        <div className="container 
           className="container mx-auto grid grid-cols-1 lg:grid-cols-3 gap-3"
           style={{
             flex: 1,
