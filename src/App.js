@@ -455,25 +455,10 @@ function App() {
   );
 
     return (
-    <div
-      className="relative flex flex-col"
-      style={{
-        height: '100vh',
-        overflow: 'hidden',
-        background: 'transparent',
-        padding: '12px'
-      }}
-    >
+    <div className="min-h-screen relative" style={{ background: 'transparent', padding: '20px' }}>
         <NeuralBackground />
       
-      <div
-        className="relative z-10 container mx-auto px-4 flex flex-col"
-        style={{
-          maxWidth: '1400px',
-          height: '100%',
-          overflow: 'hidden'
-        }}
-      >
+      <div className="relative z-10 container mx-auto px-4" style={{ maxWidth: '1400px' }}>
         
         {/* Hero Section */}
         <div className="container mx-auto mb-3 relative overflow-hidden" style={{
@@ -608,28 +593,13 @@ function App() {
         )}
 
         {/* Main Content Grid */}
-        <div
-          className="container mx-auto grid grid-cols-1 lg:grid-cols-3 gap-3 mb-4"
-          style={{
-            flex: 1,
-            overflow: 'hidden',
-            maxWidth: '1400px'
-          }}
-        >
+        <div className="container mx-auto grid grid-cols-1 lg:grid-cols-3 gap-3 mb-4" style={{ maxWidth: '1400px' }}>
           <div className="lg:col-span-2">
-            <InputForm 
-              onGenerate={handleFormSubmit} 
-              isGenerating={isGenerating} 
-            />
+            <InputForm onGenerate={handleFormSubmit} isGenerating={isGenerating} />
           </div>
-        
-          <div className="lg:col-span-1">
-            {/* Right column content goes here */}
-          </div>
-        </div>
           
           {/* Right Panel */}
-         <div style={{ ...cardStyle, overflowY: 'auto', maxHeight: '100%' }}>
+          <div style={cardStyle}>
             {isGenerating ? (
               <div>
                 <div className="text-white font-bold text-lg mb-4">⚡ Generating Your Training...</div>
@@ -980,7 +950,9 @@ function App() {
 
           </div>
         </div>
-      </div>  
+
+      </div>
+    </div>
   );
 }
 
