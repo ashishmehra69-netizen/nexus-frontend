@@ -608,16 +608,25 @@ function App() {
         )}
 
         {/* Main Content Grid */}
-        <div className="container 
-          className="container mx-auto grid grid-cols-1 lg:grid-cols-3 gap-3"
+        <div
+          className="container mx-auto grid grid-cols-1 lg:grid-cols-3 gap-3 mb-4"
           style={{
             flex: 1,
-            overflow: 'hidden'
+            overflow: 'hidden',
+            maxWidth: '1400px'
           }}
-        >lg:grid-cols-3 gap-3 mb-4" style={{ maxWidth: '1400px' }}>
+        >
           <div className="lg:col-span-2">
-            <InputForm onGenerate={handleFormSubmit} isGenerating={isGenerating} />
+            <InputForm 
+              onGenerate={handleFormSubmit} 
+              isGenerating={isGenerating} 
+            />
           </div>
+        
+          <div className="lg:col-span-1">
+            {/* Right column content goes here */}
+          </div>
+        </div>
           
           {/* Right Panel */}
          <div style={{ ...cardStyle, overflowY: 'auto', maxHeight: '100%' }}>
