@@ -456,8 +456,7 @@ function App() {
 
     return (
       <div style={{ minHeight: '100vh', position: 'relative' }}>
-    
-        }}>
+
         <NeuralBackground />
       
       <div className="relative z-10 container mx-auto px-4" style={{ maxWidth: '1400px' }}>
