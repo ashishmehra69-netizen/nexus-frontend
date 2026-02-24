@@ -834,7 +834,7 @@ function App() {
 
             {/* SAMPLE TAB */}
             {activeTab === 'sample' && (
-              <div className="prose prose-invert max-w-none overflow-auto max-h-[400px]">
+              <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
                 <ReactMarkdown>{SAMPLE_CONTENT}</ReactMarkdown>
               </div>
             )}
@@ -920,7 +920,7 @@ function App() {
 
             {/* ABOUT CREATOR TAB */}
             {activeTab === 'about' && (
-              <div className="prose prose-invert max-w-none overflow-auto max-h-[400px]">
+              <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
                 <h1 style={{ color: 'white' }}>About the Creator</h1>
                 <h2 style={{ color: 'rgba(255,255,255,0.9)' }}>Your Professional Thought Partner</h2>
                 <p style={{ color: 'rgba(255,255,255,0.8)' }}>
