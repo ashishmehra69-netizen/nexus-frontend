@@ -455,305 +455,148 @@ function App() {
   );
 
     return (
-      <div style={{ minHeight: '100vh', position: 'relative' }}>
+  <div style={{ minHeight: '100vh', height: '100vh', position: 'relative', overflow: 'hidden' }}>
+    <NeuralBackground />
 
-        <NeuralBackground />
-      
-      <div className="relative z-10 container mx-auto px-4" style={{ maxWidth: '1400px' }}>
-        
-        {/* Hero Section */}
-        <div className="container mx-auto mb-3 relative overflow-hidden" style={{
+    <div
+      className="relative z-10 container mx-auto px-3"
+      style={{ maxWidth: '1400px', height: '100%', display: 'flex', flexDirection: 'column' }}
+    >
+      {/* Hero Section */}
+      <div
+        className="container mx-auto mb-2 relative overflow-hidden"
+        style={{
           maxWidth: '1400px',
           background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 50%, rgba(240, 147, 251, 0.3) 100%)',
           backdropFilter: 'blur(10px)',
-          padding: '20px 30px',
-          borderRadius: '24px',
+          padding: '14px 20px',
+          borderRadius: '20px',
           boxShadow: '0 20px 60px rgba(102, 126, 234, 0.4)',
           border: '1px solid rgba(255, 255, 255, 0.1)',
           backgroundSize: '200% 200%',
-        }}>
-          <div className="text-center relative z-10">
-            <h1 className="text-4xl font-black text-white mb-1" style={{ letterSpacing: '-2px' }}>🧠 NEXUS</h1>
-            <p className="text-lg text-white mb-1" style={{ opacity: 0.95 }}>AI-Powered Training Development Platform</p>
-            <p className="text-sm text-white max-w-3xl mx-auto mb-3" style={{ opacity: 0.9, lineHeight: '1.6' }}>
-              Transform training development from weeks to minutes. Generate research-backed, pedagogically sound training programs — instantly.
-            </p>
-            <div className="flex flex-wrap gap-2 justify-center">
-              {['✨ Domain Agnostic', '⚡ 45-Second Generation', '🎓 Research-Backed', '🔄 Auto-Customized', '📊 Export Ready'].map(pill => (
-                <span key={pill} className="px-3 py-1 rounded-full text-white font-semibold text-xs" style={{
-                  background: 'rgba(255,255,255,0.2)', 
-                  backdropFilter: 'blur(10px)', 
-                  border: '1px solid rgba(255,255,255,0.3)'
-                }}>{pill}</span>
-              ))}
-            </div>
+          flexShrink: 0
+        }}
+      >
+        <div className="text-center relative z-10">
+          <h1 className="font-black text-white mb-1" style={{ letterSpacing: '-1px', fontSize: 'clamp(1.6rem, 2.2vw, 2.4rem)' }}>
+            🧠 NEXUS
+          </h1>
+          <p className="text-white mb-1" style={{ opacity: 0.95, fontSize: 'clamp(1rem, 1.5vw, 1.8rem)' }}>
+            AI-Powered Training Development Platform
+          </p>
+          <p className="text-white max-w-3xl mx-auto mb-2" style={{ opacity: 0.9, lineHeight: '1.5', fontSize: 'clamp(0.8rem, 1vw, 1rem)' }}>
+            Transform training development from weeks to minutes. Generate research-backed, pedagogically sound training programs - instantly.
+          </p>
+          <div className="flex flex-wrap gap-2 justify-center">
+            {['✨ Domain Agnostic', '⚡ 45-Second Generation', '🎓 Research-Backed', '🔄 Auto-Customized', '📊 Export Ready'].map(pill => (
+              <span
+                key={pill}
+                className="px-3 py-1 rounded-full text-white font-semibold text-xs"
+                style={{ background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.3)' }}
+              >
+                {pill}
+              </span>
+            ))}
           </div>
         </div>
+      </div>
 
-        {/* Stats Banner */}
-        <div className="container mx-auto flex justify-around flex-wrap gap-3 p-4 rounded-2xl mb-4" style={{
+      {/* Stats Banner */}
+      <div
+        className="container mx-auto flex justify-around flex-wrap gap-2 p-2 rounded-2xl mb-2"
+        style={{
           maxWidth: '1400px',
           background: 'linear-gradient(135deg, #1a1f3a 0%, #2d1b4e 100%)',
-          boxShadow: '0 10px 40px rgba(0,0,0,0.3)'
-        }}>
-          {[['∞','Domain Agnostic'],['3-5','Modules'],['45s','Avg Time'],['100%','Custom']].map(([num, label]) => (
-            <div key={label} className="text-center text-white">
-              <div className="text-3xl font-black mb-0" style={{
+          boxShadow: '0 10px 40px rgba(0,0,0,0.3)',
+          flexShrink: 0
+        }}
+      >
+        {[['∞', 'Domain Agnostic'], ['3-5', 'Modules'], ['45s', 'Avg Time'], ['100%', 'Custom']].map(([num, label]) => (
+          <div key={label} className="text-center text-white">
+            <div
+              className="font-black mb-0"
+              style={{
+                fontSize: 'clamp(1.4rem, 2.8vw, 2.8rem)',
                 background: 'linear-gradient(135deg, #667eea, #f093fb)',
-                WebkitBackgroundClip: 'text', 
+                WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent'
-              }}>{num}</div>
-              <div className="text-xs" style={{ color: 'rgba(255,255,255,0.7)' }}>{label}</div>
+              }}
+            >
+              {num}
             </div>
+            <div className="text-xs" style={{ color: 'rgba(255,255,255,0.7)' }}>{label}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Main Content Grid */}
+      <div className="container mx-auto grid grid-cols-1 lg:grid-cols-3 gap-2 mb-2" style={{ maxWidth: '1400px', flexShrink: 0 }}>
+        <div className="lg:col-span-2">
+          <InputForm onGenerate={handleFormSubmit} isGenerating={isGenerating} />
+        </div>
+        <div style={{ ...cardStyle, padding: '14px' }}>
+          {/* keep your existing right-panel content unchanged */}
+          {/* ... */}
+        </div>
+      </div>
+
+      {/* Tabs area fills remaining viewport */}
+      <div className="container mx-auto" style={{ maxWidth: '1400px', flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
+        <div
+          className="flex flex-wrap gap-2 p-2 rounded-2xl mb-2"
+          style={{ background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)', flexShrink: 0 }}
+        >
+          {TABS.map((tab) => (
+            <button
+              key={tab.key}
+              onClick={() => setActiveTab(tab.key)}
+              className="flex-1 py-2 px-3 rounded-xl font-semibold text-xs transition-all"
+              style={activeTab === tab.key
+                ? { background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: 'white', boxShadow: '0 4px 15px rgba(102,126,234,0.4)' }
+                : { color: 'rgba(255,255,255,0.7)' }}
+            >
+              {tab.label}
+            </button>
           ))}
         </div>
 
-        {/* Enhancement Questions Modal */}
-        {showQuestions && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(10px)' }}>
-            <div style={{ ...cardStyle, maxWidth: '650px', width: '92%', maxHeight: '90vh', overflowY: 'auto', position: 'relative' }}>
-  
-              <button
-                onClick={closeQuestionsModal}
-                style={{
-                  position: 'absolute',
-                  top: '15px',
-                  right: '20px',
-                  background: 'transparent',
-                  border: 'none',
-                  fontSize: '22px',
-                  cursor: 'pointer',
-                  color: 'white'
-                }}
-              >
-                ✕
-              </button>
-              
-              <div className="text-center mb-4 p-3 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(102,126,234,0.3), rgba(118,75,162,0.3))' }}>
-                <h2 className="text-2xl font-bold text-white mb-1">✨ Quick Context Check</h2>
-                <p style={{ color: 'rgba(255,255,255,0.8)' }}>Answer 2-3 quick questions to make your training hyper-specific</p>
-                {detectedDomain !== 'general' && (
-                  <div className="mt-2 inline-block px-3 py-1 rounded-full text-sm font-semibold" style={{
-                    background: detectedDomain === 'technical' ? 'rgba(102,126,234,0.4)' : 'rgba(255,107,53,0.4)',
-                    color: 'white', border: `1px solid ${detectedDomain === 'technical' ? 'rgba(102,126,234,0.6)' : 'rgba(255,107,53,0.6)'}`
-                  }}>
-                    {detectedDomain === 'technical' ? '⚙️ Technical Training Detected' : '🧠 Leadership/Behavioral Training Detected'}
-                  </div>
-                )}
-              </div>
-
-              <div className="space-y-3">
-                <div>
-                  <label className="text-white font-semibold block mb-1">🎯 What specific challenges should this training address?</label>
-                  <p className="text-xs mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>Be specific about the ACTUAL problem</p>
-                  <textarea value={answers.challenges} onChange={(e) => setAnswers({ ...answers, challenges: e.target.value })}
-                    placeholder="e.g. 'Team leads don't give feedback', 'Scrap rate too high'" rows="2" style={textareaStyle} />
-                </div>
-
-                {detectedDomain === 'technical' && (
-                  <div>
-                    <div className="p-3 rounded-lg mb-2" style={{ background: 'rgba(102,126,234,0.15)', borderLeft: '4px solid #667eea' }}>
-                      <span className="text-white font-semibold">⚙️ Add equipment/process details</span>
-                    </div>
-                    <label className="text-white font-semibold block mb-1">⚙️ Equipment, Standards & Metrics</label>
-                    <textarea value={answers.technical} onChange={(e) => setAnswers({ ...answers, technical: e.target.value })}
-                      placeholder="Equipment, SOP numbers, metrics" rows="3" style={textareaStyle} />
-                  </div>
-                )}
-
-                {detectedDomain === 'behavioral' && (
-                  <div>
-                    <div className="p-3 rounded-lg mb-2" style={{ background: 'rgba(255,107,53,0.15)', borderLeft: '4px solid #ff6b35' }}>
-                      <span className="text-white font-semibold">🧠 Add culture details</span>
-                    </div>
-                    <label className="text-white font-semibold block mb-1">🧠 Culture, Dynamics & Real Scenarios</label>
-                    <textarea value={answers.behavioral} onChange={(e) => setAnswers({ ...answers, behavioral: e.target.value })}
-                      placeholder="Culture dynamics, team issues" rows="3" style={textareaStyle} />
-                  </div>
-                )}
-
-                <div>
-                  <label className="text-white font-semibold block mb-1">🎯 What should participants DO differently?</label>
-                  <textarea value={answers.outcomes} onChange={(e) => setAnswers({ ...answers, outcomes: e.target.value })}
-                    placeholder="e.g. 'Run standups in <15 min', 'Reduce scrap to <5%'" rows="2" style={textareaStyle} />
-                </div>
-              </div>
-
-              <div className="flex gap-3 mt-6">
-                <button onClick={() => { setShowQuestions(false); generateContent(pendingFormData, answers); }}
-                  style={{ flex: 1, padding: '14px', fontWeight: 'bold', color: 'white', borderRadius: '12px', border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
-                  🚀 Generate with Context
-                </button>
-                <button onClick={() => { setShowQuestions(false); generateContent(pendingFormData, { challenges: '', technical: '', behavioral: '', outcomes: '' }); }}
-                  style={{ flex: 1, padding: '14px', fontWeight: 'bold', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.2)', cursor: 'pointer', background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.7)' }}>
-                  ⏭️ Skip — Generate Now
-                </button>
-              </div>
+        <div style={{ ...cardStyle, padding: '16px', flex: 1, minHeight: 0, overflow: 'hidden' }}>
+          {/* For EACH tab content wrapper, use height 100% + overflowY auto */}
+          {/* Example: */}
+          {activeTab === 'synopsis' && (
+            <div className="prose prose-invert max-w-none" style={{ height: '100%', overflowY: 'auto' }}>
+              <ReactMarkdown>{generatedContent ? generatedContent.synopsis : HOW_TO_CONTENT}</ReactMarkdown>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Main Content Grid */}
-        <div className="container mx-auto grid grid-cols-1 lg:grid-cols-3 gap-3 mb-4" style={{ maxWidth: '1400px' }}>
-          <div className="lg:col-span-2">
-            <InputForm onGenerate={handleFormSubmit} isGenerating={isGenerating} />
-          </div>
-          
-          {/* Right Panel */}
-          <div style={cardStyle}>
-            {isGenerating ? (
-              <div>
-                <div className="text-white font-bold text-lg mb-4">⚡ Generating Your Training...</div>
-                <div className="mb-2" style={{ color: 'rgba(255,255,255,0.7)', fontFamily: 'Monaco, monospace', fontSize: '0.9em' }}>{progressMsg}</div>
-                <div className="mb-4">
-                  <div className="flex justify-between text-sm mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                    <span>Progress</span><span>{elapsedTime}s elapsed</span>
-                  </div>
-                  <div className="w-full rounded-full h-2" style={{ background: 'rgba(255,255,255,0.1)' }}>
-                    <div className="h-2 rounded-full transition-all duration-1000" style={{
-                      width: `${Math.min((elapsedTime / 150) * 100, 95)}%`,
-                      background: 'linear-gradient(135deg, #667eea, #764ba2)'
-                    }}></div>
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  {PROGRESS_STEPS.map((step, i) => (
-                    <div key={i} className="flex items-center gap-2 text-sm" style={{
-                      color: elapsedTime >= step.time ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.25)'
-                    }}>
-                      <span>{elapsedTime >= step.time ? '✅' : '⏳'}</span>
-                      <span>{step.msg}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ) : generatedContent ? (
-              <div>
-                {generatedContent?.isLocked && (
-                  <div className="mb-4 text-center">
-                    <button onClick={handleUnlock} style={{
-                      width: '100%', padding: '14px', fontWeight: 'bold', color: 'white', borderRadius: '12px',
-                      border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', fontSize: '1.1em'
-                    }}>🔓 Unlock Full Access</button>
+          {activeTab === 'content' && (
+            <div className="prose prose-invert max-w-none" style={{ height: '100%', overflowY: 'auto' }}>
+              {!generatedContent
+                ? <p style={{ color: 'rgba(255,255,255,0.5)' }}>Generate a training program to see content here.</p>
+                : generatedContent.isLocked
+                ? <UnlockButton />
+                : (
+                  <div>
+                    <OpenFullPageButton content={generatedContent.content} title="Training Content" />
+                    <ReactMarkdown>{generatedContent.content}</ReactMarkdown>
                   </div>
                 )}
-                <div className="text-white font-semibold text-lg mb-3">📊 Generation Complete!</div>
-                <div style={{ fontFamily: 'Monaco, monospace', fontSize: '0.85em', lineHeight: '1.8', color: 'rgba(255,255,255,0.85)' }}>
-                  ✅ Training Generated!<br /><br />
-                  📌 Topic: {pendingFormData?.topic}<br />
-                  🎯 Format: {pendingFormData?.format}<br />
-                  👥 Audience: {pendingFormData?.audience}<br />
-                  ⏱️ Duration: {pendingFormData?.duration}<br />
-                  🌍 Domain: {generatedContent.domain || 'Business'}<br />
-                  ⚡ Time Taken: {generatedContent.timeTaken}s<br /><br />
-                  {generatedContent.isLocked
-                    ? '🔒 Click Unlock above to view full content'
-                    : '🔓 Content unlocked and ready!'}
-                  <br /><br />
-                  📋 Available Tabs:<br />
-                  ✓ Synopsis — Overview & objectives<br />
-                  ✓ Content — Full training modules<br />
-                  ✓ Facilitator — Delivery guide<br />
-                  ✓ Handout — Participant materials<br />
-                  ✓ PPT — Export to presentation<br />
-                  ✓ Feedback — Share your experience<br /><br />
-                  💬 <strong style={{ color: 'white' }}>Please share your feedback to help us improve!</strong>
-                </div>
-              </div>
-            ) : (
-              <div>
-                <div className="text-white font-semibold text-lg mb-3">📊 Generation Status</div>
-                <div style={{ fontFamily: 'Monaco, monospace', fontSize: '0.9em', lineHeight: '1.8', color: 'rgba(255,255,255,0.85)' }}>
-                  ✨ Ready to Generate!<br /><br />
-                  🌍 Supported Domains:<br />
-                  • Business & Leadership<br />
-                  • Medical & Healthcare<br />
-                  • Engineering & Technical<br />
-                  • IT & Software Development<br />
-                  • Finance & Accounting<br />
-                  • Legal & Compliance<br />
-                  • Education & Training<br />
-                  • Manufacturing<br />
-                  • Sales & Marketing<br /><br />
-                  📋 What You'll Get:<br />
-                  ✓ Complete training content<br />
-                  ✓ Facilitator guide<br />
-                  ✓ Participant handouts<br />
-                  ✓ Video resources<br />
-                  ✓ PPT export ready<br /><br />
-                  👉 Fill in your topic!
-                </div>
-              </div>
-            )}
-          </div>
+            </div>
+          )}
+
+          {/* keep the rest of your tabs same, just add:
+              style={{ height: '100%', overflowY: 'auto' }}
+              to each tab's main content wrapper */}
         </div>
+      </div>
+    </div>
+  </div>
+);
 
-        {/* Tabs */}
-        <div className="container mx-auto mb-4" style={{ maxWidth: '1400px' }}>
-          <div className="flex flex-wrap gap-2 p-2 rounded-2xl mb-3" style={{
-            background: 'rgba(0,0,0,0.2)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            backdropFilter: 'blur(10px)'
-          }}>
-            {TABS.map((tab) => (
-              <button key={tab.key} onClick={() => setActiveTab(tab.key)}
-                className="flex-1 py-2 px-3 rounded-xl font-semibold text-xs transition-all"
-                style={activeTab === tab.key ? {
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                  color: 'white', boxShadow: '0 4px 15px rgba(102,126,234,0.4)'
-                } : { color: 'rgba(255,255,255,0.7)' }}
-              >{tab.label}</button>
-            ))}
-          </div>
-
-  <div style={{...cardStyle, padding: '20px', minHeight: '300px'}}>
-    {/* Your existing tab content here */}
-
-            {/* SYNOPSIS TAB */}
-            {activeTab === 'synopsis' && (
-              <div className="prose prose-invert max-w-none overflow-auto" 
-                style={{
-                  maxHeight: '250px',
-                  fontFamily: "'Inter', -apple-system, sans-serif",
-                  fontSize: '0.95rem',
-                  lineHeight: '1.6'
-                }}>
-                <style>{`
-                  .synopsis-content h1 { font-size: 1.8em; font-weight: 800; margin: 0 0 0.5em 0; color: white; }
-                  .synopsis-content h2 { font-size: 1.3em; font-weight: 700; margin: 1em 0 0.5em 0; color: #a78bfa; }
-                  .synopsis-content h3 { font-size: 1.1em; font-weight: 600; margin: 0.8em 0 0.3em 0; color: rgba(255,255,255,0.9); }
-                  .synopsis-content p { margin: 0.5em 0; color: rgba(255,255,255,0.85); }
-                  .synopsis-content strong { color: white; font-weight: 600; }
-                  .synopsis-content ul { margin: 0.5em 0; padding-left: 1.2em; }
-                  .synopsis-content li { margin: 0.3em 0; color: rgba(255,255,255,0.85); }
-                  .synopsis-content hr { border: none; border-top: 1px solid rgba(255,255,255,0.2); margin: 1em 0; }
-                `}</style>
-                <div className="synopsis-content">
-                  <ReactMarkdown>
-                    {generatedContent ? generatedContent.synopsis : HOW_TO_CONTENT}
-                  </ReactMarkdown>
-                </div>
-              </div>
-            )}
-            {/* CONTENT TAB */}
-            {activeTab === 'content' && (
-              <div className="prose prose-invert max-w-none overflow-auto max-h-[400px]">
-                {!generatedContent
-                  ? <p style={{ color: 'rgba(255,255,255,0.5)' }}>Generate a training program to see content here.</p>
-                  : generatedContent.isLocked
-                  ? <UnlockButton />
-                  : (
-                    <div>
-                      <OpenFullPageButton content={generatedContent.content} title="Training Content" />
-                      <ReactMarkdown>{generatedContent.content}</ReactMarkdown>
-                    </div>
-                  )}
-              </div>
-            )}
 
             {/* FACILITATOR TAB */}
             {activeTab === 'facilitator' && (
-              <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
+              <div className="prose prose-invert max-w-none overflow-auto max-h-[400px]">
                 {!generatedContent
                   ? <p style={{ color: 'rgba(255,255,255,0.5)' }}>Generate a training program first.</p>
                   : generatedContent.isLocked
@@ -769,7 +612,7 @@ function App() {
 
             {/* HANDOUT TAB */}
             {activeTab === 'handout' && (
-              <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
+              <div className="prose prose-invert max-w-none overflow-auto max-h-[400px]">
                 {!generatedContent
                   ? <p style={{ color: 'rgba(255,255,255,0.5)' }}>Generate a training program first.</p>
                   : generatedContent.isLocked
@@ -785,7 +628,7 @@ function App() {
 
             {/* PPT TAB */}
             {activeTab === 'ppt' && (
-              <div>
+              <divstyle={{ height: '100%', overflowY: 'auto' }}>
                 {!generatedContent || generatedContent.isLocked ? (
                   <div className="text-center py-10">
                     <p className="text-white text-xl mb-2">🎨 PPT Export</p>
@@ -830,14 +673,14 @@ function App() {
 
             {/* SAMPLE TAB */}
             {activeTab === 'sample' && (
-              <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
+              <div className="prose prose-invert max-w-none overflow-auto max-h-[400px]">
                 <ReactMarkdown>{SAMPLE_CONTENT}</ReactMarkdown>
               </div>
             )}
 
             {/* FEEDBACK TAB */}
             {activeTab === 'feedback' && (
-              <div>
+              <divstyle={{ height: '100%', overflowY: 'auto' }}>
                 <div className="mb-4 p-4 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(102,126,234,0.2), rgba(118,75,162,0.2))' }}>
                   <h2 className="text-2xl font-bold text-white mb-2">💬 Your Feedback Matters!</h2>
                   <p className="text-white/80" style={{ fontSize: '1.1em', fontWeight: '600' }}>
@@ -916,7 +759,7 @@ function App() {
 
             {/* ABOUT CREATOR TAB */}
             {activeTab === 'about' && (
-              <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
+              <div className="prose prose-invert max-w-none overflow-auto max-h-[400px]">
                 <h1 style={{ color: 'white' }}>About the Creator</h1>
                 <h2 style={{ color: 'rgba(255,255,255,0.9)' }}>Your Professional Thought Partner</h2>
                 <p style={{ color: 'rgba(255,255,255,0.8)' }}>
