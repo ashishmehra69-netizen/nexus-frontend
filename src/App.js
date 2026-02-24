@@ -9,7 +9,7 @@ const cardStyle = {
   border: '1px solid rgba(255,255,255,0.15)',
   boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
   borderRadius: '24px',
-  padding: '25px'
+  padding: '16px'
 };
 
 const textareaStyle = {
@@ -455,7 +455,12 @@ function App() {
   );
 
     return (
-    <div className="min-h-screen relative" style={{ background: 'transparent', padding: '20px' }}>
+    <div style={{
+      transform: 'scale(0.9)',
+      transformOrigin: 'top center',
+      width: '111%',  // compensate for scale
+      marginLeft: '-5.5%'
+    }}>
         <NeuralBackground />
       
       <div className="relative z-10 container mx-auto px-4" style={{ maxWidth: '1400px' }}>
@@ -528,7 +533,7 @@ function App() {
                 ✕
               </button>
               
-              <div className="text-center mb-6 p-3 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(102,126,234,0.3), rgba(118,75,162,0.3))' }}>
+              <div className="text-center mb-4 p-3 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(102,126,234,0.3), rgba(118,75,162,0.3))' }}>
                 <h2 className="text-2xl font-bold text-white mb-1">✨ Quick Context Check</h2>
                 <p style={{ color: 'rgba(255,255,255,0.8)' }}>Answer 2-3 quick questions to make your training hyper-specific</p>
                 {detectedDomain !== 'general' && (
@@ -541,7 +546,7 @@ function App() {
                 )}
               </div>
 
-              <div className="space-y-5">
+              <div className="space-y-3">
                 <div>
                   <label className="text-white font-semibold block mb-1">🎯 What specific challenges should this training address?</label>
                   <p className="text-xs mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>Be specific about the ACTUAL problem</p>
@@ -604,7 +609,7 @@ function App() {
               <div>
                 <div className="text-white font-bold text-lg mb-4">⚡ Generating Your Training...</div>
                 <div className="mb-2" style={{ color: 'rgba(255,255,255,0.7)', fontFamily: 'Monaco, monospace', fontSize: '0.9em' }}>{progressMsg}</div>
-                <div className="mb-6">
+                <div className="mb-4">
                   <div className="flex justify-between text-sm mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
                     <span>Progress</span><span>{elapsedTime}s elapsed</span>
                   </div>
@@ -629,7 +634,7 @@ function App() {
             ) : generatedContent ? (
               <div>
                 {generatedContent?.isLocked && (
-                  <div className="mb-6 text-center">
+                  <div className="mb-4 text-center">
                     <button onClick={handleUnlock} style={{
                       width: '100%', padding: '14px', fontWeight: 'bold', color: 'white', borderRadius: '12px',
                       border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', fontSize: '1.1em'
@@ -736,7 +741,7 @@ function App() {
             )}
             {/* CONTENT TAB */}
             {activeTab === 'content' && (
-              <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
+              <div className="prose prose-invert max-w-none overflow-auto max-h-[400px]">
                 {!generatedContent
                   ? <p style={{ color: 'rgba(255,255,255,0.5)' }}>Generate a training program to see content here.</p>
                   : generatedContent.isLocked
@@ -793,7 +798,7 @@ function App() {
                   </div>
                 ) : (
                   <div>
-                    <div className="prose prose-invert max-w-none mb-6">
+                    <div className="prose prose-invert max-w-none mb-4">
                       <h2 className="text-white">🎨 Ready to Create Your Presentation!</h2>
                       <h3 className="text-white/80">Option 1: Manual Export</h3>
                       <p className="text-white/70">Copy content from the Content tab and paste into PowerPoint.</p>
@@ -829,7 +834,7 @@ function App() {
 
             {/* SAMPLE TAB */}
             {activeTab === 'sample' && (
-              <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
+              <div className="prose prose-invert max-w-none overflow-auto max-h-[400px]">
                 <ReactMarkdown>{SAMPLE_CONTENT}</ReactMarkdown>
               </div>
             )}
@@ -837,7 +842,7 @@ function App() {
             {/* FEEDBACK TAB */}
             {activeTab === 'feedback' && (
               <div>
-                <div className="mb-6 p-4 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(102,126,234,0.2), rgba(118,75,162,0.2))' }}>
+                <div className="mb-4 p-4 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(102,126,234,0.2), rgba(118,75,162,0.2))' }}>
                   <h2 className="text-2xl font-bold text-white mb-2">💬 Your Feedback Matters!</h2>
                   <p className="text-white/80" style={{ fontSize: '1.1em', fontWeight: '600' }}>
                     Help us serve you better by sharing your experience with NEXUS
@@ -851,7 +856,7 @@ function App() {
                     <p className="text-white/70">Your input helps make NEXUS smarter and more useful.</p>
                   </div>
                 ) : (
-                  <div className="space-y-5">
+                  <div className="space-y-3">
                     <div>
                       <label className="text-white font-semibold block mb-2">⭐ Overall Rating</label>
                       <div className="flex gap-2">
@@ -915,7 +920,7 @@ function App() {
 
             {/* ABOUT CREATOR TAB */}
             {activeTab === 'about' && (
-              <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
+              <div className="prose prose-invert max-w-none overflow-auto max-h-[400px]">
                 <h1 style={{ color: 'white' }}>About the Creator</h1>
                 <h2 style={{ color: 'rgba(255,255,255,0.9)' }}>Your Professional Thought Partner</h2>
                 <p style={{ color: 'rgba(255,255,255,0.8)' }}>
