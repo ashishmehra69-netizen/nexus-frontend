@@ -680,7 +680,7 @@ function App() {
 
             {/* FEEDBACK TAB */}
             {activeTab === 'feedback' && (
-              <divstyle={{ height: '100%', overflowY: 'auto' }}>
+              <div style={{ height: '100%', overflowY: 'auto' }}>
                 <div className="mb-4 p-4 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(102,126,234,0.2), rgba(118,75,162,0.2))' }}>
                   <h2 className="text-2xl font-bold text-white mb-2">💬 Your Feedback Matters!</h2>
                   <p className="text-white/80" style={{ fontSize: '1.1em', fontWeight: '600' }}>
