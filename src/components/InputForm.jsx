@@ -83,7 +83,7 @@ export default function InputForm({ onGenerate, isGenerating }) {
 
         {/* Topic */}
         <div style={{ marginBottom: '20px' }}>
-          <label style={{ color: 'white', fontWeight: '600', display: 'block', marginBottom: '8px' }}>🎓 What's Your Training Topic?</label>
+          <label style={{ color: 'white', fontWeight: '600', display: 'block', marginBottom: '6px' }}>🎓 What's Your Training Topic?</label>
           <input
             type="text"
             value={formData.topic}
@@ -106,7 +106,7 @@ export default function InputForm({ onGenerate, isGenerating }) {
 
         {/* Company Name */}
         <div style={{ marginBottom: '20px' }}>
-          <label style={{ color: 'white', fontWeight: '600', display: 'block', marginBottom: '8px' }}>🏢 Company Name (Optional)</label>
+          <label style={{ color: 'white', fontWeight: '600', display: 'block', marginBottom: '6px' }}>🏢 Company Name (Optional)</label>
           <input
             type="text"
             value={formData.companyName}
@@ -128,7 +128,7 @@ export default function InputForm({ onGenerate, isGenerating }) {
 
         {/* Company Context */}
         <div style={{ marginBottom: '20px' }}>
-          <label style={{ color: 'white', fontWeight: '600', display: 'block', marginBottom: '8px' }}>📋 Company Context (Optional)</label>
+          <label style={{ color: 'white', fontWeight: '600', display: 'block', marginBottom: '6px' }}>📋 Company Context (Optional)</label>
           <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85em', marginTop: '0', marginBottom: '8px' }}>
             ⚠️ QUALITY TIP: More detail = Better training. Aim for 100+ words with numbers, names, real scenarios
           </p>
@@ -148,7 +148,7 @@ INCLUDE (the more specific, the better):
 
 Without this detail, you get GENERIC training.
 With this detail, you get HYPER-SPECIFIC training worth 10x more.`}
-    rows="6"
+    rows={5}
     style={{
       width: '100%',
       background: 'rgba(255,255,255,0.08)',
@@ -216,7 +216,7 @@ With this detail, you get HYPER-SPECIFIC training worth 10x more.`}
 
         {/* Delivery Mode */}
         <div style={{ marginBottom: '20px' }}>
-          <label style={{ color: 'white', fontWeight: '600', display: 'block', marginBottom: '8px' }}>🖥️ Delivery Mode</label>
+          <label style={{ color: 'white', fontWeight: '600', display: 'block', marginBottom: '6px' }}>🖥️ Delivery Mode</label>
           <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85em', marginTop: '0', marginBottom: '10px' }}>
             Adjusts exercises and activities for the delivery format
           </p>
