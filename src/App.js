@@ -628,7 +628,7 @@ function App() {
 
             {/* PPT TAB */}
             {activeTab === 'ppt' && (
-              <divstyle={{ height: '100%', overflowY: 'auto' }}>
+              <div style={{ height: '100%', overflowY: 'auto' }}>
                 {!generatedContent || generatedContent.isLocked ? (
                   <div className="text-center py-10">
                     <p className="text-white text-xl mb-2">🎨 PPT Export</p>
