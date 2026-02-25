@@ -425,7 +425,7 @@ function App() {
   };
 
   const UnlockButton = () => (
-    <div className="text-center py-10">
+    <div className="text-center py-4">
       <p className="text-white text-xl mb-4">🔒 Content is locked</p>
       <button onClick={handleUnlock} style={{
         padding: '14px 40px', fontWeight: 'bold', color: 'white', borderRadius: '12px',
@@ -455,8 +455,7 @@ function App() {
   );
 
     return (
-      <div style={{ minHeight: '100vh', position: 'relative' }}>
-
+     <div className="relative" style={{ background: 'transparent', padding: '8px', height: '100vh', overflow: 'auto', fontSize: '0.95em' }}>
         <NeuralBackground />
       
       <div className="relative z-10 container mx-auto px-4" style={{ maxWidth: '1400px' }}>
@@ -466,14 +465,14 @@ function App() {
           maxWidth: '1400px',
           background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 50%, rgba(240, 147, 251, 0.3) 100%)',
           backdropFilter: 'blur(10px)',
-          padding: '20px 30px',
+          padding: '12px 20px',
           borderRadius: '24px',
           boxShadow: '0 20px 60px rgba(102, 126, 234, 0.4)',
           border: '1px solid rgba(255, 255, 255, 0.1)',
           backgroundSize: '200% 200%',
         }}>
           <div className="text-center relative z-10">
-            <h1 className="text-4xl font-black text-white mb-1" style={{ letterSpacing: '-2px' }}>🧠 NEXUS</h1>
+            <h1 className="text-3xl font-black text-white mb-1" style={{ letterSpacing: '-2px' }}>🧠 NEXUS</h1>
             <p className="text-lg text-white mb-1" style={{ opacity: 0.95 }}>AI-Powered Training Development Platform</p>
             <p className="text-sm text-white max-w-3xl mx-auto mb-3" style={{ opacity: 0.9, lineHeight: '1.6' }}>
               Transform training development from weeks to minutes. Generate research-backed, pedagogically sound training programs — instantly.
@@ -491,14 +490,14 @@ function App() {
         </div>
 
         {/* Stats Banner */}
-        <div className="container mx-auto flex justify-around flex-wrap gap-3 p-4 rounded-2xl mb-4" style={{
+        <div className="container mx-auto flex justify-around flex-wrap gap-2 p-2 rounded-2xl mb-2" style={{
           maxWidth: '1400px',
           background: 'linear-gradient(135deg, #1a1f3a 0%, #2d1b4e 100%)',
           boxShadow: '0 10px 40px rgba(0,0,0,0.3)'
         }}>
           {[['∞','Domain Agnostic'],['3-5','Modules'],['45s','Avg Time'],['100%','Custom']].map(([num, label]) => (
             <div key={label} className="text-center text-white">
-              <div className="text-3xl font-black mb-0" style={{
+              <div className="text-2xl font-black mb-0" style={{
                 background: 'linear-gradient(135deg, #667eea, #f093fb)',
                 WebkitBackgroundClip: 'text', 
                 WebkitTextFillColor: 'transparent'
@@ -690,7 +689,7 @@ function App() {
 
         {/* Tabs */}
         <div className="container mx-auto mb-4" style={{ maxWidth: '1400px' }}>
-          <div className="flex flex-wrap gap-2 p-2 rounded-2xl mb-3" style={{
+          <div className="grid grid-cols-4 gap-2 p-2 rounded-2xl mb-2" style={{
             background: 'rgba(0,0,0,0.2)',
             border: '1px solid rgba(255,255,255,0.1)',
             backdropFilter: 'blur(10px)'
@@ -787,7 +786,7 @@ function App() {
             {activeTab === 'ppt' && (
               <div>
                 {!generatedContent || generatedContent.isLocked ? (
-                  <div className="text-center py-10">
+                  <div className="text-center py-4">
                     <p className="text-white text-xl mb-2">🎨 PPT Export</p>
                     <p style={{ color: 'rgba(255,255,255,0.6)' }}>Generate and unlock your training program first.</p>
                     {generatedContent?.isLocked && <div className="mt-4"><UnlockButton /></div>}
@@ -830,7 +829,7 @@ function App() {
 
             {/* SAMPLE TAB */}
             {activeTab === 'sample' && (
-              <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
+              <div className="prose prose-invert max-w-none overflow-auto max-h-[350px]">
                 <ReactMarkdown>{SAMPLE_CONTENT}</ReactMarkdown>
               </div>
             )}
@@ -846,7 +845,7 @@ function App() {
                 </div>
 
                 {feedbackSubmitted ? (
-                  <div className="text-center py-10">
+                  <div className="text-center py-4">
                     <div className="text-6xl mb-4">🎉</div>
                     <h3 className="text-2xl text-white font-bold mb-2">Thank you for your feedback!</h3>
                     <p className="text-white/70">Your input helps make NEXUS smarter and more useful.</p>
@@ -916,7 +915,7 @@ function App() {
 
             {/* ABOUT CREATOR TAB */}
             {activeTab === 'about' && (
-              <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
+              <div className="prose prose-invert max-w-none overflow-auto max-h-[350px]">
                 <h1 style={{ color: 'white' }}>About the Creator</h1>
                 <h2 style={{ color: 'rgba(255,255,255,0.9)' }}>Your Professional Thought Partner</h2>
                 <p style={{ color: 'rgba(255,255,255,0.8)' }}>
