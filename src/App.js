@@ -126,7 +126,7 @@ const PACKAGES = {
     name: '🥉 Starter',
     price: 15000,
     freeGenerations: 1,
-    paidGenerations: 0,
+    paidGenerations: 1,
     validity_days: 30,
     description: '1 Free + 1 Paid generations / 30 days',
     perProgram: 15000,
