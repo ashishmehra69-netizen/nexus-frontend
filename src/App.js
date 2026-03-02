@@ -196,8 +196,8 @@ function App() {
 
   // ── Auth state ──────────────────────────────────────────────
   const [userEmail, setUserEmail] = useState(() => localStorage.getItem('userEmail') || '');
-  const [showLogin, setShowLogin] = useState(() => !localStorage.getItem('userEmail'));
-
+  const [showLogin, setShowLogin] = useState(false); // CHANGED: Start as false
+  const [generationAttempted, setGenerationAttempted] = useState(false);
   const [answers, setAnswers] = useState({
     challenges: '',
     technical: '',
@@ -318,6 +318,12 @@ function App() {
   };
 
   const generateContent = async (formData, extraAnswers) => {
+    // Check if user is logged in
+    if (!userEmail) {
+      setGenerationAttempted(true);
+      setShowLogin(true);
+      return;
+    }
     const startTime = Date.now();
     console.log('🚀 generateContent called!', formData);
     setIsGenerating(true);
@@ -460,8 +466,8 @@ function App() {
     </button>
   );
 
-  // ── Show login if not logged in ─────────────────────────────
-  if (showLogin) {
+  // ── Show login ONLY after generation attempt ─────────────────────────────
+  if (showLogin && generationAttempted) {
     return <LoginModal onLoginSuccess={handleLoginSuccess} />;
   }
 
