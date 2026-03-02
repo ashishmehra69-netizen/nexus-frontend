@@ -128,6 +128,7 @@ const PACKAGES = {
     freeGenerations: 1,
     paidGenerations: 0,
     validity_days: 30,
+    description: '1 Free + 1 Paid generations / 30 days',
     perProgram: 15000,
     bestValue: false,
   },
