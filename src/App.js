@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import NeuralBackground from './components/NeuralBackground';
 import InputForm from './components/InputForm';
 import ReactMarkdown from 'react-markdown';
-import LoginModal from './components/LoginModal';
 
 const cardStyle = {
   background: 'rgba(0,0,0,0.1)',
@@ -183,6 +182,159 @@ const TABS = [
   { key: 'about', label: '👤 About Creator' },
 ];
 
+// ─── EMAIL CAPTURE MODAL ──────────────────────────────────────
+function EmailCaptureModal({ onSubmit, onClose }) {
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
+
+  const handleSubmit = () => {
+    if (!email || !email.includes('@') || !email.includes('.')) {
+      setError('Please enter a valid email address');
+      return;
+    }
+    onSubmit(email);
+  };
+
+  return (
+    <div style={{
+      position: 'fixed', inset: 0, zIndex: 100,
+      background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(10px)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px'
+    }}>
+      <div style={{
+        background: 'linear-gradient(135deg, rgba(26,31,58,0.98), rgba(45,27,78,0.98))',
+        border: '1px solid rgba(102,126,234,0.4)',
+        borderRadius: '24px', padding: '40px 36px',
+        maxWidth: '440px', width: '100%',
+        boxShadow: '0 30px 80px rgba(0,0,0,0.5)'
+      }}>
+        <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+          <div style={{ fontSize: '2.5em', marginBottom: '10px' }}>🧠</div>
+          <h2 style={{ color: 'white', fontSize: '1.5em', fontWeight: 800, marginBottom: '8px' }}>
+            Almost there!
+          </h2>
+          <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.95em', lineHeight: '1.6' }}>
+            Enter your email to generate your <strong style={{ color: '#a78bfa' }}>FREE training program</strong>.
+            No password needed.
+          </p>
+        </div>
+
+        <div style={{ marginBottom: '16px' }}>
+          <label style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.9em', fontWeight: 600, display: 'block', marginBottom: '8px' }}>
+            Work Email Address
+          </label>
+          <input
+            type="email"
+            placeholder="you@company.com"
+            value={email}
+            onChange={(e) => { setEmail(e.target.value); setError(''); }}
+            onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}
+            autoFocus
+            style={{
+              width: '100%', padding: '14px 16px', borderRadius: '12px',
+              background: 'rgba(255,255,255,0.08)', border: error ? '1px solid #ef4444' : '1px solid rgba(255,255,255,0.2)',
+              color: 'white', fontSize: '1em', outline: 'none', boxSizing: 'border-box'
+            }}
+          />
+          {error && <p style={{ color: '#ef4444', fontSize: '0.85em', marginTop: '6px' }}>{error}</p>}
+        </div>
+
+        <button onClick={handleSubmit} style={{
+          width: '100%', padding: '14px', fontWeight: 700, color: 'white',
+          borderRadius: '12px', border: 'none', cursor: 'pointer', fontSize: '1em',
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          boxShadow: '0 4px 20px rgba(102,126,234,0.4)', marginBottom: '16px'
+        }}>
+          🚀 Generate My Free Program
+        </button>
+
+        <div style={{ textAlign: 'center', color: 'rgba(255,255,255,0.4)', fontSize: '0.8em' }}>
+          🔒 We never spam. Your email is only used to manage your access.
+        </div>
+
+        <button onClick={onClose} style={{
+          display: 'block', margin: '16px auto 0', background: 'none', border: 'none',
+          color: 'rgba(255,255,255,0.4)', cursor: 'pointer', fontSize: '0.85em'
+        }}>Cancel</button>
+      </div>
+    </div>
+  );
+}
+
+// ─── PACKAGES SCREEN ─────────────────────────────────────────
+const PACKAGES = [
+  { key: 'single',   name: '🥉 Starter',      price: 15000,  generations: '1 Paid',          validity: '30 days', perProgram: 15000 },
+  { key: 'silver',   name: '🥈 Silver Pack',   price: 62500,  generations: '1 Free + 5 Paid', validity: '30 days', perProgram: 12500 },
+  { key: 'gold',     name: '🥇 Gold Pack',     price: 100000, generations: '1 Free + 10 Paid',validity: '30 days', perProgram: 10000, best: true },
+  { key: 'platinum', name: '💎 Platinum Pack', price: 187500, generations: '1 Free + 25 Paid',validity: '90 days', perProgram: 7500 },
+];
+
+function PackagesScreen({ userEmail, onBack }) {
+  return (
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #1a1f3a 0%, #2d1b4e 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+      <div style={{ maxWidth: '960px', width: '100%' }}>
+        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+          <h1 style={{ color: 'white', fontSize: '2.2em', fontWeight: 800, marginBottom: '8px' }}>🧠 NEXUS</h1>
+          <h2 style={{ color: 'white', fontSize: '1.4em', marginBottom: '8px' }}>Choose a Package to Continue</h2>
+          <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1em' }}>
+            You've used your free generation{userEmail ? ` (${userEmail})` : ''}. Select a package to generate more programs.
+          </p>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: '20px', marginBottom: '36px' }}>
+          {PACKAGES.map(pkg => (
+            <div key={pkg.key}
+              onClick={() => alert(`Redirecting to payment for ${pkg.name}...`)}
+              onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-4px)'}
+              onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
+              style={{
+                background: pkg.best ? 'rgba(102,126,234,0.25)' : 'rgba(255,255,255,0.05)',
+                border: pkg.best ? '2px solid #667eea' : '1px solid rgba(255,255,255,0.15)',
+                borderRadius: '18px', padding: '28px 22px', cursor: 'pointer',
+                position: 'relative', backdropFilter: 'blur(10px)', transition: 'transform 0.2s',
+              }}
+            >
+              {pkg.best && (
+                <div style={{
+                  position: 'absolute', top: '-13px', left: '50%', transform: 'translateX(-50%)',
+                  background: 'linear-gradient(135deg, #ffd700, #ffa500)',
+                  color: '#333', padding: '4px 14px', borderRadius: '12px',
+                  fontSize: '0.75em', fontWeight: 700, whiteSpace: 'nowrap'
+                }}>⭐ BEST VALUE</div>
+              )}
+              <div style={{ color: 'white', fontWeight: 700, fontSize: '1.1em', marginBottom: '14px' }}>{pkg.name}</div>
+              <div style={{ marginBottom: '18px' }}>
+                <span style={{ color: '#a78bfa', fontSize: '0.9em' }}>₹</span>
+                <span style={{ color: '#a78bfa', fontSize: '2em', fontWeight: 800 }}>{pkg.price.toLocaleString('en-IN')}</span>
+              </div>
+              <div style={{ color: 'rgba(255,255,255,0.75)', fontSize: '0.88em', lineHeight: '2' }}>
+                <div>⚡ {pkg.generations} generations</div>
+                <div>📅 Valid {pkg.validity}</div>
+                <div>💰 ₹{pkg.perProgram.toLocaleString('en-IN')} / program</div>
+              </div>
+              <button style={{
+                marginTop: '20px', width: '100%', padding: '10px',
+                background: pkg.best ? 'linear-gradient(135deg, #667eea, #764ba2)' : 'rgba(255,255,255,0.1)',
+                border: '1px solid rgba(255,255,255,0.3)', borderRadius: '10px',
+                color: 'white', fontWeight: 700, cursor: 'pointer', fontSize: '0.9em'
+              }}>Buy Now →</button>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ textAlign: 'center' }}>
+          <button onClick={onBack} style={{
+            background: 'transparent', border: '1px solid rgba(255,255,255,0.3)',
+            color: 'rgba(255,255,255,0.7)', padding: '10px 28px', borderRadius: '8px',
+            cursor: 'pointer', fontSize: '0.9em'
+          }}>← Back to App</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── MAIN APP ─────────────────────────────────────────────────
 function App() {
   const [generatedContent, setGeneratedContent] = useState(null);
   const [activeTab, setActiveTab] = useState('synopsis');
@@ -194,23 +346,18 @@ function App() {
   const [detectedDomain, setDetectedDomain] = useState('behavioral');
   const [pptCopied, setPptCopied] = useState(false);
 
-  // ── Auth state ──────────────────────────────────────────────
-  const [userEmail, setUserEmail] = useState('');
-  const [showLogin, setShowLogin] = useState(false); // CHANGED: Start as false
-  const [generationAttempted, setGenerationAttempted] = useState(false);
-  const [answers, setAnswers] = useState({
-    challenges: '',
-    technical: '',
-    behavioral: '',
-    outcomes: ''
-  });
-  const [feedback, setFeedback] = useState({
-    rating: 5,
-    whatWorked: '',
-    whatNeedsImprovement: '',
-    suggestions: '',
-    wouldUseAgain: true
-  });
+  // ── Screen: 'app' | 'packages'
+  const [screen, setScreen] = useState('app');
+
+  // ── Email capture modal
+  const [showEmailCapture, setShowEmailCapture] = useState(false);
+  const [pendingGenerateArgs, setPendingGenerateArgs] = useState(null);
+
+  // ── User email (captured at generation time)
+  const [userEmail, setUserEmail] = useState(() => localStorage.getItem('nexusEmail') || '');
+
+  const [answers, setAnswers] = useState({ challenges: '', technical: '', behavioral: '', outcomes: '' });
+  const [feedback, setFeedback] = useState({ rating: 5, whatWorked: '', whatNeedsImprovement: '', suggestions: '', wouldUseAgain: true });
   const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
 
   useEffect(() => {
@@ -228,20 +375,16 @@ function App() {
     return () => clearInterval(timer);
   }, [isGenerating]);
 
-  // ── Auth handlers ───────────────────────────────────────────
-  const handleLoginSuccess = () => {
-    const email = localStorage.getItem('userEmail');
-    localStorage.setItem('userEmail', email); // Save after successful login
+  // ── When user submits email in capture modal ────────────────
+  const handleEmailSubmit = (email) => {
+    localStorage.setItem('nexusEmail', email);
     setUserEmail(email);
-    setShowLogin(false);
-    setGenerationAttempted(false);
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('userEmail');
-    setUserEmail('');
-    setShowLogin(true);
-    setGeneratedContent(null);
+    setShowEmailCapture(false);
+    // Now proceed with generation that was waiting
+    if (pendingGenerateArgs) {
+      generateContent(pendingGenerateArgs.formData, pendingGenerateArgs.extraAnswers, email);
+      setPendingGenerateArgs(null);
+    }
   };
 
   const handleUnlock = async () => {
@@ -253,15 +396,8 @@ function App() {
         { method: 'POST' }
       );
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const text = await response.text();
-      const data = JSON.parse(text);
-      setGeneratedContent({
-        ...generatedContent,
-        content: data.content,
-        facilitator: data.facilitator,
-        handout: data.handout,
-        isLocked: false
-      });
+      const data = JSON.parse(await response.text());
+      setGeneratedContent({ ...generatedContent, content: data.content, facilitator: data.facilitator, handout: data.handout, isLocked: false });
     } catch (error) {
       alert(`Failed to unlock: ${error.message}`);
     }
@@ -271,45 +407,29 @@ function App() {
     const newWin = window.open('', '_blank', 'width=1000,height=800,scrollbars=yes');
     if (!newWin) { alert('Please allow popups for this site'); return; }
     newWin.document.write(`
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <title>${title}</title>
-        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-        <style>
-          body { font-family: Georgia, serif; max-width: 900px; margin: 40px auto; padding: 20px 40px; color: #111; line-height: 1.8; font-size: 16px; background: #fff; }
-          h1 { color: #1a1a2e; border-bottom: 3px solid #667eea; padding-bottom: 10px; font-size: 2em; }
-          h2 { color: #2d1b4e; border-bottom: 1px solid #ddd; padding-bottom: 6px; margin-top: 30px; font-size: 1.5em; }
-          h3 { color: #333; margin-top: 20px; font-size: 1.2em; }
-          strong { color: #1a1a2e; }
-          ul, ol { margin: 10px 0; padding-left: 25px; }
-          li { margin: 6px 0; }
-          blockquote { border-left: 4px solid #667eea; padding-left: 15px; color: #555; font-style: italic; margin: 20px 0; }
-          hr { border: none; border-top: 2px solid #eee; margin: 30px 0; }
-          p { margin: 12px 0; }
-          a { color: #667eea; text-decoration: underline; }
-          .print-btn { position: fixed; top: 20px; right: 20px; padding: 12px 24px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: bold; box-shadow: 0 4px 15px rgba(102,126,234,0.4); z-index: 1000; }
-          .print-btn:hover { opacity: 0.9; }
-          @media print { .print-btn { display: none; } }
-        </style>
-      </head>
-      <body>
-        <button class="print-btn" onclick="window.print()">🖨️ Print / Save PDF</button>
-        <div id="content"></div>
-        <script>
-          const rawContent = ${JSON.stringify(content)};
-          document.getElementById('content').innerHTML = marked.parse(rawContent);
-        </script>
-      </body>
-      </html>
+      <!DOCTYPE html><html><head><title>${title}</title>
+      <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+      <style>
+        body{font-family:Georgia,serif;max-width:900px;margin:40px auto;padding:20px 40px;color:#111;line-height:1.8;font-size:16px;background:#fff}
+        h1{color:#1a1a2e;border-bottom:3px solid #667eea;padding-bottom:10px;font-size:2em}
+        h2{color:#2d1b4e;border-bottom:1px solid #ddd;padding-bottom:6px;margin-top:30px;font-size:1.5em}
+        h3{color:#333;margin-top:20px;font-size:1.2em}
+        ul,ol{margin:10px 0;padding-left:25px}li{margin:6px 0}
+        blockquote{border-left:4px solid #667eea;padding-left:15px;color:#555;font-style:italic;margin:20px 0}
+        hr{border:none;border-top:2px solid #eee;margin:30px 0}p{margin:12px 0}
+        a{color:#667eea;text-decoration:underline}
+        .print-btn{position:fixed;top:20px;right:20px;padding:12px 24px;background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:bold}
+        @media print{.print-btn{display:none}}
+      </style></head><body>
+      <button class="print-btn" onclick="window.print()">🖨️ Print / Save PDF</button>
+      <div id="content"></div>
+      <script>document.getElementById('content').innerHTML=marked.parse(${JSON.stringify(content)});</script>
+      </body></html>
     `);
     newWin.document.close();
   };
 
-  const closeQuestionsModal = () => {
-    setShowQuestions(false);
-    setPendingFormData(null);
-  };
+  const closeQuestionsModal = () => { setShowQuestions(false); setPendingFormData(null); };
 
   const handleFormSubmit = (formData) => {
     const domain = detectDomain(formData.topic);
@@ -319,21 +439,25 @@ function App() {
     setShowQuestions(true);
   };
 
-  const generateContent = async (formData, extraAnswers) => {
-    // Check if user is logged in
-    if (!userEmail) {
-      setGenerationAttempted(true);
-      setShowLogin(true);
+  // ── Core generation function ────────────────────────────────
+  // emailOverride is passed when called right after email capture
+  const generateContent = async (formData, extraAnswers, emailOverride) => {
+    const email = emailOverride || userEmail;
+
+    // If no email yet → show email capture modal, store args for after
+    if (!email || email.trim() === '') {
+      setPendingGenerateArgs({ formData, extraAnswers });
+      setShowQuestions(false);
+      setShowEmailCapture(true);
       return;
     }
+
     const startTime = Date.now();
-    console.log('🚀 generateContent called!', formData);
     setIsGenerating(true);
     setGeneratedContent(null);
 
     try {
       let enhancedContext = formData.companyContext || '';
-
       if (extraAnswers.challenges?.trim()) {
         enhancedContext += `\n\n${'='.repeat(70)}\nMANDATORY: USER-SPECIFIED REQUIREMENTS\n${'='.repeat(70)}\n`;
         enhancedContext += `\n**CHALLENGE TO SOLVE:**\n${extraAnswers.challenges}\n`;
@@ -364,10 +488,7 @@ function App() {
 
       const response = await fetch('https://ashishmehra-nexus-backend.hf.space/api/generate', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         signal: controller.signal,
         body: JSON.stringify({
           topic: formData.topic,
@@ -377,47 +498,37 @@ function App() {
           format: formData.format,
           duration: formData.duration,
           deliveryMode: formData.deliveryMode,
-          email: userEmail,
+          email: email,
         }),
       });
 
       clearTimeout(timeoutId);
-      console.log('✅ Fetch completed!', response.status);
 
+      // Free generation used up → go to packages
       if (response.status === 403) {
-        const errData = await response.json();
         setIsGenerating(false);
-        alert(`⚠️ ${errData.message || 'Generation limit reached. Please purchase a package to continue.'}`);
+        setScreen('packages');
         return;
       }
 
       if (!response.ok) throw new Error('Generation failed');
 
-      const text = await response.text();
-      console.log('📊 Response size:', text.length, 'characters');
-      const data = JSON.parse(text);
-      const timeTaken = ((Date.now() - startTime) / 1000).toFixed(2);
-      console.log('✅ JSON parsed!', data);
-
-      setGeneratedContent({ ...data, isLocked: true, timeTaken });
+      const data = JSON.parse(await response.text());
+      setGeneratedContent({ ...data, isLocked: true, timeTaken: ((Date.now() - startTime) / 1000).toFixed(2) });
       setActiveTab('synopsis');
       setIsGenerating(false);
     } catch (error) {
-      console.error('❌ Full error:', error);
       setIsGenerating(false);
       if (error.name === 'AbortError') {
         alert(`Timed out after ${Math.round((Date.now() - startTime) / 1000)}s`);
       } else {
-        alert(`Error: ${error.message} | Type: ${error.name}`);
+        alert(`Error: ${error.message}`);
       }
     }
   };
 
   const handleSubmitFeedback = async () => {
-    if (!generatedContent) {
-      alert('Please generate a training program first!');
-      return;
-    }
+    if (!generatedContent) { alert('Please generate a training program first!'); return; }
     try {
       const response = await fetch('https://ashishmehra-nexus-backend.hf.space/api/feedback', {
         method: 'POST',
@@ -455,39 +566,40 @@ function App() {
   );
 
   const OpenFullPageButton = ({ content, title }) => (
-    <button
-      onClick={() => openContentPopup(content, title)}
-      style={{
-        marginBottom: '16px', padding: '10px 20px',
-        background: 'linear-gradient(135deg, #667eea, #764ba2)',
-        color: 'white', border: 'none', borderRadius: '8px',
-        cursor: 'pointer', fontWeight: 'bold', fontSize: '0.9em', display: 'block'
-      }}
-    >
-      📄 Open Full Page (White Background)
-    </button>
+    <button onClick={() => openContentPopup(content, title)} style={{
+      marginBottom: '16px', padding: '10px 20px',
+      background: 'linear-gradient(135deg, #667eea, #764ba2)',
+      color: 'white', border: 'none', borderRadius: '8px',
+      cursor: 'pointer', fontWeight: 'bold', fontSize: '0.9em', display: 'block'
+    }}>📄 Open Full Page (White Background)</button>
   );
 
-  // ── Show login ONLY after generation attempt ─────────────────────────────
-  if (showLogin && generationAttempted) {
-    return <LoginModal onLoginSuccess={handleLoginSuccess} />;
+  // ── Screen: Packages ────────────────────────────────────────
+  if (screen === 'packages') {
+    return <PackagesScreen userEmail={userEmail} onBack={() => setScreen('app')} />;
   }
 
+  // ── Screen: Main App ────────────────────────────────────────
   return (
     <div style={{ minHeight: '100vh', position: 'relative' }}>
       <NeuralBackground />
+
+      {/* Email Capture Modal */}
+      {showEmailCapture && (
+        <EmailCaptureModal
+          onSubmit={handleEmailSubmit}
+          onClose={() => { setShowEmailCapture(false); setPendingGenerateArgs(null); }}
+        />
+      )}
 
       <div className="relative z-10 container mx-auto px-4" style={{ maxWidth: '1400px' }}>
 
         {/* Hero Section */}
         <div className="container mx-auto mb-3 relative overflow-hidden" style={{
           maxWidth: '1400px',
-          background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 50%, rgba(240, 147, 251, 0.3) 100%)',
-          backdropFilter: 'blur(10px)',
-          padding: '20px 30px',
-          borderRadius: '24px',
-          boxShadow: '0 20px 60px rgba(102, 126, 234, 0.4)',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
+          background: 'linear-gradient(135deg, rgba(102,126,234,0.3) 0%, rgba(118,75,162,0.3) 50%, rgba(240,147,251,0.3) 100%)',
+          backdropFilter: 'blur(10px)', padding: '20px 30px', borderRadius: '24px',
+          boxShadow: '0 20px 60px rgba(102,126,234,0.4)', border: '1px solid rgba(255,255,255,0.1)',
         }}>
           <div className="text-center relative z-10">
             <h1 className="text-4xl font-black text-white mb-1" style={{ letterSpacing: '-2px' }}>🧠 NEXUS</h1>
@@ -498,43 +610,51 @@ function App() {
             <div className="flex flex-wrap gap-2 justify-center">
               {['✨ Domain Agnostic', '⚡ 45-Second Generation', '🎓 Research-Backed', '🔄 Auto-Customized', '📊 Export Ready'].map(pill => (
                 <span key={pill} className="px-3 py-1 rounded-full text-white font-semibold text-xs" style={{
-                  background: 'rgba(255,255,255,0.2)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255,255,255,0.3)'
+                  background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.3)'
                 }}>{pill}</span>
               ))}
             </div>
           </div>
 
-          {/* User bar */}
-          <div style={{
-            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-            marginTop: '12px', paddingTop: '12px',
-            borderTop: '1px solid rgba(255,255,255,0.2)'
-          }}>
-            <span style={{ color: 'rgba(255,255,255,0.9)', fontSize: '0.85em' }}>
-              👤 <strong>{userEmail}</strong>
-            </span>
-            <button onClick={handleLogout} style={{
-              background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.4)',
-              color: 'white', padding: '6px 16px', borderRadius: '6px',
-              cursor: 'pointer', fontSize: '0.85em', fontWeight: '600'
-            }}>Logout</button>
-          </div>
+          {/* User bar — only show if email captured */}
+          {userEmail && (
+            <div style={{
+              display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+              marginTop: '12px', paddingTop: '12px', borderTop: '1px solid rgba(255,255,255,0.2)'
+            }}>
+              <span style={{ color: 'rgba(255,255,255,0.9)', fontSize: '0.85em' }}>
+                👤 <strong>{userEmail}</strong>
+              </span>
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <button onClick={() => setScreen('packages')} style={{
+                  background: 'linear-gradient(135deg, #667eea, #764ba2)', border: 'none',
+                  color: 'white', padding: '6px 16px', borderRadius: '6px',
+                  cursor: 'pointer', fontSize: '0.85em', fontWeight: '600'
+                }}>📦 View Packages</button>
+                <button onClick={() => {
+                  localStorage.removeItem('nexusEmail');
+                  setUserEmail('');
+                  setGeneratedContent(null);
+                }} style={{
+                  background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.4)',
+                  color: 'white', padding: '6px 16px', borderRadius: '6px',
+                  cursor: 'pointer', fontSize: '0.85em', fontWeight: '600'
+                }}>Logout</button>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Stats Banner */}
         <div className="container mx-auto flex justify-around flex-wrap gap-3 p-4 rounded-2xl mb-4" style={{
-          maxWidth: '1400px',
-          background: 'linear-gradient(135deg, #1a1f3a 0%, #2d1b4e 100%)',
+          maxWidth: '1400px', background: 'linear-gradient(135deg, #1a1f3a 0%, #2d1b4e 100%)',
           boxShadow: '0 10px 40px rgba(0,0,0,0.3)'
         }}>
           {[['∞','Domain Agnostic'],['3-5','Modules'],['45s','Avg Time'],['100%','Custom']].map(([num, label]) => (
             <div key={label} className="text-center text-white">
               <div className="text-3xl font-black mb-0" style={{
                 background: 'linear-gradient(135deg, #667eea, #f093fb)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent'
+                WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'
               }}>{num}</div>
               <div className="text-xs" style={{ color: 'rgba(255,255,255,0.7)' }}>{label}</div>
             </div>
@@ -549,7 +669,6 @@ function App() {
                 position: 'absolute', top: '15px', right: '20px',
                 background: 'transparent', border: 'none', fontSize: '22px', cursor: 'pointer', color: 'white'
               }}>✕</button>
-
               <div className="text-center mb-4 p-3 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(102,126,234,0.3), rgba(118,75,162,0.3))' }}>
                 <h2 className="text-2xl font-bold text-white mb-1">✨ Quick Context Check</h2>
                 <p style={{ color: 'rgba(255,255,255,0.8)' }}>Answer 2-3 quick questions to make your training hyper-specific</p>
@@ -562,7 +681,6 @@ function App() {
                   </div>
                 )}
               </div>
-
               <div className="space-y-3">
                 <div>
                   <label className="text-white font-semibold block mb-1">🎯 What specific challenges should this training address?</label>
@@ -570,7 +688,6 @@ function App() {
                   <textarea value={answers.challenges} onChange={(e) => setAnswers({ ...answers, challenges: e.target.value })}
                     placeholder="e.g. 'Team leads don't give feedback', 'Scrap rate too high'" rows="2" style={textareaStyle} />
                 </div>
-
                 {detectedDomain === 'technical' && (
                   <div>
                     <div className="p-3 rounded-lg mb-2" style={{ background: 'rgba(102,126,234,0.15)', borderLeft: '4px solid #667eea' }}>
@@ -581,7 +698,6 @@ function App() {
                       placeholder="Equipment, SOP numbers, metrics" rows="3" style={textareaStyle} />
                   </div>
                 )}
-
                 {detectedDomain === 'behavioral' && (
                   <div>
                     <div className="p-3 rounded-lg mb-2" style={{ background: 'rgba(255,107,53,0.15)', borderLeft: '4px solid #ff6b35' }}>
@@ -592,14 +708,12 @@ function App() {
                       placeholder="Culture dynamics, team issues" rows="3" style={textareaStyle} />
                   </div>
                 )}
-
                 <div>
                   <label className="text-white font-semibold block mb-1">🎯 What should participants DO differently?</label>
                   <textarea value={answers.outcomes} onChange={(e) => setAnswers({ ...answers, outcomes: e.target.value })}
                     placeholder="e.g. 'Run standups in <15 min', 'Reduce scrap to <5%'" rows="2" style={textareaStyle} />
                 </div>
               </div>
-
               <div className="flex gap-3 mt-6">
                 <button onClick={() => { setShowQuestions(false); generateContent(pendingFormData, answers); }}
                   style={{ flex: 1, padding: '14px', fontWeight: 'bold', color: 'white', borderRadius: '12px', border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
@@ -619,8 +733,6 @@ function App() {
           <div className="lg:col-span-2">
             <InputForm onGenerate={handleFormSubmit} isGenerating={isGenerating} />
           </div>
-
-          {/* Right Panel */}
           <div style={cardStyle}>
             {isGenerating ? (
               <div>
@@ -666,19 +778,9 @@ function App() {
                   👥 Audience: {pendingFormData?.audience}<br />
                   ⏱️ Duration: {pendingFormData?.duration}<br />
                   🌍 Domain: {generatedContent.domain || 'Business'}<br />
-                  ⚡ Time Taken: {generatedContent.timeTaken}s<br /><br />
-                  {generatedContent.isLocked
-                    ? '🔒 Click Unlock above to view full content'
-                    : '🔓 Content unlocked and ready!'}
-                  <br /><br />
-                  📋 Available Tabs:<br />
-                  ✓ Synopsis — Overview & objectives<br />
-                  ✓ Content — Full training modules<br />
-                  ✓ Facilitator — Delivery guide<br />
-                  ✓ Handout — Participant materials<br />
-                  ✓ PPT — Export to presentation<br />
-                  ✓ Feedback — Share your experience<br /><br />
-                  💬 <strong style={{ color: 'white' }}>Please share your feedback to help us improve!</strong>
+                  ⚡ Time: {generatedContent.timeTaken}s<br /><br />
+                  {generatedContent.isLocked ? '🔒 Click Unlock above' : '🔓 Content unlocked!'}<br /><br />
+                  💬 <strong style={{ color: 'white' }}>Please share your feedback!</strong>
                 </div>
               </div>
             ) : (
@@ -700,7 +802,6 @@ function App() {
                   ✓ Complete training content<br />
                   ✓ Facilitator guide<br />
                   ✓ Participant handouts<br />
-                  ✓ Video resources<br />
                   ✓ PPT export ready<br /><br />
                   👉 Fill in your topic!
                 </div>
@@ -712,9 +813,7 @@ function App() {
         {/* Tabs */}
         <div className="container mx-auto mb-4" style={{ maxWidth: '1400px' }}>
           <div className="flex flex-wrap gap-2 p-2 rounded-2xl mb-3" style={{
-            background: 'rgba(0,0,0,0.2)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            backdropFilter: 'blur(10px)'
+            background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)'
           }}>
             {TABS.map((tab) => (
               <button key={tab.key} onClick={() => setActiveTab(tab.key)}
@@ -729,77 +828,49 @@ function App() {
 
           <div style={{ ...cardStyle, padding: '20px', minHeight: '300px' }}>
 
-            {/* SYNOPSIS TAB */}
             {activeTab === 'synopsis' && (
               <div className="prose prose-invert max-w-none overflow-auto"
                 style={{ maxHeight: '250px', fontFamily: "'Inter', -apple-system, sans-serif", fontSize: '0.95rem', lineHeight: '1.6' }}>
                 <style>{`
-                  .synopsis-content h1 { font-size: 1.8em; font-weight: 800; margin: 0 0 0.5em 0; color: white; }
-                  .synopsis-content h2 { font-size: 1.3em; font-weight: 700; margin: 1em 0 0.5em 0; color: #a78bfa; }
-                  .synopsis-content h3 { font-size: 1.1em; font-weight: 600; margin: 0.8em 0 0.3em 0; color: rgba(255,255,255,0.9); }
-                  .synopsis-content p { margin: 0.5em 0; color: rgba(255,255,255,0.85); }
-                  .synopsis-content strong { color: white; font-weight: 600; }
-                  .synopsis-content ul { margin: 0.5em 0; padding-left: 1.2em; }
-                  .synopsis-content li { margin: 0.3em 0; color: rgba(255,255,255,0.85); }
-                  .synopsis-content hr { border: none; border-top: 1px solid rgba(255,255,255,0.2); margin: 1em 0; }
+                  .synopsis-content h1{font-size:1.8em;font-weight:800;margin:0 0 0.5em 0;color:white}
+                  .synopsis-content h2{font-size:1.3em;font-weight:700;margin:1em 0 0.5em 0;color:#a78bfa}
+                  .synopsis-content h3{font-size:1.1em;font-weight:600;margin:0.8em 0 0.3em 0;color:rgba(255,255,255,0.9)}
+                  .synopsis-content p{margin:0.5em 0;color:rgba(255,255,255,0.85)}
+                  .synopsis-content strong{color:white;font-weight:600}
+                  .synopsis-content ul{margin:0.5em 0;padding-left:1.2em}
+                  .synopsis-content li{margin:0.3em 0;color:rgba(255,255,255,0.85)}
+                  .synopsis-content hr{border:none;border-top:1px solid rgba(255,255,255,0.2);margin:1em 0}
                 `}</style>
                 <div className="synopsis-content">
-                  <ReactMarkdown>
-                    {generatedContent ? generatedContent.synopsis : HOW_TO_CONTENT}
-                  </ReactMarkdown>
+                  <ReactMarkdown>{generatedContent ? generatedContent.synopsis : HOW_TO_CONTENT}</ReactMarkdown>
                 </div>
               </div>
             )}
 
-            {/* CONTENT TAB */}
             {activeTab === 'content' && (
               <div className="prose prose-invert max-w-none overflow-auto max-h-[400px]">
-                {!generatedContent
-                  ? <p style={{ color: 'rgba(255,255,255,0.5)' }}>Generate a training program to see content here.</p>
-                  : generatedContent.isLocked
-                  ? <UnlockButton />
-                  : (
-                    <div>
-                      <OpenFullPageButton content={generatedContent.content} title="Training Content" />
-                      <ReactMarkdown>{generatedContent.content}</ReactMarkdown>
-                    </div>
-                  )}
+                {!generatedContent ? <p style={{ color: 'rgba(255,255,255,0.5)' }}>Generate a training program to see content here.</p>
+                  : generatedContent.isLocked ? <UnlockButton />
+                  : <div><OpenFullPageButton content={generatedContent.content} title="Training Content" /><ReactMarkdown>{generatedContent.content}</ReactMarkdown></div>}
               </div>
             )}
 
-            {/* FACILITATOR TAB */}
             {activeTab === 'facilitator' && (
               <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
-                {!generatedContent
-                  ? <p style={{ color: 'rgba(255,255,255,0.5)' }}>Generate a training program first.</p>
-                  : generatedContent.isLocked
-                  ? <UnlockButton />
-                  : (
-                    <div>
-                      <OpenFullPageButton content={generatedContent.facilitator} title="Facilitator Guide" />
-                      <ReactMarkdown>{generatedContent.facilitator}</ReactMarkdown>
-                    </div>
-                  )}
+                {!generatedContent ? <p style={{ color: 'rgba(255,255,255,0.5)' }}>Generate a training program first.</p>
+                  : generatedContent.isLocked ? <UnlockButton />
+                  : <div><OpenFullPageButton content={generatedContent.facilitator} title="Facilitator Guide" /><ReactMarkdown>{generatedContent.facilitator}</ReactMarkdown></div>}
               </div>
             )}
 
-            {/* HANDOUT TAB */}
             {activeTab === 'handout' && (
               <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
-                {!generatedContent
-                  ? <p style={{ color: 'rgba(255,255,255,0.5)' }}>Generate a training program first.</p>
-                  : generatedContent.isLocked
-                  ? <UnlockButton />
-                  : (
-                    <div>
-                      <OpenFullPageButton content={generatedContent.handout} title="Participant Handout" />
-                      <ReactMarkdown>{generatedContent.handout}</ReactMarkdown>
-                    </div>
-                  )}
+                {!generatedContent ? <p style={{ color: 'rgba(255,255,255,0.5)' }}>Generate a training program first.</p>
+                  : generatedContent.isLocked ? <UnlockButton />
+                  : <div><OpenFullPageButton content={generatedContent.handout} title="Participant Handout" /><ReactMarkdown>{generatedContent.handout}</ReactMarkdown></div>}
               </div>
             )}
 
-            {/* PPT TAB */}
             {activeTab === 'ppt' && (
               <div>
                 {!generatedContent || generatedContent.isLocked ? (
@@ -824,41 +895,29 @@ function App() {
                       </p>
                     </div>
                     <div className="flex gap-2 flex-wrap">
-                      <button onClick={() => {
-                        navigator.clipboard.writeText(getPPTPrompt(pendingFormData?.topic));
-                        setPptCopied(true);
-                        setTimeout(() => setPptCopied(false), 2000);
-                      }} style={{
+                      <button onClick={() => { navigator.clipboard.writeText(getPPTPrompt(pendingFormData?.topic)); setPptCopied(true); setTimeout(() => setPptCopied(false), 2000); }} style={{
                         flex: 1, padding: '12px', fontWeight: 'bold', color: 'white', borderRadius: '12px', border: 'none', cursor: 'pointer',
                         background: pptCopied ? 'rgba(34,197,94,0.8)' : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
                       }}>{pptCopied ? '✅ Copied!' : '📋 Copy AI Prompt'}</button>
-                      <button onClick={() => window.open('https://gamma.app', '_blank')} style={{
-                        flex: 1, padding: '12px', fontWeight: 'bold', color: 'white', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.2)', cursor: 'pointer', background: 'rgba(255,255,255,0.1)'
-                      }}>🎨 Open Gamma AI</button>
-                      <button onClick={() => window.open('https://genspark.ai', '_blank')} style={{
-                        flex: 1, padding: '12px', fontWeight: 'bold', color: 'white', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.2)', cursor: 'pointer', background: 'rgba(255,255,255,0.1)'
-                      }}>✨ Open GenSpark AI</button>
+                      <button onClick={() => window.open('https://gamma.app', '_blank')} style={{ flex: 1, padding: '12px', fontWeight: 'bold', color: 'white', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.2)', cursor: 'pointer', background: 'rgba(255,255,255,0.1)' }}>🎨 Open Gamma AI</button>
+                      <button onClick={() => window.open('https://genspark.ai', '_blank')} style={{ flex: 1, padding: '12px', fontWeight: 'bold', color: 'white', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.2)', cursor: 'pointer', background: 'rgba(255,255,255,0.1)' }}>✨ Open GenSpark AI</button>
                     </div>
                   </div>
                 )}
               </div>
             )}
 
-            {/* SAMPLE TAB */}
             {activeTab === 'sample' && (
               <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
                 <ReactMarkdown>{SAMPLE_CONTENT}</ReactMarkdown>
               </div>
             )}
 
-            {/* FEEDBACK TAB */}
             {activeTab === 'feedback' && (
               <div>
                 <div className="mb-4 p-4 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(102,126,234,0.2), rgba(118,75,162,0.2))' }}>
                   <h2 className="text-2xl font-bold text-white mb-2">💬 Your Feedback Matters!</h2>
-                  <p className="text-white/80" style={{ fontSize: '1.1em', fontWeight: '600' }}>
-                    Help us serve you better by sharing your experience with NEXUS
-                  </p>
+                  <p className="text-white/80" style={{ fontSize: '1.1em', fontWeight: '600' }}>Help us serve you better by sharing your experience with NEXUS</p>
                 </div>
                 {feedbackSubmitted ? (
                   <div className="text-center py-10">
@@ -873,44 +932,30 @@ function App() {
                       <div className="flex gap-2">
                         {[1,2,3,4,5].map(star => (
                           <button key={star} onClick={() => setFeedback({...feedback, rating: star})}
-                            style={{ fontSize: '2em', background: 'none', border: 'none', cursor: 'pointer',
-                            color: star <= feedback.rating ? '#fbbf24' : 'rgba(255,255,255,0.3)' }}>★</button>
+                            style={{ fontSize: '2em', background: 'none', border: 'none', cursor: 'pointer', color: star <= feedback.rating ? '#fbbf24' : 'rgba(255,255,255,0.3)' }}>★</button>
                         ))}
                       </div>
                     </div>
                     <div>
                       <label className="text-white font-semibold block mb-2">✅ What worked well?</label>
-                      <textarea value={feedback.whatWorked} onChange={(e) => setFeedback({...feedback, whatWorked: e.target.value})}
-                        placeholder="e.g., Frameworks were relevant, examples were specific..." rows="3" style={textareaStyle} />
+                      <textarea value={feedback.whatWorked} onChange={(e) => setFeedback({...feedback, whatWorked: e.target.value})} placeholder="e.g., Frameworks were relevant..." rows="3" style={textareaStyle} />
                     </div>
                     <div>
                       <label className="text-white font-semibold block mb-2">🔧 What needs improvement?</label>
-                      <textarea value={feedback.whatNeedsImprovement} onChange={(e) => setFeedback({...feedback, whatNeedsImprovement: e.target.value})}
-                        placeholder="e.g., Exercises could be more detailed, needed more examples..." rows="3" style={textareaStyle} />
+                      <textarea value={feedback.whatNeedsImprovement} onChange={(e) => setFeedback({...feedback, whatNeedsImprovement: e.target.value})} placeholder="e.g., Exercises could be more detailed..." rows="3" style={textareaStyle} />
                     </div>
                     <div>
                       <label className="text-white font-semibold block mb-2">💡 Any suggestions?</label>
-                      <textarea value={feedback.suggestions} onChange={(e) => setFeedback({...feedback, suggestions: e.target.value})}
-                        placeholder="e.g., Add video recommendations, include templates..." rows="3" style={textareaStyle} />
+                      <textarea value={feedback.suggestions} onChange={(e) => setFeedback({...feedback, suggestions: e.target.value})} placeholder="e.g., Add video recommendations..." rows="3" style={textareaStyle} />
                     </div>
                     <div>
                       <label className="text-white font-semibold block mb-2">🔄 Would you use NEXUS again?</label>
                       <div className="flex gap-4">
-                        <button onClick={() => setFeedback({...feedback, wouldUseAgain: true})}
-                          style={{ flex: 1, padding: '12px', borderRadius: '12px', border: '2px solid', cursor: 'pointer',
-                          borderColor: feedback.wouldUseAgain ? '#10b981' : 'rgba(255,255,255,0.2)',
-                          background: feedback.wouldUseAgain ? 'rgba(16,185,129,0.2)' : 'transparent',
-                          color: 'white', fontWeight: 'bold' }}>✅ Yes</button>
-                        <button onClick={() => setFeedback({...feedback, wouldUseAgain: false})}
-                          style={{ flex: 1, padding: '12px', borderRadius: '12px', border: '2px solid', cursor: 'pointer',
-                          borderColor: !feedback.wouldUseAgain ? '#ef4444' : 'rgba(255,255,255,0.2)',
-                          background: !feedback.wouldUseAgain ? 'rgba(239,68,68,0.2)' : 'transparent',
-                          color: 'white', fontWeight: 'bold' }}>❌ No</button>
+                        <button onClick={() => setFeedback({...feedback, wouldUseAgain: true})} style={{ flex: 1, padding: '12px', borderRadius: '12px', border: '2px solid', cursor: 'pointer', borderColor: feedback.wouldUseAgain ? '#10b981' : 'rgba(255,255,255,0.2)', background: feedback.wouldUseAgain ? 'rgba(16,185,129,0.2)' : 'transparent', color: 'white', fontWeight: 'bold' }}>✅ Yes</button>
+                        <button onClick={() => setFeedback({...feedback, wouldUseAgain: false})} style={{ flex: 1, padding: '12px', borderRadius: '12px', border: '2px solid', cursor: 'pointer', borderColor: !feedback.wouldUseAgain ? '#ef4444' : 'rgba(255,255,255,0.2)', background: !feedback.wouldUseAgain ? 'rgba(239,68,68,0.2)' : 'transparent', color: 'white', fontWeight: 'bold' }}>❌ No</button>
                       </div>
                     </div>
-                    <button onClick={handleSubmitFeedback}
-                      style={{ width: '100%', padding: '16px', fontWeight: 'bold', color: 'white', borderRadius: '12px',
-                      border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', fontSize: '1.1em' }}>
+                    <button onClick={handleSubmitFeedback} style={{ width: '100%', padding: '16px', fontWeight: 'bold', color: 'white', borderRadius: '12px', border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', fontSize: '1.1em' }}>
                       🚀 Submit Feedback
                     </button>
                   </div>
@@ -918,15 +963,12 @@ function App() {
               </div>
             )}
 
-            {/* ABOUT CREATOR TAB */}
             {activeTab === 'about' && (
               <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
                 <h1 style={{ color: 'white' }}>About the Creator</h1>
                 <h2 style={{ color: 'rgba(255,255,255,0.9)' }}>Your Professional Thought Partner</h2>
                 <p style={{ color: 'rgba(255,255,255,0.8)' }}>
-                  <strong style={{ color: 'white' }}>Ashish Mehra</strong> is an ICF Level 2 certified transformational coach
-                  and leadership trainer with 1,000+ hours of coaching experience, working with CEOs and senior leaders
-                  across India, Canada, Singapore, and Africa.
+                  <strong style={{ color: 'white' }}>Ashish Mehra</strong> is an ICF Level 2 certified transformational coach and leadership trainer with 1,000+ hours of coaching experience, working with CEOs and senior leaders across India, Canada, Singapore, and Africa.
                 </p>
                 <h2 style={{ color: 'rgba(255,255,255,0.9)' }}>Credentials & Experience</h2>
                 <ul style={{ color: 'rgba(255,255,255,0.8)' }}>
@@ -937,25 +979,19 @@ function App() {
                 </ul>
                 <h2 style={{ color: 'rgba(255,255,255,0.9)' }}>Why NEXUS?</h2>
                 <p style={{ color: 'rgba(255,255,255,0.8)' }}>
-                  After 5 years of manually creating training programs taking 40-80 hours each, I created NEXUS
-                  to combine my expertise with AI to generate complete, research-backed training programs instantly.
+                  After 5 years of manually creating training programs taking 40-80 hours each, I created NEXUS to combine my expertise with AI to generate complete, research-backed training programs instantly.
                 </p>
                 <h2 style={{ color: 'rgba(255,255,255,0.9)' }}>Connect With Me</h2>
                 <p style={{ color: 'rgba(255,255,255,0.8)' }}>
                   📧 ashish.mehra@interfaceinc.co.in<br />
-                  💼 <a href="https://www.linkedin.com/in/asmehra" target="_blank" rel="noreferrer" style={{ color: '#667eea' }}>
-                    linkedin.com/in/asmehra
-                  </a><br />
-                  🌐 <a href="https://interfaceinc.co.in" target="_blank" rel="noreferrer" style={{ color: '#667eea' }}>
-                    interfaceinc.co.in
-                  </a>
+                  💼 <a href="https://www.linkedin.com/in/asmehra" target="_blank" rel="noreferrer" style={{ color: '#667eea' }}>linkedin.com/in/asmehra</a><br />
+                  🌐 <a href="https://interfaceinc.co.in" target="_blank" rel="noreferrer" style={{ color: '#667eea' }}>interfaceinc.co.in</a>
                 </p>
               </div>
             )}
 
           </div>
         </div>
-
       </div>
     </div>
   );
