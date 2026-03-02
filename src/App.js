@@ -581,7 +581,7 @@ function App() {
 
   // ── Screen: Main App ────────────────────────────────────────
   return (
-    <div style={{ position: 'relative', height: '100vh', overflow: 'auto' }}>
+    <div className="relative" style={{ background: 'transparent', padding: '8px', height: '100vh', overflow: 'auto' }}>
       <NeuralBackground />
 
       {/* Email Capture Modal */}
@@ -812,12 +812,12 @@ function App() {
 
         {/* Tabs */}
         <div className="container mx-auto mb-4" style={{ maxWidth: '1400px' }}>
-          <div className="flex flex-wrap gap-2 p-2 rounded-2xl mb-3" style={{
+          <div className="grid grid-cols-4 gap-2 p-2 rounded-2xl mb-2" style={{
             background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)'
           }}>
             {TABS.map((tab) => (
               <button key={tab.key} onClick={() => setActiveTab(tab.key)}
-                className="flex-1 py-2 px-3 rounded-xl font-semibold text-xs transition-all"
+                className="py-1 px-2 rounded-xl font-semibold text-xs transition-all"
                 style={activeTab === tab.key ? {
                   background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                   color: 'white', boxShadow: '0 4px 15px rgba(102,126,234,0.4)'
