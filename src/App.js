@@ -122,42 +122,46 @@ const packageModalStyles = `
 `;
 
 const PACKAGES = {
-  starter: {
+  single: {
     name: '🥉 Starter',
-    price: 7500,
-    generations: 3,
+    price: 15000,
+    freeGenerations: 1,
+    paidGenerations: 0,
     validity_days: 30,
-    description: '3 programs / 30 days',
-    perProgram: 2500,
-  },
-  professional: {
-    name: '🥈 Professional',
-    price: 18000,
-    generations: 10,
-    validity_days: 60,
-    description: '10 programs / 60 days',
-    perProgram: 1800,
+    perProgram: 15000,
     bestValue: false,
   },
-  enterprise: {
-    name: '🥇 Enterprise',
-    price: 37500,
-    generations: 25,
-    validity_days: 90,
-    description: '25 programs / 90 days',
-    perProgram: 1500,
+  silver: {
+    name: '🥈 Silver Pack',
+    price: 62500,
+    freeGenerations: 1,
+    paidGenerations: 5,
+    validity_days: 30,
+    description: '1 Free + 5 Paid generations / 30 days',
+    perProgram: 12500,
+    bestValue: false,
+  },
+  gold: {
+    name: '🥇 Gold Pack',
+    price: 100000,
+    freeGenerations: 1,
+    paidGenerations: 10,
+    validity_days: 30,
+    description: '1 Free + 10 Paid generations / 30 days',
+    perProgram: 10000,
     bestValue: true,
   },
-  unlimited: {
-    name: '♾️ Unlimited',
-    price: 75000,
-    generations: 999,
-    validity_days: 365,
-    description: 'Unlimited / 1 year',
-    perProgram: null,
+  platinum: {
+    name: '💎 Platinum Pack',
+    price: 187500,
+    freeGenerations: 1,
+    paidGenerations: 25,
+    validity_days: 90,
+    description: '1 Free + 25 Paid generations / 90 days',
+    perProgram: 7500,
+    bestValue: false,
   },
 };
-
 const TECHNICAL_DOMAINS = ['engineering', 'manufacturing', 'automotive', 'construction', 'technical', 'quality', 'production', 'machine', 'equipment', 'process', 'safety', 'maintenance'];
 const BEHAVIORAL_DOMAINS = ['business', 'sales', 'marketing', 'leadership', 'management', 'communication', 'finance', 'legal', 'education', 'training', 'strategy', 'hr', 'planning', 'team', 'coaching'];
 
@@ -380,9 +384,13 @@ function PackageModal({ onClose, onPurchaseSuccess, userEmail }) {
               </div>
               <div className="package-details">
                 <div className="detail-item">
-                  <span className="icon">📦</span>
-                  <span>{pkg.description}</span>
-                </div>
+                <span className="icon">🎁</span>
+                <span>1 Free generation included</span>
+              </div>
+              <div className="detail-item">
+                <span className="icon">⚡</span>
+                <span>{pkg.paidGenerations > 0 ? `${pkg.paidGenerations} paid generations` : 'Free only'}</span>
+              </div>
                 <div className="detail-item">
                   <span className="icon">⚡</span>
                   <span>{pkg.generations === 999 ? 'Unlimited programs' : `${pkg.generations} programs`}</span>
