@@ -23,6 +23,141 @@ const textareaStyle = {
   fontFamily: 'inherit'
 };
 
+const packageModalStyles = `
+  .package-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    backdrop-filter: blur(5px);
+    overflow-y: auto;
+  }
+  .package-modal {
+    background: white;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    position: relative;
+    animation: slideUp 0.3s ease-out;
+  }
+  @keyframes slideUp {
+    from { transform: translateY(40px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .close-btn {
+    position: absolute;
+    top: 20px; right: 20px;
+    background: none; border: none;
+    font-size: 2em; cursor: pointer;
+    color: #999; z-index: 1;
+  }
+  .close-btn:hover { color: #333; }
+  .package-header {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 40px 30px;
+    border-radius: 16px 16px 0 0;
+    text-align: center;
+  }
+  .package-header h2 { margin: 0 0 8px; font-size: 1.8em; }
+  .package-header p { margin: 0; opacity: 0.9; }
+  .packages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 30px;
+  }
+  .package-card {
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+  }
+  .package-card:hover {
+    border-color: #667eea;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(102,126,234,0.2);
+  }
+  .package-card.selected {
+    border-color: #667eea;
+    border-width: 3px;
+    background: #f8f9ff;
+  }
+  .package-name { font-weight: 700; font-size: 1.2em; margin-bottom: 16px; color: #333; }
+  .package-price { display: flex; align-items: baseline; margin-bottom: 20px; }
+  .package-price .currency { font-size: 1.2em; font-weight: 600; color: #667eea; margin-right: 4px; }
+  .package-price .amount { font-size: 2em; font-weight: 700; color: #667eea; }
+  .package-details { border-top: 1px solid #e0e0e0; padding-top: 16px; }
+  .detail-item { display: flex; align-items: center; margin-bottom: 10px; font-size: 0.9em; color: #666; }
+  .detail-item .icon { margin-right: 8px; font-size: 1.1em; }
+  .best-value-badge {
+    position: absolute;
+    top: -12px; right: 20px;
+    background: #ffc107; color: #333;
+    padding: 4px 12px; border-radius: 12px;
+    font-size: 0.75em; font-weight: 700; letter-spacing: 0.5px;
+  }
+  .btn-purchase {
+    width: calc(100% - 60px);
+    margin: 0 30px 30px;
+    padding: 16px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white; border: none;
+    border-radius: 8px; font-size: 1.1em;
+    font-weight: 600; cursor: pointer; transition: all 0.3s;
+  }
+  .btn-purchase:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102,126,234,0.4);
+  }
+  .btn-purchase:disabled { opacity: 0.6; cursor: not-allowed; }
+`;
+
+const PACKAGES = {
+  starter: {
+    name: '🥉 Starter',
+    price: 7500,
+    generations: 3,
+    validity_days: 30,
+    description: '3 programs / 30 days',
+    perProgram: 2500,
+  },
+  professional: {
+    name: '🥈 Professional',
+    price: 18000,
+    generations: 10,
+    validity_days: 60,
+    description: '10 programs / 60 days',
+    perProgram: 1800,
+    bestValue: false,
+  },
+  enterprise: {
+    name: '🥇 Enterprise',
+    price: 37500,
+    generations: 25,
+    validity_days: 90,
+    description: '25 programs / 90 days',
+    perProgram: 1500,
+    bestValue: true,
+  },
+  unlimited: {
+    name: '♾️ Unlimited',
+    price: 75000,
+    generations: 999,
+    validity_days: 365,
+    description: 'Unlimited / 1 year',
+    perProgram: null,
+  },
+};
+
 const TECHNICAL_DOMAINS = ['engineering', 'manufacturing', 'automotive', 'construction', 'technical', 'quality', 'production', 'machine', 'equipment', 'process', 'safety', 'maintenance'];
 const BEHAVIORAL_DOMAINS = ['business', 'sales', 'marketing', 'leadership', 'management', 'communication', 'finance', 'legal', 'education', 'training', 'strategy', 'hr', 'planning', 'team', 'coaching'];
 
@@ -182,6 +317,108 @@ const TABS = [
   { key: 'about', label: '👤 About Creator' },
 ];
 
+// ─── Package Modal Component ───────────────────────────────────────────────
+function PackageModal({ onClose, onPurchaseSuccess, userEmail }) {
+  const [selectedPackage, setSelectedPackage] = useState(null);
+  const [purchasing, setPurchasing] = useState(false);
+
+  const handlePurchase = async () => {
+    if (!selectedPackage) return;
+    setPurchasing(true);
+    try {
+      // TODO: Integrate real payment gateway (Razorpay/Stripe)
+      // For now, simulate a successful payment
+      const fakePaymentId = 'pay_' + Math.random().toString(36).substr(2, 9);
+
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/purchase`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: userEmail,
+          packageKey: selectedPackage,
+          paymentId: fakePaymentId
+        })
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        alert(`✅ Package activated! You now have ${PACKAGES[selectedPackage].generations} generations.`);
+        onPurchaseSuccess(data);
+        onClose();
+      } else {
+        alert(`❌ Purchase failed: ${data.error}`);
+      }
+    } catch (err) {
+      alert(`❌ Error: ${err.message}`);
+    } finally {
+      setPurchasing(false);
+    }
+  };
+
+  return (
+    <div className="package-overlay">
+      <div className="package-modal">
+        <button className="close-btn" onClick={onClose}>✕</button>
+
+        <div className="package-header">
+          <h2>🚀 Unlock More Generations</h2>
+          <p>Choose a package that fits your needs</p>
+        </div>
+
+        <div className="packages-grid">
+          {Object.entries(PACKAGES).map(([key, pkg]) => (
+            <div
+              key={key}
+              className={`package-card ${selectedPackage === key ? 'selected' : ''}`}
+              onClick={() => setSelectedPackage(key)}
+            >
+              {pkg.bestValue && <div className="best-value-badge">⭐ BEST VALUE</div>}
+              <div className="package-name">{pkg.name}</div>
+              <div className="package-price">
+                <span className="currency">₹</span>
+                <span className="amount">{pkg.price.toLocaleString()}</span>
+              </div>
+              <div className="package-details">
+                <div className="detail-item">
+                  <span className="icon">📦</span>
+                  <span>{pkg.description}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="icon">⚡</span>
+                  <span>{pkg.generations === 999 ? 'Unlimited programs' : `${pkg.generations} programs`}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="icon">📅</span>
+                  <span>Valid {pkg.validity_days} days</span>
+                </div>
+                {pkg.perProgram && (
+                  <div className="detail-item">
+                    <span className="icon">💰</span>
+                    <span>₹{pkg.perProgram.toLocaleString()} / program</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <button
+          className="btn-purchase"
+          onClick={handlePurchase}
+          disabled={!selectedPackage || purchasing}
+        >
+          {purchasing
+            ? '⏳ Processing...'
+            : selectedPackage
+            ? `💳 Purchase ${PACKAGES[selectedPackage].name} — ₹${PACKAGES[selectedPackage].price.toLocaleString()}`
+            : '👆 Select a Package Above'}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ─── Main App ──────────────────────────────────────────────────────────────
 function App() {
   const [generatedContent, setGeneratedContent] = useState(null);
   const [activeTab, setActiveTab] = useState('synopsis');
@@ -192,6 +429,8 @@ function App() {
   const [pendingFormData, setPendingFormData] = useState(null);
   const [detectedDomain, setDetectedDomain] = useState('behavioral');
   const [pptCopied, setPptCopied] = useState(false);
+  const [showPackageModal, setShowPackageModal] = useState(false);
+  const [userEmail, setUserEmail] = useState(() => localStorage.getItem('userEmail') || '');
   const [answers, setAnswers] = useState({
     challenges: '',
     technical: '',
@@ -206,6 +445,14 @@ function App() {
     wouldUseAgain: true
   });
   const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
+
+  // Inject package modal styles once
+  useEffect(() => {
+    const styleEl = document.createElement('style');
+    styleEl.innerHTML = packageModalStyles;
+    document.head.appendChild(styleEl);
+    return () => document.head.removeChild(styleEl);
+  }, []);
 
   useEffect(() => {
     if (!isGenerating) return;
@@ -231,8 +478,7 @@ function App() {
         { method: 'POST' }
       );
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const text = await response.text();
-      const data = JSON.parse(text);
+      const data = JSON.parse(await response.text());
       setGeneratedContent({
         ...generatedContent,
         content: data.content,
@@ -248,10 +494,8 @@ function App() {
   const openContentPopup = (content, title) => {
     const newWin = window.open('', '_blank', 'width=1000,height=800,scrollbars=yes');
     if (!newWin) { alert('Please allow popups for this site'); return; }
-    
     newWin.document.write(`
-      <!DOCTYPE html>
-      <html>
+      <!DOCTYPE html><html>
       <head>
         <title>${title}</title>
         <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -279,8 +523,7 @@ function App() {
           const rawContent = ${JSON.stringify(content)};
           document.getElementById('content').innerHTML = marked.parse(rawContent);
         </script>
-      </body>
-      </html>
+      </body></html>
     `);
     newWin.document.close();
   };
@@ -299,17 +542,14 @@ function App() {
   };
 
   const generateContent = async (formData, extraAnswers) => {
-    const startTime = Date.now(); 
-    
+    const startTime = Date.now();
     console.log('🚀 generateContent called!', formData);
     setIsGenerating(true);
     setGeneratedContent(null);
-  
-    console.log('✅ State updated, building context...');
-  
+
     try {
       let enhancedContext = formData.companyContext || '';
-      
+
       if (extraAnswers.challenges?.trim()) {
         enhancedContext += `\n\n${'='.repeat(70)}\nMANDATORY: USER-SPECIFIED REQUIREMENTS\n${'='.repeat(70)}\n`;
         enhancedContext += `\n**CHALLENGE TO SOLVE:**\n${extraAnswers.challenges}\n`;
@@ -335,18 +575,12 @@ function App() {
         enhancedContext += `→ Exercises MUST produce deliverables that achieve these\n`;
       }
 
-      console.log('📝 Enhanced context:', enhancedContext.substring(0, 200));
-      console.log('🌐 About to fetch backend...');
-  
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 300000);
-  
+
       const response = await fetch('https://ashishmehra-nexus-backend.hf.space/api/generate', {
         method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         signal: controller.signal,
         body: JSON.stringify({
           topic: formData.topic,
@@ -356,25 +590,29 @@ function App() {
           format: formData.format,
           duration: formData.duration,
           deliveryMode: formData.deliveryMode,
+          email: userEmail,
         }),
       });
-  
+
       clearTimeout(timeoutId);
-      console.log('✅ Fetch completed!', response.status);
-      console.log('📦 Response headers:', [...response.headers.entries()]);
-      
+
+      // Handle generation limit error
+      if (response.status === 403) {
+        const errData = await response.json();
+        if (errData.error === 'generation_limit') {
+          setIsGenerating(false);
+          setShowPackageModal(true);
+          return;
+        }
+        throw new Error(errData.message || 'Access denied');
+      }
+
       if (!response.ok) throw new Error('Generation failed');
-      
-      console.log('🔄 Parsing response...');
+
       const text = await response.text();
-      console.log('📊 Response size:', text.length, 'characters');
-      console.log('🔍 First 500 chars:', text.substring(0, 500));
-      
       const data = JSON.parse(text);
-      const endTime = Date.now();
-      const timeTaken = ((endTime - startTime) / 1000).toFixed(2);
-      console.log('✅ JSON parsed!', data);
-      
+      const timeTaken = ((Date.now() - startTime) / 1000).toFixed(2);
+
       setGeneratedContent({ ...data, isLocked: true, timeTaken });
       setActiveTab('synopsis');
       setIsGenerating(false);
@@ -382,19 +620,15 @@ function App() {
       console.error('❌ Full error:', error);
       setIsGenerating(false);
       if (error.name === 'AbortError') {
-        alert(`Timed out after ${Math.round((Date.now() - startTime)/1000)}s`);
+        alert(`Timed out after ${Math.round((Date.now() - startTime) / 1000)}s`);
       } else {
-        alert(`Error: ${error.message} | Type: ${error.name}`);
+        alert(`Error: ${error.message}`);
       }
     }
   };
 
   const handleSubmitFeedback = async () => {
-    if (!generatedContent) {
-      alert('Please generate a training program first!');
-      return;
-    }
-
+    if (!generatedContent) { alert('Please generate a training program first!'); return; }
     try {
       const response = await fetch('https://ashishmehra-nexus-backend.hf.space/api/feedback', {
         method: 'POST',
@@ -410,15 +644,12 @@ function App() {
           wouldUseAgain: feedback.wouldUseAgain
         }),
       });
-
       if (!response.ok) throw new Error('Failed to submit feedback');
-      
       setFeedbackSubmitted(true);
       setTimeout(() => {
         setFeedback({ rating: 5, whatWorked: '', whatNeedsImprovement: '', suggestions: '', wouldUseAgain: true });
         setFeedbackSubmitted(false);
       }, 3000);
-      
     } catch (error) {
       alert(`Failed to submit feedback: ${error.message}`);
     }
@@ -438,38 +669,42 @@ function App() {
     <button
       onClick={() => openContentPopup(content, title)}
       style={{
-        marginBottom: '16px',
-        padding: '10px 20px',
+        marginBottom: '16px', padding: '10px 20px',
         background: 'linear-gradient(135deg, #667eea, #764ba2)',
-        color: 'white',
-        border: 'none',
-        borderRadius: '8px',
-        cursor: 'pointer',
-        fontWeight: 'bold',
-        fontSize: '0.9em',
-        display: 'block'
+        color: 'white', border: 'none', borderRadius: '8px',
+        cursor: 'pointer', fontWeight: 'bold', fontSize: '0.9em', display: 'block'
       }}
     >
       📄 Open Full Page (White Background)
     </button>
   );
 
-    return (
-     <div className="relative" style={{ background: 'transparent', padding: '8px', height: '100vh', overflow: 'auto', fontSize: '0.95em' }}>
-        <NeuralBackground />
-      
+  return (
+    <div className="relative" style={{ background: 'transparent', padding: '8px', height: '100vh', overflow: 'auto', fontSize: '0.95em' }}>
+      <NeuralBackground />
+
+      {/* Package Modal */}
+      {showPackageModal && (
+        <PackageModal
+          userEmail={userEmail}
+          onClose={() => setShowPackageModal(false)}
+          onPurchaseSuccess={(data) => {
+            console.log('✅ Purchase successful:', data);
+            setShowPackageModal(false);
+          }}
+        />
+      )}
+
       <div className="relative z-10 container mx-auto px-4" style={{ maxWidth: '1400px' }}>
-        
+
         {/* Hero Section */}
         <div className="container mx-auto mb-3 relative overflow-hidden" style={{
           maxWidth: '1400px',
-          background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 50%, rgba(240, 147, 251, 0.3) 100%)',
+          background: 'linear-gradient(135deg, rgba(102,126,234,0.3) 0%, rgba(118,75,162,0.3) 50%, rgba(240,147,251,0.3) 100%)',
           backdropFilter: 'blur(10px)',
-          padding: '12px 20px',
-          borderRadius: '24px',
-          boxShadow: '0 20px 60px rgba(102, 126, 234, 0.4)',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-          backgroundSize: '200% 200%',
+          padding: '12px 20px', borderRadius: '24px',
+          boxShadow: '0 20px 60px rgba(102,126,234,0.4)',
+          border: '1px solid rgba(255,255,255,0.1)',
         }}>
           <div className="text-center relative z-10">
             <h1 className="text-3xl font-black text-white mb-1" style={{ letterSpacing: '-2px' }}>🧠 NEXUS</h1>
@@ -480,9 +715,7 @@ function App() {
             <div className="flex flex-wrap gap-2 justify-center">
               {['✨ Domain Agnostic', '⚡ 45-Second Generation', '🎓 Research-Backed', '🔄 Auto-Customized', '📊 Export Ready'].map(pill => (
                 <span key={pill} className="px-3 py-1 rounded-full text-white font-semibold text-xs" style={{
-                  background: 'rgba(255,255,255,0.2)', 
-                  backdropFilter: 'blur(10px)', 
-                  border: '1px solid rgba(255,255,255,0.3)'
+                  background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.3)'
                 }}>{pill}</span>
               ))}
             </div>
@@ -499,8 +732,7 @@ function App() {
             <div key={label} className="text-center text-white">
               <div className="text-2xl font-black mb-0" style={{
                 background: 'linear-gradient(135deg, #667eea, #f093fb)',
-                WebkitBackgroundClip: 'text', 
-                WebkitTextFillColor: 'transparent'
+                WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'
               }}>{num}</div>
               <div className="text-xs" style={{ color: 'rgba(255,255,255,0.7)' }}>{label}</div>
             </div>
@@ -511,23 +743,11 @@ function App() {
         {showQuestions && (
           <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(10px)' }}>
             <div style={{ ...cardStyle, maxWidth: '650px', width: '92%', maxHeight: '90vh', overflowY: 'auto', position: 'relative' }}>
-  
-              <button
-                onClick={closeQuestionsModal}
-                style={{
-                  position: 'absolute',
-                  top: '15px',
-                  right: '20px',
-                  background: 'transparent',
-                  border: 'none',
-                  fontSize: '22px',
-                  cursor: 'pointer',
-                  color: 'white'
-                }}
-              >
-                ✕
-              </button>
-              
+              <button onClick={closeQuestionsModal} style={{
+                position: 'absolute', top: '15px', right: '20px',
+                background: 'transparent', border: 'none', fontSize: '22px', cursor: 'pointer', color: 'white'
+              }}>✕</button>
+
               <div className="text-center mb-4 p-3 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(102,126,234,0.3), rgba(118,75,162,0.3))' }}>
                 <h2 className="text-2xl font-bold text-white mb-1">✨ Quick Context Check</h2>
                 <p style={{ color: 'rgba(255,255,255,0.8)' }}>Answer 2-3 quick questions to make your training hyper-specific</p>
@@ -597,7 +817,7 @@ function App() {
           <div className="lg:col-span-2">
             <InputForm onGenerate={handleFormSubmit} isGenerating={isGenerating} />
           </div>
-          
+
           {/* Right Panel */}
           <div style={cardStyle}>
             {isGenerating ? (
@@ -645,10 +865,7 @@ function App() {
                   ⏱️ Duration: {pendingFormData?.duration}<br />
                   🌍 Domain: {generatedContent.domain || 'Business'}<br />
                   ⚡ Time Taken: {generatedContent.timeTaken}s<br /><br />
-                  {generatedContent.isLocked
-                    ? '🔒 Click Unlock above to view full content'
-                    : '🔓 Content unlocked and ready!'}
-                  <br /><br />
+                  {generatedContent.isLocked ? '🔒 Click Unlock above to view full content' : '🔓 Content unlocked and ready!'}<br /><br />
                   📋 Available Tabs:<br />
                   ✓ Synopsis — Overview & objectives<br />
                   ✓ Content — Full training modules<br />
@@ -682,6 +899,17 @@ function App() {
                   ✓ PPT export ready<br /><br />
                   👉 Fill in your topic!
                 </div>
+
+                {/* Upgrade CTA when no content */}
+                <div className="mt-4 text-center">
+                  <button onClick={() => setShowPackageModal(true)} style={{
+                    width: '100%', padding: '12px', fontWeight: 'bold', color: 'white',
+                    borderRadius: '12px', border: '1px solid rgba(255,255,255,0.3)',
+                    cursor: 'pointer', background: 'rgba(102,126,234,0.3)', fontSize: '0.9em'
+                  }}>
+                    📦 View Packages
+                  </button>
+                </div>
               </div>
             )}
           </div>
@@ -705,18 +933,11 @@ function App() {
             ))}
           </div>
 
-  <div style={{...cardStyle, padding: '20px', minHeight: '300px'}}>
-    {/* Your existing tab content here */}
+          <div style={{ ...cardStyle, padding: '20px', minHeight: '300px' }}>
 
             {/* SYNOPSIS TAB */}
             {activeTab === 'synopsis' && (
-              <div className="prose prose-invert max-w-none overflow-auto" 
-                style={{
-                  maxHeight: '250px',
-                  fontFamily: "'Inter', -apple-system, sans-serif",
-                  fontSize: '0.95rem',
-                  lineHeight: '1.6'
-                }}>
+              <div className="prose prose-invert max-w-none overflow-auto" style={{ maxHeight: '250px', fontFamily: "'Inter', -apple-system, sans-serif", fontSize: '0.95rem', lineHeight: '1.6' }}>
                 <style>{`
                   .synopsis-content h1 { font-size: 1.8em; font-weight: 800; margin: 0 0 0.5em 0; color: white; }
                   .synopsis-content h2 { font-size: 1.3em; font-weight: 700; margin: 1em 0 0.5em 0; color: #a78bfa; }
@@ -728,19 +949,17 @@ function App() {
                   .synopsis-content hr { border: none; border-top: 1px solid rgba(255,255,255,0.2); margin: 1em 0; }
                 `}</style>
                 <div className="synopsis-content">
-                  <ReactMarkdown>
-                    {generatedContent ? generatedContent.synopsis : HOW_TO_CONTENT}
-                  </ReactMarkdown>
+                  <ReactMarkdown>{generatedContent ? generatedContent.synopsis : HOW_TO_CONTENT}</ReactMarkdown>
                 </div>
               </div>
             )}
+
             {/* CONTENT TAB */}
             {activeTab === 'content' && (
               <div className="prose prose-invert max-w-none overflow-auto max-h-[400px]">
                 {!generatedContent
                   ? <p style={{ color: 'rgba(255,255,255,0.5)' }}>Generate a training program to see content here.</p>
-                  : generatedContent.isLocked
-                  ? <UnlockButton />
+                  : generatedContent.isLocked ? <UnlockButton />
                   : (
                     <div>
                       <OpenFullPageButton content={generatedContent.content} title="Training Content" />
@@ -755,8 +974,7 @@ function App() {
               <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
                 {!generatedContent
                   ? <p style={{ color: 'rgba(255,255,255,0.5)' }}>Generate a training program first.</p>
-                  : generatedContent.isLocked
-                  ? <UnlockButton />
+                  : generatedContent.isLocked ? <UnlockButton />
                   : (
                     <div>
                       <OpenFullPageButton content={generatedContent.facilitator} title="Facilitator Guide" />
@@ -771,8 +989,7 @@ function App() {
               <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
                 {!generatedContent
                   ? <p style={{ color: 'rgba(255,255,255,0.5)' }}>Generate a training program first.</p>
-                  : generatedContent.isLocked
-                  ? <UnlockButton />
+                  : generatedContent.isLocked ? <UnlockButton />
                   : (
                     <div>
                       <OpenFullPageButton content={generatedContent.handout} title="Participant Handout" />
@@ -807,20 +1024,16 @@ function App() {
                       </p>
                     </div>
                     <div className="flex gap-2 flex-wrap">
-                      <button onClick={() => {
-                        navigator.clipboard.writeText(getPPTPrompt(pendingFormData?.topic));
-                        setPptCopied(true);
-                        setTimeout(() => setPptCopied(false), 2000);
-                      }} style={{
-                        flex: 1, padding: '12px', fontWeight: 'bold', color: 'white', borderRadius: '12px', border: 'none', cursor: 'pointer',
-                        background: pptCopied ? 'rgba(34,197,94,0.8)' : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-                      }}>{pptCopied ? '✅ Copied!' : '📋 Copy AI Prompt'}</button>
-                      <button onClick={() => window.open('https://gamma.app', '_blank')} style={{
-                        flex: 1, padding: '12px', fontWeight: 'bold', color: 'white', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.2)', cursor: 'pointer', background: 'rgba(255,255,255,0.1)'
-                      }}>🎨 Open Gamma AI</button>
-                      <button onClick={() => window.open('https://genspark.ai', '_blank')} style={{
-                        flex: 1, padding: '12px', fontWeight: 'bold', color: 'white', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.2)', cursor: 'pointer', background: 'rgba(255,255,255,0.1)'
-                      }}>✨ Open GenSpark AI</button>
+                      <button onClick={() => { navigator.clipboard.writeText(getPPTPrompt(pendingFormData?.topic)); setPptCopied(true); setTimeout(() => setPptCopied(false), 2000); }}
+                        style={{ flex: 1, padding: '12px', fontWeight: 'bold', color: 'white', borderRadius: '12px', border: 'none', cursor: 'pointer', background: pptCopied ? 'rgba(34,197,94,0.8)' : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
+                        {pptCopied ? '✅ Copied!' : '📋 Copy AI Prompt'}
+                      </button>
+                      <button onClick={() => window.open('https://gamma.app', '_blank')} style={{ flex: 1, padding: '12px', fontWeight: 'bold', color: 'white', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.2)', cursor: 'pointer', background: 'rgba(255,255,255,0.1)' }}>
+                        🎨 Open Gamma AI
+                      </button>
+                      <button onClick={() => window.open('https://genspark.ai', '_blank')} style={{ flex: 1, padding: '12px', fontWeight: 'bold', color: 'white', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.2)', cursor: 'pointer', background: 'rgba(255,255,255,0.1)' }}>
+                        ✨ Open GenSpark AI
+                      </button>
                     </div>
                   </div>
                 )}
@@ -857,55 +1070,40 @@ function App() {
                       <div className="flex gap-2">
                         {[1,2,3,4,5].map(star => (
                           <button key={star} onClick={() => setFeedback({...feedback, rating: star})}
-                            style={{ fontSize: '2em', background: 'none', border: 'none', cursor: 'pointer',
-                            color: star <= feedback.rating ? '#fbbf24' : 'rgba(255,255,255,0.3)' }}>
-                            ★
-                          </button>
+                            style={{ fontSize: '2em', background: 'none', border: 'none', cursor: 'pointer', color: star <= feedback.rating ? '#fbbf24' : 'rgba(255,255,255,0.3)' }}>★</button>
                         ))}
                       </div>
                     </div>
-
                     <div>
                       <label className="text-white font-semibold block mb-2">✅ What worked well?</label>
                       <textarea value={feedback.whatWorked} onChange={(e) => setFeedback({...feedback, whatWorked: e.target.value})}
                         placeholder="e.g., Frameworks were relevant, examples were specific..." rows="3" style={textareaStyle} />
                     </div>
-
                     <div>
                       <label className="text-white font-semibold block mb-2">🔧 What needs improvement?</label>
                       <textarea value={feedback.whatNeedsImprovement} onChange={(e) => setFeedback({...feedback, whatNeedsImprovement: e.target.value})}
-                        placeholder="e.g., Exercises could be more detailed, needed more examples..." rows="3" style={textareaStyle} />
+                        placeholder="e.g., Exercises could be more detailed..." rows="3" style={textareaStyle} />
                     </div>
-
                     <div>
                       <label className="text-white font-semibold block mb-2">💡 Any suggestions?</label>
                       <textarea value={feedback.suggestions} onChange={(e) => setFeedback({...feedback, suggestions: e.target.value})}
                         placeholder="e.g., Add video recommendations, include templates..." rows="3" style={textareaStyle} />
                     </div>
-
                     <div>
                       <label className="text-white font-semibold block mb-2">🔄 Would you use NEXUS again?</label>
                       <div className="flex gap-4">
                         <button onClick={() => setFeedback({...feedback, wouldUseAgain: true})}
-                          style={{ flex: 1, padding: '12px', borderRadius: '12px', border: '2px solid', cursor: 'pointer',
-                          borderColor: feedback.wouldUseAgain ? '#10b981' : 'rgba(255,255,255,0.2)',
-                          background: feedback.wouldUseAgain ? 'rgba(16,185,129,0.2)' : 'transparent',
-                          color: 'white', fontWeight: 'bold' }}>
+                          style={{ flex: 1, padding: '12px', borderRadius: '12px', border: '2px solid', cursor: 'pointer', borderColor: feedback.wouldUseAgain ? '#10b981' : 'rgba(255,255,255,0.2)', background: feedback.wouldUseAgain ? 'rgba(16,185,129,0.2)' : 'transparent', color: 'white', fontWeight: 'bold' }}>
                           ✅ Yes
                         </button>
                         <button onClick={() => setFeedback({...feedback, wouldUseAgain: false})}
-                          style={{ flex: 1, padding: '12px', borderRadius: '12px', border: '2px solid', cursor: 'pointer',
-                          borderColor: !feedback.wouldUseAgain ? '#ef4444' : 'rgba(255,255,255,0.2)',
-                          background: !feedback.wouldUseAgain ? 'rgba(239,68,68,0.2)' : 'transparent',
-                          color: 'white', fontWeight: 'bold' }}>
+                          style={{ flex: 1, padding: '12px', borderRadius: '12px', border: '2px solid', cursor: 'pointer', borderColor: !feedback.wouldUseAgain ? '#ef4444' : 'rgba(255,255,255,0.2)', background: !feedback.wouldUseAgain ? 'rgba(239,68,68,0.2)' : 'transparent', color: 'white', fontWeight: 'bold' }}>
                           ❌ No
                         </button>
                       </div>
                     </div>
-
                     <button onClick={handleSubmitFeedback}
-                      style={{ width: '100%', padding: '16px', fontWeight: 'bold', color: 'white', borderRadius: '12px',
-                      border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', fontSize: '1.1em' }}>
+                      style={{ width: '100%', padding: '16px', fontWeight: 'bold', color: 'white', borderRadius: '12px', border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', fontSize: '1.1em' }}>
                       🚀 Submit Feedback
                     </button>
                   </div>
@@ -938,12 +1136,8 @@ function App() {
                 <h2 style={{ color: 'rgba(255,255,255,0.9)' }}>Connect With Me</h2>
                 <p style={{ color: 'rgba(255,255,255,0.8)' }}>
                   📧 ashish.mehra@interfaceinc.co.in<br />
-                  💼 <a href="https://www.linkedin.com/in/asmehra" target="_blank" rel="noreferrer" style={{ color: '#667eea' }}>
-                    linkedin.com/in/asmehra
-                  </a><br />
-                  🌐 <a href="https://interfaceinc.co.in" target="_blank" rel="noreferrer" style={{ color: '#667eea' }}>
-                    interfaceinc.co.in
-                  </a>
+                  💼 <a href="https://www.linkedin.com/in/asmehra" target="_blank" rel="noreferrer" style={{ color: '#667eea' }}>linkedin.com/in/asmehra</a><br />
+                  🌐 <a href="https://interfaceinc.co.in" target="_blank" rel="noreferrer" style={{ color: '#667eea' }}>interfaceinc.co.in</a>
                 </p>
               </div>
             )}
