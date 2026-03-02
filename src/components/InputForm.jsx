@@ -76,13 +76,13 @@ export default function InputForm({ onGenerate, isGenerating }) {
       backdropFilter: 'blur(8px)',
       border: '1px solid rgba(255,255,255,0.15)',
       borderRadius: '24px',
-      padding: '20px',
+      padding: '12px',
       boxShadow: '0 8px 32px rgba(0,0,0,0.2)'
     }}>
       <form onSubmit={handleSubmit}>
 
         {/* Topic */}
-        <div style={{ marginBottom: '20px' }}>
+        <div style={{ marginBottom: '10px' }}>
           <label style={{ color: 'white', fontWeight: '600', display: 'block', marginBottom: '6px' }}>🎓 What's Your Training Topic?</label>
           <input
             type="text"
@@ -105,7 +105,7 @@ export default function InputForm({ onGenerate, isGenerating }) {
         </div>
 
         {/* Company Name */}
-        <div style={{ marginBottom: '20px' }}>
+        <div style={{ marginBottom: '10px' }}>
           <label style={{ color: 'white', fontWeight: '600', display: 'block', marginBottom: '6px' }}>🏢 Company Name (Optional)</label>
           <input
             type="text"
@@ -127,11 +127,9 @@ export default function InputForm({ onGenerate, isGenerating }) {
         </div>
 
         {/* Company Context */}
-        <div style={{ marginBottom: '20px' }}>
+        <div style={{ marginBottom: '10px' }}>
           <label style={{ color: 'white', fontWeight: '600', display: 'block', marginBottom: '6px' }}>📋 Company Context (Optional)</label>
-          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85em', marginTop: '0', marginBottom: '8px' }}>
-            ⚠️ QUALITY TIP: More detail = Better training. Aim for 100+ words with numbers, names, real scenarios
-          </p>
+         
           <textarea
             value={formData.companyContext}
             onChange={(e) => setFormData({ ...formData, companyContext: e.target.value })}
@@ -148,7 +146,7 @@ INCLUDE (the more specific, the better):
 
 Without this detail, you get GENERIC training.
 With this detail, you get HYPER-SPECIFIC training worth 10x more.`}
-    rows={5}
+    rows={3}
     style={{
       width: '100%',
       background: 'rgba(255,255,255,0.08)',
@@ -165,7 +163,7 @@ With this detail, you get HYPER-SPECIFIC training worth 10x more.`}
 </div>
 
         {/* Audience Level */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '20px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '10px' }}>
           {[
             'Executive/C-Suite/Senior Leadership',
             'Manager/Supervisor/Team Lead',
@@ -184,7 +182,7 @@ With this detail, you get HYPER-SPECIFIC training worth 10x more.`}
         </div>
 
         {/* Format */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginBottom: '20px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginBottom: '10px' }}>
           {['Training', 'Workshop', 'Action Learning'].map((fmt) => (
             <label key={fmt} style={radioOptionStyle(formData.format === fmt)}>
               <span>{fmt}</span>
@@ -197,7 +195,7 @@ With this detail, you get HYPER-SPECIFIC training worth 10x more.`}
           ))}
         </div>
         {/* Duration */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginBottom: '20px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginBottom: '10px' }}>
           {[
             'Half Day (3-4 hours)',
             '1 Day (6-7 hours)',
@@ -215,11 +213,8 @@ With this detail, you get HYPER-SPECIFIC training worth 10x more.`}
         </div>
 
         {/* Delivery Mode */}
-        <div style={{ marginBottom: '20px' }}>
+        <div style={{ marginBottom: '10px' }}>
           <label style={{ color: 'white', fontWeight: '600', display: 'block', marginBottom: '6px' }}>🖥️ Delivery Mode</label>
-          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85em', marginTop: '0', marginBottom: '10px' }}>
-            Adjusts exercises and activities for the delivery format
-          </p>
           <select
             value={formData.deliveryMode}
             onChange={(e) => setFormData({ ...formData, deliveryMode: e.target.value })}
@@ -252,8 +247,8 @@ With this detail, you get HYPER-SPECIFIC training worth 10x more.`}
             color: 'white',
             border: 'none',
             borderRadius: '16px',
-            padding: '20px 50px',
-            fontSize: '1.25em',
+            padding: '12px 50px',
+            fontSize: '1em',
             fontWeight: '700',
             cursor: isGenerating ? 'not-allowed' : 'pointer',
             width: '100%',
