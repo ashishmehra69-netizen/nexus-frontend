@@ -71,6 +71,8 @@
   margin-bottom: 16px;
   transition: border 0.3s;
   box-sizing: border-box;
+  color: #333; /* ADD THIS */
+  background: white; /* MAKE SURE THIS IS WHITE */
 }
 
 .login-body input:focus {
@@ -153,6 +155,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: #2e7d32;
 }
 
 .change-email-btn {
