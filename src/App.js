@@ -195,7 +195,7 @@ function App() {
   const [pptCopied, setPptCopied] = useState(false);
 
   // ── Auth state ──────────────────────────────────────────────
-  const [userEmail, setUserEmail] = useState(() => localStorage.getItem('userEmail') || '');
+  const [userEmail, setUserEmail] = useState(() 
   const [showLogin, setShowLogin] = useState(false); // CHANGED: Start as false
   const [generationAttempted, setGenerationAttempted] = useState(false);
   const [answers, setAnswers] = useState({
@@ -231,8 +231,10 @@ function App() {
   // ── Auth handlers ───────────────────────────────────────────
   const handleLoginSuccess = () => {
     const email = localStorage.getItem('userEmail');
+    localStorage.setItem('userEmail', email); // Save after successful login
     setUserEmail(email);
     setShowLogin(false);
+    setGenerationAttempted(false);
   };
 
   const handleLogout = () => {
