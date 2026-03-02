@@ -195,7 +195,7 @@ function App() {
   const [pptCopied, setPptCopied] = useState(false);
 
   // ── Auth state ──────────────────────────────────────────────
-  const [userEmail, setUserEmail] = useState(() 
+  const [userEmail, setUserEmail] = useState(();
   const [showLogin, setShowLogin] = useState(false); // CHANGED: Start as false
   const [generationAttempted, setGenerationAttempted] = useState(false);
   const [answers, setAnswers] = useState({
