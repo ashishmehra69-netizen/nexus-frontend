@@ -581,7 +581,7 @@ function App() {
 
   // ── Screen: Main App ────────────────────────────────────────
   return (
-    <div style={{ minHeight: '100vh', position: 'relative' }}>
+    <div style={{ position: 'relative', height: '100vh', overflow: 'auto' }}>
       <NeuralBackground />
 
       {/* Email Capture Modal */}
@@ -598,11 +598,11 @@ function App() {
         <div className="container mx-auto mb-3 relative overflow-hidden" style={{
           maxWidth: '1400px',
           background: 'linear-gradient(135deg, rgba(102,126,234,0.3) 0%, rgba(118,75,162,0.3) 50%, rgba(240,147,251,0.3) 100%)',
-          backdropFilter: 'blur(10px)', padding: '20px 30px', borderRadius: '24px',
+          backdropFilter: 'blur(10px)', padding: '12px 20px', borderRadius: '24px',
           boxShadow: '0 20px 60px rgba(102,126,234,0.4)', border: '1px solid rgba(255,255,255,0.1)',
         }}>
           <div className="text-center relative z-10">
-            <h1 className="text-4xl font-black text-white mb-1" style={{ letterSpacing: '-2px' }}>🧠 NEXUS</h1>
+            <h1 className="text-3xl font-black text-white mb-0" style={{ letterSpacing: '-2px' }}>🧠 NEXUS</h1>
             <p className="text-lg text-white mb-1" style={{ opacity: 0.95 }}>AI-Powered Training Development Platform</p>
             <p className="text-sm text-white max-w-3xl mx-auto mb-3" style={{ opacity: 0.9, lineHeight: '1.6' }}>
               Transform training development from weeks to minutes. Generate research-backed, pedagogically sound training programs — instantly.
@@ -646,7 +646,7 @@ function App() {
         </div>
 
         {/* Stats Banner */}
-        <div className="container mx-auto flex justify-around flex-wrap gap-3 p-4 rounded-2xl mb-4" style={{
+        <div className="container mx-auto flex justify-around flex-wrap gap-2 p-2 rounded-2xl mb-2" style={{
           maxWidth: '1400px', background: 'linear-gradient(135deg, #1a1f3a 0%, #2d1b4e 100%)',
           boxShadow: '0 10px 40px rgba(0,0,0,0.3)'
         }}>
@@ -826,8 +826,7 @@ function App() {
             ))}
           </div>
 
-          <div style={{ ...cardStyle, padding: '20px', minHeight: '300px' }}>
-
+          <div style={{ ...cardStyle, padding: '16px', minHeight: '200px' }}>
             {activeTab === 'synopsis' && (
               <div className="prose prose-invert max-w-none overflow-auto"
                 style={{ maxHeight: '250px', fontFamily: "'Inter', -apple-system, sans-serif", fontSize: '0.95rem', lineHeight: '1.6' }}>
@@ -908,7 +907,7 @@ function App() {
             )}
 
             {activeTab === 'sample' && (
-              <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
+              <div className="prose prose-invert max-w-none overflow-auto max-h-[350px]">
                 <ReactMarkdown>{SAMPLE_CONTENT}</ReactMarkdown>
               </div>
             )}
@@ -964,7 +963,7 @@ function App() {
             )}
 
             {activeTab === 'about' && (
-              <div className="prose prose-invert max-w-none overflow-auto max-h-[600px]">
+              <div className="prose prose-invert max-w-none overflow-auto max-h-[350px]">
                 <h1 style={{ color: 'white' }}>About the Creator</h1>
                 <h2 style={{ color: 'rgba(255,255,255,0.9)' }}>Your Professional Thought Partner</h2>
                 <p style={{ color: 'rgba(255,255,255,0.8)' }}>
