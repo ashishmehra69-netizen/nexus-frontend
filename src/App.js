@@ -1,3 +1,4 @@
+const API_URL = 'https://nexus.interfaceinc.co.in';
 import React, { useState, useEffect } from 'react';
 import NeuralBackground from './components/NeuralBackground';
 import InputForm from './components/InputForm';
@@ -392,7 +393,7 @@ function App() {
     if (!sessionId) { alert("No session ID found!"); return; }
     try {
       const response = await fetch(
-        `https://ashishmehra-nexus-backend.hf.space/api/unlock/${sessionId}`,
+        (`${API_URL}/api/generate`, {
         { method: 'POST' }
       );
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -486,7 +487,7 @@ function App() {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 300000);
 
-      const response = await fetch('https://ashishmehra-nexus-backend.hf.space/api/generate', {
+      const response = await fetch(`${API_URL}/api/generate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         signal: controller.signal,
@@ -530,7 +531,7 @@ function App() {
   const handleSubmitFeedback = async () => {
     if (!generatedContent) { alert('Please generate a training program first!'); return; }
     try {
-      const response = await fetch('https://ashishmehra-nexus-backend.hf.space/api/feedback', {
+      const response = await fetch (`${API_URL}/api/generate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
