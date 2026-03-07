@@ -393,7 +393,7 @@ function App() {
     if (!sessionId) { alert("No session ID found!"); return; }
     try {
       const response = await fetch(
-        `${API_URL}/api/generate`, {
+        `${API_URL}/api/generate`,
         { method: 'POST' }
       );
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
