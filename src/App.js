@@ -1,9 +1,11 @@
-// ✅ Correct - pointing to HuggingFace backend
-const API_URL = process.env.REACT_APP_API_URL || 'https://ashishmehra-nexus-backend.hf.space';
+
+
 import React, { useState, useEffect } from 'react';
 import NeuralBackground from './components/NeuralBackground';
 import InputForm from './components/InputForm';
 import ReactMarkdown from 'react-markdown';
+
+const API_URL = process.env.REACT_APP_API_URL || 'https://ashishmehra-nexus-backend.hf.space';
 
 const cardStyle = {
   background: 'rgba(0,0,0,0.1)',
@@ -743,8 +745,7 @@ function App() {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 300000);
 
-      const response = await fetch(`${API_URL}/api/generate`, {
-        method: 'POST',
+      const response = await fetch(`${API_URL}/api/unlock/${sessionId}`, { method: 'POST' });
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         signal: controller.signal,
         body: JSON.stringify({
@@ -787,7 +788,7 @@ function App() {
   const handleSubmitFeedback = async () => {
     if (!generatedContent) { alert('Please generate a training program first!'); return; }
     try {
-      const response = await fetch (`${API_URL}/api/generate`, {
+      const response = await fetch(`${API_URL}/api/feedback`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
