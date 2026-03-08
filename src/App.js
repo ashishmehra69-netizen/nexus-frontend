@@ -529,6 +529,69 @@ const PACKAGES = [
 ];
 
 function PackagesScreen({ userEmail, onBack }) {
+  const [loading, setLoading] = useState(null);
+
+  // Load Razorpay script dynamically
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.async = true;
+    document.body.appendChild(script);
+    return () => document.body.removeChild(script);
+  }, []);
+
+  const handleBuyNow = async (pkg) => {
+    if (!userEmail) { alert('Please login first!'); return; }
+    setLoading(pkg.key);
+    try {
+      const res = await fetch(`${API_URL}/api/razorpay/create-order`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ package: pkg.key, email: userEmail }),
+      });
+      const order = await res.json();
+      if (!order.success) throw new Error(order.error);
+
+      const options = {
+        key: order.keyId,
+        amount: order.amount,
+        currency: 'INR',
+        name: 'NEXUS',
+        description: pkg.name,
+        order_id: order.orderId,
+        prefill: { email: userEmail },
+        theme: { color: '#667eea' },
+        handler: async (response) => {
+          const verifyRes = await fetch(`${API_URL}/api/razorpay/verify-payment`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_signature: response.razorpay_signature,
+              email: userEmail,
+              package: pkg.key,
+            }),
+          });
+          const verifyData = await verifyRes.json();
+          if (verifyData.success) {
+            alert(`✅ Payment successful! ${pkg.name} activated.`);
+            onBack();
+          } else {
+            alert('❌ Payment verification failed. Contact support.');
+          }
+        },
+        modal: { ondismiss: () => setLoading(null) }
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (err) {
+      alert(`Error: ${err.message}`);
+    }
+    setLoading(null);
+  };
+
   return (
     <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #1a1f3a 0%, #2d1b4e 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
       <div style={{ maxWidth: '960px', width: '100%' }}>
@@ -539,17 +602,15 @@ function PackagesScreen({ userEmail, onBack }) {
             You've used your free generation{userEmail ? ` (${userEmail})` : ''}. Select a package to generate more programs.
           </p>
         </div>
-
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: '20px', marginBottom: '36px' }}>
           {PACKAGES.map(pkg => (
             <div key={pkg.key}
-              onClick={() => alert(`Redirecting to payment for ${pkg.name}...`)}
               onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-4px)'}
               onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
               style={{
                 background: pkg.best ? 'rgba(102,126,234,0.25)' : 'rgba(255,255,255,0.05)',
                 border: pkg.best ? '2px solid #667eea' : '1px solid rgba(255,255,255,0.15)',
-                borderRadius: '18px', padding: '28px 22px', cursor: 'pointer',
+                borderRadius: '18px', padding: '28px 22px',
                 position: 'relative', backdropFilter: 'blur(10px)', transition: 'transform 0.2s',
               }}
             >
@@ -571,16 +632,22 @@ function PackagesScreen({ userEmail, onBack }) {
                 <div>📅 Valid {pkg.validity}</div>
                 <div>💰 ₹{pkg.perProgram.toLocaleString('en-IN')} / program</div>
               </div>
-              <button style={{
-                marginTop: '20px', width: '100%', padding: '10px',
-                background: pkg.best ? 'linear-gradient(135deg, #667eea, #764ba2)' : 'rgba(255,255,255,0.1)',
-                border: '1px solid rgba(255,255,255,0.3)', borderRadius: '10px',
-                color: 'white', fontWeight: 700, cursor: 'pointer', fontSize: '0.9em'
-              }}>Buy Now →</button>
+              <button
+                onClick={() => handleBuyNow(pkg)}
+                disabled={loading === pkg.key}
+                style={{
+                  marginTop: '20px', width: '100%', padding: '10px',
+                  background: pkg.best ? 'linear-gradient(135deg, #667eea, #764ba2)' : 'rgba(255,255,255,0.1)',
+                  border: '1px solid rgba(255,255,255,0.3)', borderRadius: '10px',
+                  color: 'white', fontWeight: 700,
+                  cursor: loading === pkg.key ? 'not-allowed' : 'pointer',
+                  fontSize: '0.9em', opacity: loading === pkg.key ? 0.6 : 1
+                }}>
+                {loading === pkg.key ? '⏳ Loading...' : 'Buy Now →'}
+              </button>
             </div>
           ))}
         </div>
-
         <div style={{ textAlign: 'center' }}>
           <button onClick={onBack} style={{
             background: 'transparent', border: '1px solid rgba(255,255,255,0.3)',
