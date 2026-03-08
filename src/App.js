@@ -184,7 +184,7 @@ const TABS = [
   { key: 'about', label: '👤 About Creator' },
 ];
 
-export default function OTPLoginModal({ onSubmit, onClose }) {
+function EmailCaptureModal({ onSubmit, onClose }) {
   const [step, setStep] = useState('email'); // 'email' | 'otp'
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
