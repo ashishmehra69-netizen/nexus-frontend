@@ -745,8 +745,10 @@ function App() {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 300000);
 
-      const response = await fetch(`${API_URL}/api/unlock/${sessionId}`, { method: 'POST' });
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      const response = await fetch(`${API_URL}/api/unlock/${sessionId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
         signal: controller.signal,
         body: JSON.stringify({
           topic: formData.topic,
