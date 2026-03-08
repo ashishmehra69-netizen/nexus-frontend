@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import NeuralBackground from './components/NeuralBackground';
 import InputForm from './components/InputForm';
 import ReactMarkdown from 'react-markdown';
+import OTPLoginModal from './components/OTPLoginModal';
 
 const cardStyle = {
   background: 'rgba(0,0,0,0.1)',
@@ -183,85 +184,349 @@ const TABS = [
   { key: 'about', label: '👤 About Creator' },
 ];
 
-// ─── EMAIL CAPTURE MODAL ──────────────────────────────────────
-function EmailCaptureModal({ onSubmit, onClose }) {
-  const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
+// OTPLoginModal.jsx
+// Drop-in replacement for EmailCaptureModal in App.js
+// Usage: replace <EmailCaptureModal ... /> with <OTPLoginModal ... />
+// Props are identical: onSubmit(email), onClose()
 
-  const handleSubmit = () => {
+import React, { useState, useRef, useEffect } from 'react';
+
+const API_URL = 'https://nexus.interfaceinc.co.in';
+
+export default function OTPLoginModal({ onSubmit, onClose }) {
+  const [step, setStep] = useState('email'); // 'email' | 'otp'
+  const [email, setEmail] = useState('');
+  const [otp, setOtp] = useState(['', '', '', '', '', '']);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [resendCooldown, setResendCooldown] = useState(0);
+  const inputRefs = useRef([]);
+
+  // Countdown timer for resend
+  useEffect(() => {
+    if (resendCooldown <= 0) return;
+    const t = setTimeout(() => setResendCooldown(c => c - 1), 1000);
+    return () => clearTimeout(t);
+  }, [resendCooldown]);
+
+  // Auto-focus first OTP box when step changes
+  useEffect(() => {
+    if (step === 'otp') {
+      setTimeout(() => inputRefs.current[0]?.focus(), 100);
+    }
+  }, [step]);
+
+  // ── Step 1: Send OTP ────────────────────────────────────────
+  const handleSendOTP = async () => {
     if (!email || !email.includes('@') || !email.includes('.')) {
       setError('Please enter a valid email address');
       return;
     }
-    onSubmit(email);
+    setLoading(true);
+    setError('');
+    try {
+      const res = await fetch(`${API_URL}/api/auth/send-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim().toLowerCase() }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setError(data.message || 'Failed to send OTP. Please try again.');
+        setLoading(false);
+        return;
+      }
+      setStep('otp');
+      setResendCooldown(30);
+    } catch (e) {
+      setError('Network error. Please check your connection.');
+    }
+    setLoading(false);
   };
 
+  // ── Step 2: Verify OTP ──────────────────────────────────────
+  const handleVerifyOTP = async () => {
+    const code = otp.join('');
+    if (code.length !== 6) {
+      setError('Please enter the complete 6-digit code');
+      return;
+    }
+    setLoading(true);
+    setError('');
+    try {
+      const res = await fetch(`${API_URL}/api/auth/verify-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim().toLowerCase(), otp: code }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setError(data.message || 'Invalid or expired OTP. Please try again.');
+        setOtp(['', '', '', '', '', '']);
+        inputRefs.current[0]?.focus();
+        setLoading(false);
+        return;
+      }
+      // ✅ Success — call parent with verified email
+      onSubmit(email.trim().toLowerCase());
+    } catch (e) {
+      setError('Network error. Please check your connection.');
+    }
+    setLoading(false);
+  };
+
+  // ── OTP input handlers ──────────────────────────────────────
+  const handleOtpChange = (index, value) => {
+    // Allow only digits
+    if (!/^\d*$/.test(value)) return;
+    const newOtp = [...otp];
+    newOtp[index] = value.slice(-1); // only last digit if pasted multiple
+    setOtp(newOtp);
+    setError('');
+    // Auto-advance
+    if (value && index < 5) {
+      inputRefs.current[index + 1]?.focus();
+    }
+    // Auto-submit when all filled
+    if (value && index === 5) {
+      const fullCode = newOtp.join('');
+      if (fullCode.length === 6) {
+        // slight delay so state settles
+        setTimeout(() => handleVerifyOTPDirect(newOtp), 100);
+      }
+    }
+  };
+
+  const handleVerifyOTPDirect = async (otpArr) => {
+    const code = otpArr.join('');
+    if (code.length !== 6) return;
+    setLoading(true);
+    setError('');
+    try {
+      const res = await fetch(`${API_URL}/api/auth/verify-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim().toLowerCase(), otp: code }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setError(data.message || 'Invalid or expired OTP. Please try again.');
+        setOtp(['', '', '', '', '', '']);
+        inputRefs.current[0]?.focus();
+        setLoading(false);
+        return;
+      }
+      onSubmit(email.trim().toLowerCase());
+    } catch (e) {
+      setError('Network error. Please check your connection.');
+      setLoading(false);
+    }
+  };
+
+  const handleOtpKeyDown = (index, e) => {
+    if (e.key === 'Backspace' && !otp[index] && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    }
+    if (e.key === 'Enter') handleVerifyOTP();
+  };
+
+  // Handle paste on OTP boxes
+  const handleOtpPaste = (e) => {
+    e.preventDefault();
+    const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+    if (!pasted) return;
+    const newOtp = [...otp];
+    pasted.split('').forEach((ch, i) => { newOtp[i] = ch; });
+    setOtp(newOtp);
+    const nextEmpty = newOtp.findIndex(v => !v);
+    inputRefs.current[nextEmpty === -1 ? 5 : nextEmpty]?.focus();
+  };
+
+  const handleResend = async () => {
+    if (resendCooldown > 0) return;
+    setOtp(['', '', '', '', '', '']);
+    setError('');
+    await handleSendOTP();
+  };
+
+  // ── Shared styles ───────────────────────────────────────────
+  const overlayStyle = {
+    position: 'fixed', inset: 0, zIndex: 100,
+    background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(12px)',
+    display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px',
+  };
+
+  const cardStyle = {
+    background: 'linear-gradient(135deg, rgba(26,31,58,0.98), rgba(45,27,78,0.98))',
+    border: '1px solid rgba(102,126,234,0.4)',
+    borderRadius: '24px', padding: '40px 36px',
+    maxWidth: '440px', width: '100%',
+    boxShadow: '0 30px 80px rgba(0,0,0,0.6)',
+  };
+
+  const inputStyle = {
+    width: '100%', padding: '14px 16px', borderRadius: '12px',
+    background: 'rgba(255,255,255,0.08)',
+    border: error && step === 'email' ? '1px solid #ef4444' : '1px solid rgba(255,255,255,0.2)',
+    color: 'white', fontSize: '1em', outline: 'none', boxSizing: 'border-box',
+  };
+
+  const primaryBtn = {
+    width: '100%', padding: '14px', fontWeight: 700, color: 'white',
+    borderRadius: '12px', border: 'none', cursor: loading ? 'not-allowed' : 'pointer',
+    fontSize: '1em',
+    background: loading
+      ? 'rgba(102,126,234,0.5)'
+      : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    boxShadow: loading ? 'none' : '0 4px 20px rgba(102,126,234,0.4)',
+    transition: 'all 0.2s',
+    marginBottom: '16px',
+  };
+
+  // ── Render ──────────────────────────────────────────────────
   return (
-    <div style={{
-      position: 'fixed', inset: 0, zIndex: 100,
-      background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(10px)',
-      display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px'
-    }}>
-      <div style={{
-        background: 'linear-gradient(135deg, rgba(26,31,58,0.98), rgba(45,27,78,0.98))',
-        border: '1px solid rgba(102,126,234,0.4)',
-        borderRadius: '24px', padding: '40px 36px',
-        maxWidth: '440px', width: '100%',
-        boxShadow: '0 30px 80px rgba(0,0,0,0.5)'
-      }}>
+    <div style={overlayStyle}>
+      <div style={cardStyle}>
+
+        {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '28px' }}>
           <div style={{ fontSize: '2.5em', marginBottom: '10px' }}>🧠</div>
-          <h2 style={{ color: 'white', fontSize: '1.5em', fontWeight: 800, marginBottom: '8px' }}>
-            Almost there!
-          </h2>
-          <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.95em', lineHeight: '1.6' }}>
-            Enter your email to generate your <strong style={{ color: '#a78bfa' }}>FREE training program</strong>.
-            No password needed.
-          </p>
+          {step === 'email' ? (
+            <>
+              <h2 style={{ color: 'white', fontSize: '1.5em', fontWeight: 800, marginBottom: '8px' }}>
+                Almost there!
+              </h2>
+              <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.95em', lineHeight: '1.6' }}>
+                Enter your email to generate your{' '}
+                <strong style={{ color: '#a78bfa' }}>FREE training program</strong>.
+                We'll send you a one-time code.
+              </p>
+            </>
+          ) : (
+            <>
+              <h2 style={{ color: 'white', fontSize: '1.5em', fontWeight: 800, marginBottom: '8px' }}>
+                Check your email
+              </h2>
+              <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.95em', lineHeight: '1.6' }}>
+                We sent a 6-digit code to{' '}
+                <strong style={{ color: '#a78bfa' }}>{email}</strong>
+              </p>
+              <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.82em', marginTop: '4px' }}>
+                Check your spam folder if you don't see it within 30 seconds.
+              </p>
+            </>
+          )}
         </div>
 
-        <div style={{ marginBottom: '16px' }}>
-          <label style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.9em', fontWeight: 600, display: 'block', marginBottom: '8px' }}>
-            Work Email Address
-          </label>
-          <input
-            type="email"
-            placeholder="you@company.com"
-            value={email}
-            onChange={(e) => { setEmail(e.target.value); setError(''); }}
-            onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}
-            autoFocus
-            style={{
-              width: '100%', padding: '14px 16px', borderRadius: '12px',
-              background: 'rgba(255,255,255,0.08)', border: error ? '1px solid #ef4444' : '1px solid rgba(255,255,255,0.2)',
-              color: 'white', fontSize: '1em', outline: 'none', boxSizing: 'border-box'
-            }}
-          />
-          {error && <p style={{ color: '#ef4444', fontSize: '0.85em', marginTop: '6px' }}>{error}</p>}
-        </div>
+        {/* Step 1: Email input */}
+        {step === 'email' && (
+          <>
+            <div style={{ marginBottom: '16px' }}>
+              <label style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.9em', fontWeight: 600, display: 'block', marginBottom: '8px' }}>
+                Work Email Address
+              </label>
+              <input
+                type="email"
+                placeholder="you@company.com"
+                value={email}
+                onChange={(e) => { setEmail(e.target.value); setError(''); }}
+                onKeyPress={(e) => e.key === 'Enter' && handleSendOTP()}
+                autoFocus
+                style={inputStyle}
+              />
+              {error && <p style={{ color: '#ef4444', fontSize: '0.85em', marginTop: '6px' }}>{error}</p>}
+            </div>
 
-        <button onClick={handleSubmit} style={{
-          width: '100%', padding: '14px', fontWeight: 700, color: 'white',
-          borderRadius: '12px', border: 'none', cursor: 'pointer', fontSize: '1em',
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          boxShadow: '0 4px 20px rgba(102,126,234,0.4)', marginBottom: '16px'
-        }}>
-          🚀 Generate My Free Program
-        </button>
+            <button onClick={handleSendOTP} disabled={loading} style={primaryBtn}>
+              {loading ? '⏳ Sending code...' : '🚀 Send My Code'}
+            </button>
+          </>
+        )}
 
-        <div style={{ textAlign: 'center', color: 'rgba(255,255,255,0.4)', fontSize: '0.8em' }}>
+        {/* Step 2: OTP boxes */}
+        {step === 'otp' && (
+          <>
+            {/* 6 digit boxes */}
+            <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginBottom: '20px' }}>
+              {otp.map((digit, i) => (
+                <input
+                  key={i}
+                  ref={el => inputRefs.current[i] = el}
+                  type="text"
+                  inputMode="numeric"
+                  maxLength={1}
+                  value={digit}
+                  onChange={(e) => handleOtpChange(i, e.target.value)}
+                  onKeyDown={(e) => handleOtpKeyDown(i, e)}
+                  onPaste={i === 0 ? handleOtpPaste : undefined}
+                  style={{
+                    width: '48px', height: '56px',
+                    textAlign: 'center', fontSize: '1.5em', fontWeight: 700,
+                    borderRadius: '12px',
+                    background: digit ? 'rgba(102,126,234,0.25)' : 'rgba(255,255,255,0.08)',
+                    border: error
+                      ? '1px solid #ef4444'
+                      : digit
+                        ? '1px solid rgba(102,126,234,0.6)'
+                        : '1px solid rgba(255,255,255,0.2)',
+                    color: 'white', outline: 'none',
+                    transition: 'all 0.15s',
+                  }}
+                />
+              ))}
+            </div>
+
+            {error && (
+              <p style={{ color: '#ef4444', fontSize: '0.85em', textAlign: 'center', marginBottom: '12px' }}>
+                {error}
+              </p>
+            )}
+
+            <button onClick={handleVerifyOTP} disabled={loading} style={primaryBtn}>
+              {loading ? '⏳ Verifying...' : '✅ Verify & Continue'}
+            </button>
+
+            {/* Resend + change email */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+              <button
+                onClick={handleResend}
+                disabled={resendCooldown > 0 || loading}
+                style={{
+                  background: 'none', border: 'none', cursor: resendCooldown > 0 ? 'default' : 'pointer',
+                  color: resendCooldown > 0 ? 'rgba(255,255,255,0.3)' : 'rgba(167,139,250,0.9)',
+                  fontSize: '0.85em', padding: 0,
+                }}
+              >
+                {resendCooldown > 0 ? `Resend in ${resendCooldown}s` : '🔁 Resend code'}
+              </button>
+
+              <button
+                onClick={() => { setStep('email'); setOtp(['','','','','','']); setError(''); }}
+                style={{
+                  background: 'none', border: 'none', cursor: 'pointer',
+                  color: 'rgba(255,255,255,0.4)', fontSize: '0.85em', padding: 0,
+                }}
+              >
+                ← Change email
+              </button>
+            </div>
+          </>
+        )}
+
+        {/* Footer */}
+        <div style={{ textAlign: 'center', color: 'rgba(255,255,255,0.35)', fontSize: '0.8em', marginBottom: '12px' }}>
           🔒 We never spam. Your email is only used to manage your access.
         </div>
 
         <button onClick={onClose} style={{
-          display: 'block', margin: '16px auto 0', background: 'none', border: 'none',
-          color: 'rgba(255,255,255,0.4)', cursor: 'pointer', fontSize: '0.85em'
+          display: 'block', margin: '0 auto', background: 'none', border: 'none',
+          color: 'rgba(255,255,255,0.35)', cursor: 'pointer', fontSize: '0.85em',
         }}>Cancel</button>
+
       </div>
     </div>
   );
 }
-
 // ─── PACKAGES SCREEN ─────────────────────────────────────────
 const PACKAGES = [
   { key: 'single',   name: '🥉 Starter',      price: 15000,  generations: '1 Paid',          validity: '30 days', perProgram: 15000 },
