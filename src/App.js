@@ -647,20 +647,26 @@ function App() {
   };
 
   const handleUnlock = async () => {
-    const sessionId = generatedContent?.sessionId || generatedContent?.session_id;
-    if (!sessionId) { alert("No session ID found!"); return; }
-    try {
-      const response = await fetch(
-        `${API_URL}/api/generate`,
-        { method: 'POST' }
-      );
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const data = JSON.parse(await response.text());
-      setGeneratedContent({ ...generatedContent, content: data.content, facilitator: data.facilitator, handout: data.handout, isLocked: false });
-    } catch (error) {
-      alert(`Failed to unlock: ${error.message}`);
-    }
-  };
+  const sessionId = generatedContent?.sessionId || generatedContent?.session_id;
+  if (!sessionId) { alert("No session ID found!"); return; }
+  try {
+    const response = await fetch(`${API_URL}/api/unlock/${sessionId}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data = await response.json();
+    setGeneratedContent({ 
+      ...generatedContent, 
+      content: data.content, 
+      facilitator: data.facilitator, 
+      handout: data.handout, 
+      isLocked: false 
+    });
+  } catch (error) {
+    alert(`Failed to unlock: ${error.message}`);
+  }
+};
 
   const openContentPopup = (content, title) => {
     const newWin = window.open('', '_blank', 'width=1000,height=800,scrollbars=yes');
@@ -745,22 +751,21 @@ function App() {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 300000);
 
-      const response = await fetch(`${API_URL}/api/unlock/${sessionId}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-      });
-        signal: controller.signal,
-        body: JSON.stringify({
-          topic: formData.topic,
-          companyName: formData.companyName,
-          companyContext: enhancedContext.trim(),
-          audienceLevel: formData.audience,
-          format: formData.format,
-          duration: formData.duration,
-          deliveryMode: formData.deliveryMode,
-          email: email,
-        }),
-      });
+      const response = await fetch(`${API_URL}/api/generate`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+  signal: controller.signal,
+  body: JSON.stringify({
+    topic: formData.topic,
+    companyName: formData.companyName,
+    companyContext: enhancedContext.trim(),
+    audienceLevel: formData.audience,
+    format: formData.format,
+    duration: formData.duration,
+    deliveryMode: formData.deliveryMode,
+    email: email,
+  }),
+});
 
       clearTimeout(timeoutId);
 
