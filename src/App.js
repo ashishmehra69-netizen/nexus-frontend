@@ -1,5 +1,5 @@
 // ✅ Correct - pointing to HuggingFace backend
-const API_URL = 'https://ashishmehra-nexus-backend.hf.space';
+const API_URL = process.env.REACT_APP_API_URL || 'https://ashishmehra-nexus-backend.hf.space';
 import React, { useState, useEffect } from 'react';
 import NeuralBackground from './components/NeuralBackground';
 import InputForm from './components/InputForm';
