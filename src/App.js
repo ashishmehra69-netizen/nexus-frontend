@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import NeuralBackground from './components/NeuralBackground';
 import InputForm from './components/InputForm';
 import ReactMarkdown from 'react-markdown';
-import OTPLoginModal from './components/OTPLoginModal';
 
 const cardStyle = {
   background: 'rgba(0,0,0,0.1)',
