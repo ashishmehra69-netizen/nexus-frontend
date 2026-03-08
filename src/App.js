@@ -1,4 +1,5 @@
-const API_URL = 'https://nexus.interfaceinc.co.in';
+// ✅ Correct - pointing to HuggingFace backend
+const API_URL = 'https://ashishmehra-nexus-backend.hf.space';
 import React, { useState, useEffect } from 'react';
 import NeuralBackground from './components/NeuralBackground';
 import InputForm from './components/InputForm';
