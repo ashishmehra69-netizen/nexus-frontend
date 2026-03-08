@@ -184,15 +184,6 @@ const TABS = [
   { key: 'about', label: '👤 About Creator' },
 ];
 
-// OTPLoginModal.jsx
-// Drop-in replacement for EmailCaptureModal in App.js
-// Usage: replace <EmailCaptureModal ... /> with <OTPLoginModal ... />
-// Props are identical: onSubmit(email), onClose()
-
-import React, { useState, useRef, useEffect } from 'react';
-
-const API_URL = 'https://nexus.interfaceinc.co.in';
-
 export default function OTPLoginModal({ onSubmit, onClose }) {
   const [step, setStep] = useState('email'); // 'email' | 'otp'
   const [email, setEmail] = useState('');
