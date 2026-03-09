@@ -72,12 +72,12 @@ export default function InputForm({ onGenerate, isGenerating }) {
 
   return (
     <div style={{
-      background: 'rgba(0,0,0,0.1)',
-      backdropFilter: 'blur(8px)',
-      border: '1px solid rgba(255,255,255,0.15)',
+      background: 'rgba(26,31,58,0.25)',
+      backdropFilter: 'blur(2px)',
+      border: '1px solid rgba(255,255,255,0.08)',
       borderRadius: '24px',
       padding: '12px',
-      boxShadow: '0 8px 32px rgba(0,0,0,0.2)'
+      boxShadow: 'none'
     }}>
       <form onSubmit={handleSubmit}>
 
