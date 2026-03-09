@@ -935,7 +935,7 @@ function App() {
         }}>
           <div className="text-center relative z-10">
             <h1 className="text-3xl font-black text-white mb-1" style={{ letterSpacing: '-2px' }}>🧠 NEXUS</h1>
-            <p className="text-lg text-white mb-1" style={{ opacity: 0.95 }}>A Strategic Synthesis Engine</p>
+            <div className="text-white font-semibold text-lg mb-3" style={{ opacity: 0.95 }}>A Strategic Synthesis Engine</div>
             <p className="text-sm text-white max-w-3xl mx-auto mb-3" style={{ opacity: 0.9, lineHeight: '1.6' }}>
               Amalgamation of  consulting-grade research and behavioral science. A decision-grade intelligence layer for leadership teams.
             </p>
