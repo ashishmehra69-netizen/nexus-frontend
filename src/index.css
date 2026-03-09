@@ -46,3 +46,22 @@ select option {
   background: #1a1f3a !important;
   color: white !important;
 }
+.nexus-chip .nexus-tooltip {
+  display: none;
+  position: absolute;
+  bottom: 130%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2d1b69;
+  border: 1px solid rgba(139,92,246,0.4);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 0.68rem;
+  width: 150px;
+  text-align: center;
+  z-index: 100;
+}
+.nexus-chip:hover .nexus-tooltip {
+  display: block;
+}
