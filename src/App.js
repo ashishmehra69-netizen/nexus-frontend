@@ -1091,7 +1091,7 @@ function App() {
             {isGenerating ? (
               <div>
                 <div className="text-white font-bold text-lg mb-4">⚡ Generating Your Training...</div>
-                <div className="mb-2" style={{ color: 'rgba(255,255,255,0.7)', fontFamily: 'Monaco, monospace', fontSize: '0.9em' }}>{progressMsg}</div>
+                <div className="mb-2" style={{ color: 'rgba(255,255,255,0.7)', fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '0.9em' }}>{progressMsg}</div>
                 <div className="mb-4">
                   <div className="flex justify-between text-sm mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
                     <span>Progress</span><span>{elapsedTime}s elapsed</span>
@@ -1125,7 +1125,7 @@ function App() {
                   </div>
                 )}
                 <div className="text-white font-semibold text-lg mb-3">📊 Generation Complete!</div>
-                <div style={{ fontFamily: 'Monaco, monospace', fontSize: '0.85em', lineHeight: '1.8', color: 'rgba(255,255,255,0.85)' }}>
+                <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '0.85em', lineHeight: '1.8', color: 'rgba(255,255,255,0.85)' }}>
                   ✅ Training Generated!<br /><br />
                   📌 Topic: {pendingFormData?.topic}<br />
                   🎯 Format: {pendingFormData?.format}<br />
@@ -1140,7 +1140,7 @@ function App() {
             ) : (
               <div>
                 <div className="text-white font-semibold text-lg mb-3">📊 Generation Status</div>
-                <div style={{ fontFamily: 'Monaco, monospace', fontSize: '0.9em', lineHeight: '1.8', color: 'rgba(255,255,255,0.85)' }}>
+                <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '0.9em', lineHeight: '1.8', color: 'rgba(255,255,255,0.85)' }}>
                   ✨ Ready to Generate!<br /><br />
                   🌍 Supported Domains:<br />
                   • Business & Leadership<br />
@@ -1243,7 +1243,7 @@ function App() {
                     </div>
                     <div className="text-white font-semibold mb-2">📋 AI Prompt for Gamma/GenSpark:</div>
                     <div style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '16px', marginBottom: '16px' }}>
-                      <p style={{ color: 'rgba(255,255,255,0.8)', fontFamily: 'Monaco, monospace', fontSize: '0.85em', whiteSpace: 'pre-wrap', margin: 0 }}>
+                      <p style={{ color: 'rgba(255,255,255,0.8)', fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '0.85em', whiteSpace: 'pre-wrap', margin: 0 }}>
                         {getPPTPrompt(pendingFormData?.topic)}
                       </p>
                     </div>
