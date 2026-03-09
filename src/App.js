@@ -14,6 +14,7 @@ const cardStyle = {
   boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
   borderRadius: '24px',
   padding: '16px'
+  fontFamily: "'Plus Jakarta Sans', sans-serif",
 };
 
 const textareaStyle = {
