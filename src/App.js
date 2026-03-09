@@ -8,10 +8,10 @@ import ReactMarkdown from 'react-markdown';
 const API_URL = process.env.REACT_APP_API_URL || 'https://ashishmehra-nexus-backend.hf.space';
 
 const cardStyle = {
-  background: 'rgba(0,0,0,0.1)',
-  backdropFilter: 'blur(8px)',
-  border: '1px solid rgba(255,255,255,0.15)',
-  boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
+  background: 'rgba(26,31,58,0.25)',
+  backdropFilter: 'blur(2px)',
+  border: '1px solid rgba(255,255,255,0.08)',
+  boxShadow: 'none',
   borderRadius: '24px',
   padding: '16px',
   fontFamily: "'Plus Jakarta Sans', sans-serif",
@@ -930,9 +930,9 @@ function App() {
         {/* Hero Section */}
         <div className="container mx-auto mb-3 relative overflow-hidden" style={{
           maxWidth: '1400px',
-          background: 'linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 50%, rgba(240,147,251,0.1) 100%)',
-          backdropFilter: 'blur(4px)', padding: '12px 20px', borderRadius: '24px',
-          boxShadow: '0 20px 60px rgba(102,126,234,0.15)', border: '1px solid rgba(255,255,255,0.06)',
+          background: 'rgba(26,31,58,0.2)',
+          backdropFilter: 'blur(2px)',
+          boxShadow: 'none', border: '1px solid rgba(255,255,255,0.06)',
         }}>
           <div className="text-center relative z-10">
             <h1 className="text-3xl font-black text-white mb-1" style={{ letterSpacing: '-2px' }}>🧠 NEXUS</h1>
@@ -1167,7 +1167,7 @@ function App() {
         {/* Tabs */}
         <div className="container mx-auto mb-4" style={{ maxWidth: '1400px' }}>
           <div className="grid grid-cols-4 gap-2 p-2 rounded-2xl mb-2" style={{
-            background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)'
+            background: 'rgba(26,31,58,0.25)', border: '1px solid rgba(255,255,255,0.06)', backdropFilter: 'blur(2px)'
           }}>
             {TABS.map((tab) => (
               <button key={tab.key} onClick={() => setActiveTab(tab.key)}
