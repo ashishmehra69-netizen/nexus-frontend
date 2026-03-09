@@ -1001,8 +1001,8 @@ function App() {
 
         {/* Stats Banner */}
         <div className="container mx-auto flex justify-around flex-wrap gap-2 p-2 rounded-2xl mb-2" style={{
-          maxWidth: '1400px', background: 'linear-gradient(135deg, #1a1f3a 0%, #2d1b4e 100%)',
-          boxShadow: '0 10px 40px rgba(0,0,0,0.3)'
+          maxWidth: '1400px', background: 'rgba(26,31,58,0.25)',
+          boxShadow: '0 10px 40px rgba(0,0,0,0.1)'
         }}>
           {[['∞','Domain Agnostic'],['3-5','Modules'],['45s','Avg Time'],['100%','Custom']].map(([num, label]) => (
             <div key={label} className="text-center text-white">
