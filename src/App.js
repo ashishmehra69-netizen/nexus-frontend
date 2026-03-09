@@ -950,7 +950,9 @@ function App() {
 
             {/* Why NEXUS is Unique */}
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', gap: '6px', marginTop: '10px' }}>
-              <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginRight: '6px' }}>
+              <span className="px-3 py-1 rounded-full text-white font-semibold text-xs" style={{
+                background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.3)', marginRight: '6px'
+              }}>
                 Why NEXUS is Unique
               </span>
               {[
@@ -961,7 +963,7 @@ function App() {
                 { label: 'Evidence-backed Recommendations', tip: 'Research-grounded recommendations' },
              ].map(({ label, tip }) => (
                 <div key={label} style={{ position: 'relative' }} className="nexus-chip">
-                  <span style={{ background: 'rgba(139,92,246,0.12)', border: '1px solid rgba(139,92,246,0.25)', color: 'rgba(255,255,255,0.7)', padding: '3px 10px', borderRadius: '20px', fontSize: '0.7rem', fontWeight: 500, cursor: 'default', display: 'inline-block' }}>{label}</span>
+                  <span style={{ background: 'rgba(139,92,246,0.12)', border: '1px solid rgba(139,92,246,0.25)', color: 'rgba(255,255,255,0.7)', padding: '3px 10px', borderRadius: '20px', fontSize: '0.7rem', fontWeight: 700, cursor: 'default', display: 'inline-block' }}>{label}</span>
                   <div className="nexus-tooltip">{tip}</div>
                 </div>
               ))}
