@@ -935,10 +935,10 @@ function App() {
         }}>
           <div className="text-center relative z-10">
             <h1 className="text-3xl font-black text-white mb-1" style={{ letterSpacing: '-2px' }}>🧠 NEXUS</h1>
-            <p className="text-lg text-white mb-1" style={{ opacity: 0.95 }}>AI-Powered Training Development Platform</p>
+            <p className="text-lg text-white mb-1" style={{ opacity: 0.95 }}>A Strategic Synthesis Engine</p>
             <p className="text-sm text-white max-w-3xl mx-auto mb-3" style={{ opacity: 0.9, lineHeight: '1.6' }}>
-              Transform training development from weeks to minutes. Generate research-backed, pedagogically sound training programs — instantly.
-            </p>
+              Amalgamation of  consulting-grade research and behavioral science. A decision-grade intelligence layer for leadership teams.
+
             <div className="flex flex-wrap gap-2 justify-center">
               {['✨ Domain Agnostic', '⚡ 45-Second Generation', '🎓 Research-Backed', '🔄 Auto-Customized', '📊 Export Ready'].map(pill => (
                 <span key={pill} className="px-3 py-1 rounded-full text-white font-semibold text-xs" style={{
