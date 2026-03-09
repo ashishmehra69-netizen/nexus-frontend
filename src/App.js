@@ -959,13 +959,14 @@ function App() {
                 { label: 'Financial Risk Exposure', tip: 'Quantified cost of inaction modeling' },
                 { label: 'System Redesign Blueprint', tip: 'Structured framework for transformation' },
                 { label: 'Evidence-backed Recommendations', tip: 'Research-grounded recommendations' },
-              ].map(({ label, tip }) => (
+             ].map(({ label, tip }) => (
                 <div key={label} style={{ position: 'relative' }} className="nexus-chip">
                   <span style={{ background: 'rgba(139,92,246,0.12)', border: '1px solid rgba(139,92,246,0.25)', color: 'rgba(255,255,255,0.7)', padding: '3px 10px', borderRadius: '20px', fontSize: '0.7rem', fontWeight: 500, cursor: 'default', display: 'inline-block' }}>{label}</span>
                   <div className="nexus-tooltip">{tip}</div>
                 </div>
               ))}
             </div>
+          </div>
 
           {/* User bar — only show if email captured */}
           {userEmail && (
