@@ -947,7 +947,25 @@ function App() {
                 }}>{pill}</span>
               ))}
             </div>
-          </div>
+
+            {/* Why NEXUS is Unique */}
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', gap: '6px', marginTop: '10px' }}>
+              <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginRight: '6px' }}>
+                Why NEXUS is Unique
+              </span>
+              {[
+                { label: 'Board-level Macro Justification', tip: 'Frames the business case at board/C-suite level' },
+                { label: 'Org-specific Strategic Diagnosis', tip: 'Org-specific analysis of current state' },
+                { label: 'Financial Risk Exposure', tip: 'Quantified cost of inaction modeling' },
+                { label: 'System Redesign Blueprint', tip: 'Structured framework for transformation' },
+                { label: 'Evidence-backed Recommendations', tip: 'Research-grounded recommendations' },
+              ].map(({ label, tip }) => (
+                <div key={label} style={{ position: 'relative' }} className="nexus-chip">
+                  <span style={{ background: 'rgba(139,92,246,0.12)', border: '1px solid rgba(139,92,246,0.25)', color: 'rgba(255,255,255,0.7)', padding: '3px 10px', borderRadius: '20px', fontSize: '0.7rem', fontWeight: 500, cursor: 'default', display: 'inline-block' }}>{label}</span>
+                  <div className="nexus-tooltip">{tip}</div>
+                </div>
+              ))}
+            </div>
 
           {/* User bar — only show if email captured */}
           {userEmail && (
