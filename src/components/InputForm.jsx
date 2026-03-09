@@ -83,7 +83,7 @@ export default function InputForm({ onGenerate, isGenerating }) {
 
         {/* Topic */}
         <div style={{ marginBottom: '10px' }}>
-          <label style={{ color: 'white', fontWeight: '600', display: 'block', marginBottom: '6px' }}>🎓 What's Your Training Topic?</label>
+          <label style={{ color: 'white', fontWeight: '600', display: 'block', marginBottom: '6px' }}>🎓 What's The Purpose Of Your Training?</label>
           <input
             type="text"
             value={formData.topic}
