@@ -930,9 +930,9 @@ function App() {
         {/* Hero Section */}
         <div className="container mx-auto mb-3 relative overflow-hidden" style={{
           maxWidth: '1400px',
-          background: 'linear-gradient(135deg, rgba(102,126,234,0.3) 0%, rgba(118,75,162,0.3) 50%, rgba(240,147,251,0.3) 100%)',
-          backdropFilter: 'blur(10px)', padding: '12px 20px', borderRadius: '24px',
-          boxShadow: '0 20px 60px rgba(102,126,234,0.4)', border: '1px solid rgba(255,255,255,0.1)',
+          background: 'linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 50%, rgba(240,147,251,0.1) 100%)',
+          backdropFilter: 'blur(4px)', padding: '12px 20px', borderRadius: '24px',
+          boxShadow: '0 20px 60px rgba(102,126,234,0.15)', border: '1px solid rgba(255,255,255,0.06)',
         }}>
           <div className="text-center relative z-10">
             <h1 className="text-3xl font-black text-white mb-1" style={{ letterSpacing: '-2px' }}>🧠 NEXUS</h1>
