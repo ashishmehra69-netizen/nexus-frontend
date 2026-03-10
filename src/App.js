@@ -756,7 +756,15 @@ function App() {
       </style></head><body>
       <button class="print-btn" onclick="window.print()">🖨️ Print / Save PDF</button>
       <div id="content"></div>
-      <script>document.getElementById('content').innerHTML=marked.parse(${JSON.stringify(content)});</script>
+     <script>
+      window.onload = function() {
+        if (typeof marked !== 'undefined') {
+          document.getElementById('content').innerHTML = marked.parse(${JSON.stringify(content)});
+        } else {
+          document.getElementById('content').innerHTML = '<pre style="white-space:pre-wrap">' + ${JSON.stringify(content)} + '</pre>';
+        }
+      }
+      </script>
       </body></html>
     `);
     newWin.document.close();
