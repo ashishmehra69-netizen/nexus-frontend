@@ -599,6 +599,18 @@ function PackagesScreen({ userEmail, onBack }) {
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <h1 style={{ color: 'white', fontSize: '2.2em', fontWeight: 800, marginBottom: '8px' }}>🧠 NEXUS</h1>
           <h2 style={{ color: 'white', fontSize: '1.4em', marginBottom: '8px' }}>Choose a Package to Continue</h2>
+          <div style={{ textAlign: 'center', marginBottom: '16px' }}>
+            <span style={{
+              color: '#ffd700',
+              fontSize: '1.6em',
+              fontWeight: 900,
+              letterSpacing: '0.05em',
+              textTransform: 'uppercase',
+              textShadow: '0 0 20px rgba(255,215,0,0.4)'
+            }}>
+              🎉 Inaugural Pricing Limited Period
+            </span>
+          </div>
           <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1em' }}>
             You've used your free generation{userEmail ? ` (${userEmail})` : ''}. Select a package to generate more programs.
           </p>
@@ -625,8 +637,18 @@ function PackagesScreen({ userEmail, onBack }) {
               )}
               <div style={{ color: 'white', fontWeight: 700, fontSize: '1.1em', marginBottom: '14px' }}>{pkg.name}</div>
               <div style={{ marginBottom: '18px' }}>
-                <span style={{ color: '#a78bfa', fontSize: '0.9em' }}>₹</span>
-                <span style={{ color: '#a78bfa', fontSize: '2em', fontWeight: 800 }}>{pkg.price.toLocaleString('en-IN')}</span>
+                <div style={{ marginBottom: '4px' }}>
+                  <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.9em', textDecoration: 'line-through', marginRight: '8px' }}>
+                    ₹{pkg.price.toLocaleString('en-IN')}
+                  </span>
+                  <span style={{ background: 'rgba(255,215,0,0.2)', color: '#ffd700', fontSize: '0.7em', fontWeight: 700, padding: '2px 8px', borderRadius: '10px' }}>
+                    50% OFF
+                  </span>
+                </div>
+                <div>
+                  <span style={{ color: '#a78bfa', fontSize: '0.9em' }}>₹</span>
+                  <span style={{ color: '#a78bfa', fontSize: '2em', fontWeight: 800 }}>{Math.round(pkg.price * 0.5).toLocaleString('en-IN')}</span>
+                </div>
               </div>
               <div style={{ color: 'rgba(255,255,255,0.75)', fontSize: '0.88em', lineHeight: '2' }}>
                 <div>⚡ {pkg.generations} generations</div>
