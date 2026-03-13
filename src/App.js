@@ -134,7 +134,7 @@ Enter any professional topic in the "What's Your Training Topic?" field.
 
 ### Step 4: Click Generate
 - Answer the context questions for better results
-- Wait 90-120 seconds while NEXUS creates your content
+- Wait 60-90 seconds while NEXUS creates your content
 - Click **Unlock Full Access** to view all materials
 
 ---
@@ -1034,7 +1034,7 @@ function App() {
           maxWidth: '1400px', background: 'rgba(26,31,58,0.25)',
           boxShadow: '0 10px 40px rgba(0,0,0,0.1)'
         }}>
-          {[['∞','Domain Agnostic'],['3-5','Modules'],['120s','Avg Time'],['100%','Custom']].map(([num, label]) => (
+          {[['∞','Domain Agnostic'],['3-5','Modules'],['60s','Avg Time'],['100%','Custom']].map(([num, label]) => (
             <div key={label} className="text-center text-white">
               <div className="text-3xl font-black mb-0" style={{
                 background: 'linear-gradient(135deg, #667eea, #f093fb)',
