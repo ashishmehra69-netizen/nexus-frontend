@@ -523,10 +523,10 @@ function EmailCaptureModal({ onSubmit, onClose }) {
 }
 // ─── PACKAGES SCREEN ─────────────────────────────────────────
 const PACKAGES = [
-  { key: 'single',   name: '🥉 Starter',      price: 15000,  generations: '1 Paid',          validity: '30 days', perProgram: 15000 },
-  { key: 'silver',   name: '🥈 Silver Pack',   price: 62500,  generations: '1 Free + 5 Paid', validity: '30 days', perProgram: 12500 },
-  { key: 'gold',     name: '🥇 Gold Pack',     price: 100000, generations: '1 Free + 10 Paid',validity: '30 days', perProgram: 10000, best: true },
-  { key: 'platinum', name: '💎 Platinum Pack', price: 187500, generations: '1 Free + 25 Paid',validity: '90 days', perProgram: 7500 },
+  { key: 'single',   name: '🥉 Starter',      price: 15000,  generations: '1 Program',   validity: '30 days', perProgram: 15000 },
+  { key: 'silver',   name: '🥈 Silver Pack',   price: 62500,  generations: '5 Programs',  validity: '30 days', perProgram: 12500 },
+  { key: 'gold',     name: '🥇 Gold Pack',     price: 100000, generations: '10 Programs', validity: '30 days', perProgram: 10000, best: true },
+  { key: 'platinum', name: '💎 Platinum Pack', price: 187500, generations: '25 Programs', validity: '90 days', perProgram: 7500 },
 ];
 
 function PackagesScreen({ userEmail, onBack }) {
