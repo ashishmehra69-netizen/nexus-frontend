@@ -727,11 +727,11 @@ function App() {
   }, [isGenerating]);
     useEffect(() => {
     const resetTimer = () => {
-      clearTimeout(idleTimerRef.current);
-      setShowIdlePopup(false);
-      idleTimerRef.current = setTimeout(() => {
+        if (showIdlePopup) return;
+        clearTimeout(idleTimerRef.current);
+        idleTimerRef.current = setTimeout(() => {
         setShowIdlePopup(true);
-      }, 5000);
+      }, 30000);
     };
     const events = ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'];
     events.forEach(e => document.addEventListener(e, resetTimer, true));
