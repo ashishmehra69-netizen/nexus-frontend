@@ -708,7 +708,9 @@ function App() {
   const [answers, setAnswers] = useState({ challenges: '', technical: '', behavioral: '', outcomes: '' });
   const [feedback, setFeedback] = useState({ rating: 5, whatWorked: '', whatNeedsImprovement: '', suggestions: '', wouldUseAgain: true });
   const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
-
+  const [showIdlePopup, setShowIdlePopup] = useState(false);
+  const idleTimerRef = useRef(null);
+  
   useEffect(() => {
     if (!isGenerating) return;
     setElapsedTime(0);
@@ -723,7 +725,22 @@ function App() {
     }, 1000);
     return () => clearInterval(timer);
   }, [isGenerating]);
-
+    useEffect(() => {
+    const resetTimer = () => {
+      clearTimeout(idleTimerRef.current);
+      setShowIdlePopup(false);
+      idleTimerRef.current = setTimeout(() => {
+        setShowIdlePopup(true);
+      }, 5000);
+    };
+    const events = ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'];
+    events.forEach(e => document.addEventListener(e, resetTimer, true));
+    resetTimer();
+    return () => {
+      clearTimeout(idleTimerRef.current);
+      events.forEach(e => document.removeEventListener(e, resetTimer, true));
+    };
+  }, []);
   // ── When user submits email in capture modal ────────────────
   const handleEmailSubmit = (email) => {
     localStorage.setItem('nexusEmail', email);
@@ -954,7 +971,36 @@ function App() {
           onClose={() => { setShowEmailCapture(false); setPendingGenerateArgs(null); }}
         />
       )}
-
+      {showIdlePopup && (
+        <div style={{
+          position: 'fixed', bottom: '30px', right: '30px', zIndex: 9999,
+          background: 'linear-gradient(135deg, rgba(26,31,58,0.98), rgba(45,27,78,0.98))',
+          border: '1px solid rgba(102,126,234,0.4)', borderRadius: '16px',
+          padding: '20px 24px', maxWidth: '300px',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+          animation: 'slideUp 0.3s ease',
+        }}>
+          <style>{`@keyframes slideUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }`}</style>
+          <p style={{ color: 'white', fontWeight: 700, fontSize: '0.95em', marginBottom: '6px' }}>
+            🙏 Have you filled in the <strong>Feedback form?</strong>
+          </p>
+          <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '0.82em', marginBottom: '14px' }}>
+            Your feedback helps make NEXUS better for everyone!
+          </p>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button onClick={() => { setActiveTab('feedback'); setShowIdlePopup(false); }} style={{
+              flex: 1, padding: '8px', background: 'linear-gradient(135deg, #667eea, #764ba2)',
+              border: 'none', borderRadius: '8px', color: 'white',
+              fontWeight: 700, fontSize: '0.82em', cursor: 'pointer'
+            }}>Go to Feedback</button>
+            <button onClick={() => setShowIdlePopup(false)} style={{
+              flex: 1, padding: '8px', background: 'rgba(255,255,255,0.1)',
+              border: '1px solid rgba(255,255,255,0.2)', borderRadius: '8px',
+              color: 'rgba(255,255,255,0.7)', fontSize: '0.82em', cursor: 'pointer'
+            }}>Dismiss</button>
+          </div>
+        </div>
+      )}
       <div className="relative z-10 container mx-auto px-4" style={{ maxWidth: '1400px' }}>
 
         {/* Hero Section */}
