@@ -1018,7 +1018,7 @@ function App() {
               Amalgamation of  consulting-grade research and behavioral science. A decision-grade intelligence layer for leadership teams.
             </p>
             <div className="flex flex-wrap gap-2 justify-center">
-              {['✨ Domain Agnostic', '⚡ 120-Second Generation', '🎓 Research-Backed', '🔄 Auto-Customized', '📊 Export Ready'].map(pill => (
+              {['✨ Domain Agnostic', '⚡ 90-Second Generation', '🎓 Research-Backed', '🔄 Auto-Customized', '📊 Export Ready'].map(pill => (
                 <span key={pill} className="px-3 py-1 rounded-full text-white font-semibold text-xs" style={{
                   background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.3)'
                 }}>{pill}</span>
@@ -1081,7 +1081,7 @@ function App() {
           maxWidth: '1400px', background: 'rgba(26,31,58,0.25)',
           boxShadow: '0 10px 40px rgba(0,0,0,0.1)'
         }}>
-          {[['∞','Domain Agnostic'],['3-5','Modules'],['60s','Avg Time'],['100%','Custom']].map(([num, label]) => (
+          {[['∞','Domain Agnostic'],['3-5','Modules'],['90s','Avg Time'],['100%','Custom']].map(([num, label]) => (
             <div key={label} className="text-center text-white">
               <div className="text-3xl font-black mb-0" style={{
                 background: 'linear-gradient(135deg, #667eea, #f093fb)',
