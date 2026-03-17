@@ -704,8 +704,21 @@ function App() {
   const [pendingGenerateArgs, setPendingGenerateArgs] = useState(null);
 
   // ── User email (captured at generation time)
-  const [userEmail, setUserEmail] = useState(() => localStorage.getItem('nexusEmail') || '');
+ const [userEmail, setUserEmail] = useState(() => localStorage.getItem('nexusEmail') || '');
 
+// ── Handle Razorpay redirect back after payment ─────────────
+useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('payment') === 'success') {
+    window.history.replaceState({}, '', '/');
+    // Read directly from localStorage since userEmail state may not be set yet
+    const email = localStorage.getItem('nexusEmail');
+    if (email) {
+      alert('✅ Payment successful! Your package has been activated. Your new generations are ready.');
+    }
+    setScreen('app');
+  }
+}, []); // eslint-disable-line react-hooks/exhaustive-deps
   const [answers, setAnswers] = useState({ challenges: '', technical: '', behavioral: '', outcomes: '' });
   const [feedback, setFeedback] = useState({ rating: 5, whatWorked: '', whatNeedsImprovement: '', suggestions: '', wouldUseAgain: true });
   const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
