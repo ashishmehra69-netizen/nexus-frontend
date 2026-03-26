@@ -288,30 +288,28 @@ function EmailCaptureModal({ onSubmit, onClose }) {
     }
   };
 
-  const handleVerifyOTPDirect = async (otpArr) => {
-    const code = otpArr.join('');
-    if (code.length !== 6) return;
+  const handleVerifyOTP = async () => {
     setLoading(true);
     setError('');
     try {
       const res = await fetch(`${API_URL}/api/auth/verify-otp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim().toLowerCase(), otp: code }),
+        body: JSON.stringify({ 
+          email: email.trim().toLowerCase(), 
+          otp: otp
+        }),
       });
       const data = await res.json();
-      if (!res.ok || !data.success) {
-        setError(data.message || 'Invalid or expired OTP. Please try again.');
-        setOtp(['', '', '', '', '', '']);
-        inputRefs.current[0]?.focus();
-        setLoading(false);
-        return;
+      if (data.success) {
+        onSubmit(email.trim().toLowerCase());
+      } else {
+        setError(data.error || 'Invalid OTP. Please try again.');
       }
-      onSubmit(email.trim().toLowerCase());
     } catch (e) {
-      setError('Network error. Please check your connection.');
-      setLoading(false);
+      setError('Network error. Please try again.');
     }
+    setLoading(false);
   };
 
   const handleOtpKeyDown = (index, e) => {
