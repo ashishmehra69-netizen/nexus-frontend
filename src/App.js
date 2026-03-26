@@ -264,14 +264,8 @@ function EmailCaptureModal({ onSubmit, onClose }) {
       setUserEmail(email);
       setStep('main');
     }
-    } catch (e) {
-      // DEMO BYPASS - skip on any error
-      setUser({ email, eligibility: { allowed: true, reason: 'free' } });
-      setStep('main');
-    }
     setLoading(false);
   };
-
   // ── OTP input handlers ──────────────────────────────────────
   const handleOtpChange = (index, value) => {
     // Allow only digits
