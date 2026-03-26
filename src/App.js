@@ -260,10 +260,10 @@ function EmailCaptureModal({ onSubmit, onClose }) {
         setUserEmail(email);
         setStep('main');
       }
-      } catch (e) {
-        setUserEmail(email);
-        setStep('main');
-      }
+    } catch (e) {
+      setUserEmail(email);
+      setStep('main');
+    }
     } catch (e) {
       // DEMO BYPASS - skip on any error
       setUser({ email, eligibility: { allowed: true, reason: 'free' } });
