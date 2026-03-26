@@ -220,17 +220,21 @@ function EmailCaptureModal({ onSubmit, onClose }) {
     setLoading(true);
     setError('');
     try {
-      await fetch(`${API_URL}/api/auth/send-otp`, {
+      const res = await fetch(`${API_URL}/api/auth/send-otp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email.trim().toLowerCase() }),
       });
-      // Always proceed to OTP screen regardless of response
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setError(data.message || 'Failed to send OTP. Please try again.');
+        setLoading(false);
+        return;
+      }
       setStep('otp');
       setLoading(false);
     } catch (e) {
-      // Still proceed even on network error
-      setStep('otp');
+      setError('Failed to send OTP. Please try again.');
       setLoading(false);
     }
   };
