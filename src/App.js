@@ -763,10 +763,10 @@ useEffect(() => {
       <!DOCTYPE html><html><head><title>${title}</title>
       <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
       <style>
-        body{font-family:Georgia,serif;max-width:900px;margin:40px auto;padding:20px 40px;color:#111;line-height:1.8;font-size:16px;background:#fff}
-        h1{color:#1a1a2e;border-bottom:3px solid #667eea;padding-bottom:10px;font-size:2em}
-        h2{color:#2d1b4e;border-bottom:1px solid #ddd;padding-bottom:6px;margin-top:30px;font-size:1.5em}
-        h3{color:#333;margin-top:20px;font-size:1.2em}
+        body{font-family:Georgia,serif;max-width:900px;margin:40px auto;padding:20px 40px;color:#111;line-height:1.8;font-size:20px;background:#fff}
+        h1{color:#1a1a2e;border-bottom:3px solid #667eea;padding-bottom:10px;font-size:2.4em}
+        h2{color:#2d1b4e;border-bottom:1px solid #ddd;padding-bottom:6px;margin-top:30px;font-size:1.8em}
+        h3{color:#333;margin-top:20px;font-size:1.4em}
         ul,ol{margin:10px 0;padding-left:25px}li{margin:6px 0}
         blockquote{border-left:4px solid #667eea;padding-left:15px;color:#555;font-style:italic;margin:20px 0}
         hr{border:none;border-top:2px solid #eee;margin:30px 0}p{margin:12px 0}
