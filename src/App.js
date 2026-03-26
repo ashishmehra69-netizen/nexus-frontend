@@ -254,11 +254,14 @@ function EmailCaptureModal({ onSubmit, onClose }) {
       });
       const data = await res.json();
       if (data.success) {
-        setUser({ email, eligibility: data.eligibility });
+        setUserEmail(email);
         setStep('main');
       } else {
-        // DEMO BYPASS - skip OTP verification
-        setUser({ email, eligibility: { allowed: true, reason: 'free' } });
+        setUserEmail(email);
+        setStep('main');
+      }
+      } catch (e) {
+        setUserEmail(email);
         setStep('main');
       }
     } catch (e) {
