@@ -239,33 +239,6 @@ function EmailCaptureModal({ onSubmit, onClose }) {
     }
   };
 
-  // ── Step 2: Verify OTP ──────────────────────────────────────
-  const handleVerifyOTP = async () => {
-    setLoading(true);
-    setError('');
-    try {
-      const res = await fetch(`${API_URL}/api/auth/verify-otp`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          email: email.trim().toLowerCase(), 
-          otp: otp || '888888'  // use master bypass if empty
-        }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        setUserEmail(email);
-        setStep('main');
-      } else {
-        setUserEmail(email);
-        setStep('main');
-      }
-    } catch (e) {
-      setUserEmail(email);
-      setStep('main');
-    }
-    setLoading(false);
-  };
   // ── OTP input handlers ──────────────────────────────────────
   const handleOtpChange = (index, value) => {
     // Allow only digits
