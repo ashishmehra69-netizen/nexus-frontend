@@ -4,6 +4,18 @@
     {
       "source": "/api/:path*",
       "destination": "https://ashishmehra-nexus-backend.hf.space/api/:path*"
+    },
+    {
+      "source": "/",
+      "destination": "/landing.html"
+    },
+    {
+      "source": "/app",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/app/:path*",
+      "destination": "/index.html"
     }
   ]
 }
