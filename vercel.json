@@ -2,6 +2,10 @@
   "installCommand": "npm install",
   "rewrites": [
     {
+      "source": "/google:token.html",
+      "destination": "/google:token.html"
+    },
+    {
       "source": "/api/:path*",
       "destination": "https://ashishmehra-nexus-backend.hf.space/api/:path*"
     },
