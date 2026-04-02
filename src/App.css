@@ -32,6 +32,8 @@
   padding: 30px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   margin-bottom: 30px;
+  content-visibility: auto;
+  contain-intrinsic-size: 800px;
 }
 
 .form-card h2 {
@@ -54,6 +56,25 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
+}
+
+.input, .textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.input:focus, .textarea:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.textarea {
+  resize: vertical;
+  font-family: inherit;
 }
 
 .btn-primary {
@@ -113,8 +134,11 @@
 
 .spinner {
   animation: spin 1s linear infinite;
-  width: 20px;
-  height: 20px;
+}
+
+.loading-text {
+  color: #666;
+  font-size: 0.95rem;
 }
 
 @keyframes spin {
@@ -152,7 +176,6 @@
 
 .tab-content {
   padding: 20px 0;
-  min-height: 400px;
 }
 
 .markdown-content {
@@ -202,64 +225,19 @@
   margin: 15px 0;
 }
 
-/* ✅ UPDATED LOCKED CONTENT STYLES */
 .locked-content {
   text-align: center;
-  padding: 60px 40px;
-  background-color: #f8f9fa;
-  border-radius: 12px;
-  margin: 20px 0;
-  border: 2px dashed #e0e0e0;
+  padding: 60px 20px;
 }
 
 .locked-content h2 {
-  color: #667eea !important;
-  margin-bottom: 20px !important;
-  font-size: 2rem !important;
+  color: #667eea;
+  margin-bottom: 20px;
 }
 
 .locked-content p {
   margin-bottom: 30px;
   color: #666;
-  font-size: 1.1rem;
-}
-
-/* ✅ CRITICAL: Unlock button styles */
-.locked-content button {
-  padding: 15px 40px !important;
-  font-size: 18px !important;
-  font-weight: bold !important;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-  color: white !important;
-  border: none !important;
-  border-radius: 8px !important;
-  cursor: pointer !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 10px;
-  margin-top: 10px;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(102, 126, 234, 0.3);
-  width: auto !important;
-  min-width: 200px;
-}
-
-.locked-content button:hover:not(:disabled) {
-  background: linear-gradient(135deg, #5568d3 0%, #653a8a 100%) !important;
-  transform: translateY(-2px) !important;
-  box-shadow: 0 6px 12px rgba(102, 126, 234, 0.5) !important;
-}
-
-.locked-content button:disabled {
-  cursor: not-allowed !important;
-  opacity: 0.6 !important;
-  transform: none !important;
-}
-
-.locked-content button:focus {
-  outline: 2px solid #667eea !important;
-  outline-offset: 2px !important;
 }
 
 .download-bar {
@@ -272,84 +250,25 @@
   .app-header h1 {
     font-size: 2rem;
   }
-  
+
   .form-row {
     grid-template-columns: 1fr;
   }
-  
+
   .tabs {
     flex-wrap: wrap;
   }
-  
+
   .tab {
     flex: 1 1 auto;
     min-width: 120px;
     padding: 10px 12px;
     font-size: 0.9rem;
   }
-  
-  .locked-content {
-    padding: 40px 20px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
   }
-  
-  .locked-content button {
-    width: 100% !important;
-    max-width: 300px !important;
-  }
-  .user-bar {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    padding: 16px 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .user-info {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-  }
-  
-  .generations-remaining {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.9em;
-    font-weight: 600;
-  }
-  
-  .btn-logout {
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    color: white;
-    padding: 8px 20px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s;
-  }
-  
-  .btn-logout:hover {
-    background: rgba(255, 255, 255, 0.3);
-  }
-  
-  .eligibility-banner {
-    padding: 16px 24px;
-    margin: 0;
-    text-align: center;
-    font-weight: 600;
-  }
-  
-  .eligibility-banner.free {
-    background: #e8f5e9;
-    color: #2e7d32;
-    border-bottom: 2px solid #81c784;
-  }
-  
-  .eligibility-banner.package {
-    background: #fff3e0;
-    color: #e65100;
-    border-bottom: 2px solid #ffb74d;
-  }
+}
