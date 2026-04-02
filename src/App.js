@@ -1,9 +1,9 @@
 
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Suspense, lazy } from 'react';
 import NeuralBackground from './components/NeuralBackground';
 import InputForm from './components/InputForm';
-import ReactMarkdown from 'react-markdown';
+const ReactMarkdown = lazy(() => import('react-markdown'));
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://ashishmehra-nexus-backend.hf.space';
 
@@ -926,19 +926,35 @@ useEffect(() => {
     </div>
   );
 
-  const OpenFullPageButton = ({ content, title }) => (
-    <button onClick={() => openContentPopup(content, title)} style={{
-      marginBottom: '16px', padding: '10px 20px',
+ const OpenFullPageButton = ({ content, title }) => (
+  <button
+    onClick={() => openContentPopup(content, title)}
+    style={{
+      marginBottom: '16px',
+      padding: '10px 20px',
       background: 'linear-gradient(135deg, #667eea, #764ba2)',
-      color: 'white', border: 'none', borderRadius: '8px',
-      cursor: 'pointer', fontWeight: 'bold', fontSize: '0.9em', display: 'block'
-    }}>📄 Open Full Page (White Background)</button>
-  );
+      color: 'white',
+      border: 'none',
+      borderRadius: '8px',
+      cursor: 'pointer',
+      fontWeight: 'bold',
+      fontSize: '0.9em',
+      display: 'block'
+    }}
+  >
+    📄 Open Full Page (White Background)
+  </button>
+);
 
-  // ── Screen: Packages ────────────────────────────────────────
-  if (screen === 'packages') {
-    return <PackagesScreen userEmail={userEmail} onBack={() => setScreen('app')} />;
-  }
+const markdownFallback = (
+  <p style={{ color: 'rgba(255,255,255,0.65)' }}>Loading content...</p>
+);
+
+// ── Screen: Packages ────────────────────────────────────────
+if (screen === 'packages') {
+  return <PackagesScreen userEmail={userEmail} onBack={() => setScreen('app')} />;
+}
+
 
   // ── Screen: Main App ────────────────────────────────────────
   return (
@@ -1252,7 +1268,10 @@ useEffect(() => {
                   .synopsis-content hr{border:none;border-top:1px solid rgba(255,255,255,0.2);margin:1em 0}
                 `}</style>
                 <div className="synopsis-content">
+                 <Suspense fallback={markdownFallback}>
                   <ReactMarkdown>{generatedContent ? generatedContent.synopsis : HOW_TO_CONTENT}</ReactMarkdown>
+                </Suspense>
+
                 </div>
               </div>
             )}
