@@ -1473,6 +1473,14 @@ useEffect(() => {
                   💼 <a href="https://www.linkedin.com/in/asmehra" target="_blank" rel="noreferrer" style={{ color: '#667eea' }}>linkedin.com/in/asmehra</a><br />
                   🌐 <a href="https://interfaceinc.co.in" target="_blank" rel="noreferrer" style={{ color: '#667eea' }}>interfaceinc.co.in</a>
                 </p>
+                <div style={{ marginTop: 24, fontSize: 12, opacity: 0.75 }}>
+                  <a href="https://interfaceinc.co.in/nexus-1" target="_blank" rel="noopener noreferrer">NEXUS Program</a>
+                  {" | "}
+                  <a href="https://interfaceinc.co.in/contact-us" target="_blank" rel="noopener noreferrer">Contact Us</a>
+                  {" | "}
+                  <a href="https://interfaceinc.co.in/book-a-call" target="_blank" rel="noopener noreferrer">Book a Call</a>
+                </div>
+
               </div>
             )}
 
