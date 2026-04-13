@@ -171,7 +171,7 @@ With this detail, you get HYPER-SPECIFIC training worth 10x more.`}
             'Individual Contributor/Specialist'
           ].map((aud) => (
             <label key={aud} style={radioOptionStyle(formData.audience === aud)}>
-              <span style={{ flex: 1, fontSize: '0.9em', lineHeight: '1.3' }}>{aud}</span>
+              <span style={{ flex: 1, fontSize: '0.9em', lineHeight: '1.3', color: '#ffffff' }}>{aud}</span>
               <input type="radio" name="audience" value={aud}
                 checked={formData.audience === aud}
                 onChange={(e) => setFormData({ ...formData, audience: e.target.value })}
@@ -185,7 +185,7 @@ With this detail, you get HYPER-SPECIFIC training worth 10x more.`}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginBottom: '10px' }}>
           {['Training', 'Workshop', 'Action Learning'].map((fmt) => (
             <label key={fmt} style={radioOptionStyle(formData.format === fmt)}>
-              <span>{fmt}</span>
+              <span style={{ color: '#ffffff' }}>{fmt}</span>
               <input type="radio" name="format" value={fmt}
                 checked={formData.format === fmt}
                 onChange={(e) => setFormData({ ...formData, format: e.target.value })}
@@ -202,7 +202,7 @@ With this detail, you get HYPER-SPECIFIC training worth 10x more.`}
             '2 Days (12-14 hours)'
           ].map((dur) => (
             <label key={dur} style={{...radioOptionStyle(formData.duration === dur), whiteSpace: 'nowrap', fontSize: '0.85em', padding: '10px 10px' }}>
-              <span>{dur}</span>
+              <span style={{ color: '#ffffff' }}>{dur}</span>
               <input type="radio" name="duration" value={dur}
                 checked={formData.duration === dur}
                 onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
