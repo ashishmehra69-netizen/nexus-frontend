@@ -757,7 +757,7 @@ useEffect(() => {
 };
 
   const openContentPopup = (content, title) => {
-    const newWin = window.open('', '_blank', 'width=1000,height=800,scrollbars=yes');
+    const newWin = window.open('', '_blank', 'width=1400,height=900,scrollbars=yes');
     if (!newWin) { alert('Please allow popups for this site'); return; }
     newWin.document.write(`
       <!DOCTYPE html><html><head><title>${title}</title>
