@@ -64,7 +64,7 @@ export default function InputForm({ onGenerate, isGenerating }) {
   cursor: 'pointer',
   color: 'white',
   fontWeight: selected ? '600' : '400',
-  background: selected ? 'rgba(102,126,234,0.3)' : 'rgba(255,255,255,0.12)',
+  background: selected ? '#2a3570' : '#1e2340',
   border: selected ? '1px solid rgba(102,126,234,0.5)' : '1px solid rgba(255,255,255,0.1)',
   transition: 'all 0.2s',
   minHeight: '48px'
@@ -72,7 +72,7 @@ export default function InputForm({ onGenerate, isGenerating }) {
 
   return (
     <div style={{
-      background: 'rgba(26,31,58,0.25)',
+      background: 'rgba(26,31,58,0.95)',
       backdropFilter: 'blur(2px)',
       border: '1px solid rgba(255,255,255,0.08)',
       borderRadius: '24px',
