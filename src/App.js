@@ -1264,7 +1264,7 @@ if (screen === 'packages') {
                 style={activeTab === tab.key ? {
                   background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                   color: 'white', boxShadow: '0 4px 15px rgba(102,126,234,0.4)'
-                } : { color: 'rgba(255,255,255,0.7)' }}
+                } : { color: 'rgba(255,255,255,0.9)' }}
               >{tab.label}</button>
             ))}
           </div>
