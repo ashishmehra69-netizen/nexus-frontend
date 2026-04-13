@@ -691,6 +691,22 @@ useEffect(() => {
   const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
   const [showIdlePopup, setShowIdlePopup] = useState(false);
   const idleTimerRef = useRef(null);
+
+  // ── Dynamic page titles based on active tab
+  useEffect(() => {
+    const titles = {
+      synopsis: 'NEXUS | AI-Powered Learning Design Generator',
+      content:  'Training Content | NEXUS',
+      facilitator: 'Facilitator Guide | NEXUS',
+      handout: 'Participant Handout | NEXUS',
+      ppt: 'PPT Export | NEXUS',
+      sample: 'Sample Output | NEXUS',
+      feedback: 'Share Feedback | NEXUS',
+      faq: 'FAQ | NEXUS',
+      about: 'About the Creator | NEXUS',
+    };
+    document.title = titles[activeTab] || 'NEXUS | AI Training Generator';
+  }, [activeTab]);
   
   useEffect(() => {
     if (!isGenerating) return;
