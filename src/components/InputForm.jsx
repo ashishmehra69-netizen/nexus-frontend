@@ -64,7 +64,7 @@ export default function InputForm({ onGenerate, isGenerating }) {
   cursor: 'pointer',
   color: 'white',
   fontWeight: selected ? '600' : '400',
-  background: selected ? 'rgba(102,126,234,0.3)' : 'rgba(255,255,255,0.05)',
+  background: selected ? 'rgba(102,126,234,0.3)' : 'rgba(255,255,255,0.12)',
   border: selected ? '1px solid rgba(102,126,234,0.5)' : '1px solid rgba(255,255,255,0.1)',
   transition: 'all 0.2s',
   minHeight: '48px'
