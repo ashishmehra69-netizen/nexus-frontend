@@ -214,28 +214,34 @@ With this detail, you get HYPER-SPECIFIC training worth 10x more.`}
 
         {/* Delivery Mode */}
         <div style={{ marginBottom: '10px' }}>
-          <label style={{ color: 'white', fontWeight: '600', display: 'block', marginBottom: '6px' }}>🖥️ Delivery Mode</label>
+          <label
+            id="delivery-mode-label"
+            style={{ color: 'white', fontWeight: '600', display: 'block', marginBottom: '6px' }}
+          >
+            🖥️ Delivery Mode
+          </label>
           <select
+            id="delivery-mode"
+            aria-labelledby="delivery-mode-label"
             value={formData.deliveryMode}
             onChange={(e) => setFormData({ ...formData, deliveryMode: e.target.value })}
             style={{
               width: '100%',
-              background: 'rgba(255,255,255,0.08)',
-              border: '1px solid rgba(255,255,255,0.2)',
+              background: '#2a2f52',
+              border: '1px solid rgba(255,255,255,0.3)',
               borderRadius: '12px',
               padding: '12px 16px',
-              color: 'white',
+              color: '#ffffff',
               fontFamily: 'inherit',
               fontSize: '1em',
               boxSizing: 'border-box'
             }}
           >
-            <option style={{ background: '#1a1f3a' }}>In-Person</option>
-            <option style={{ background: '#1a1f3a' }}>Virtual</option>
-            <option style={{ background: '#1a1f3a' }}>Hybrid</option>
+            <option value="In-Person" style={{ background: '#1a1f3a', color: '#ffffff' }}>In-Person</option>
+            <option value="Virtual" style={{ background: '#1a1f3a', color: '#ffffff' }}>Virtual</option>
+            <option value="Hybrid" style={{ background: '#1a1f3a', color: '#ffffff' }}>Hybrid</option>
           </select>
         </div>
-
         {/* Submit Button */}
         <button
           type="submit"
