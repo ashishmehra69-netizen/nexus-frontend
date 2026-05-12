@@ -1,8 +1,9 @@
 User-agent: *
 Allow: /
 
-# Block any private/auth routes when you add them
-# Disallow: /dashboard
-# Disallow: /login
+Disallow: /app
+Disallow: /login
+Disallow: /register
+Disallow: /dashboard
 
 Sitemap: https://nexus.interfaceinc.co.in/sitemap.xml
