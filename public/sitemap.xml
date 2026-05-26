@@ -17,6 +17,19 @@
     <priority>0.8</priority>
   </url>
 
+   <url>
+    <loc>https://interfaceinc.co.in/blogs/f/ai-tools-for-corporate-trainers/loc>
+    <lastmod>2026-05-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://interfaceinc.co.in/blogs/f/how-to-create-a-facilitator-guide-that-actually-works-1/loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
   <!-- ADD NEW PUBLIC PAGES BELOW AS YOU PUBLISH THEM -->
   <!-- Example: blog articles, features page, about page -->
 
